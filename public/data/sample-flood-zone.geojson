@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Cagayan River Flood Plain (Sample)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              121.5945,
+              18.062
+            ],
+            [
+              121.5998,
+              18.062
+            ],
+            [
+              121.5998,
+              18.0675
+            ],
+            [
+              121.5945,
+              18.0675
+            ],
+            [
+              121.5945,
+              18.062
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

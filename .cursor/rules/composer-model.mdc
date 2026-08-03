@@ -1,0 +1,29 @@
+---
+description: Use Composer 2.5 Fast for all AI development on this project
+alwaysApply: true
+---
+
+# AI Model Policy — Lasam Urban Hazard Planning
+
+Use **Composer 2.5 Fast** (`composer-2.5-fast`) for all AI-assisted work on this repository:
+
+- Feature implementation and bug fixes
+- Documentation updates
+- Code review and refactoring
+- Agent task delegation
+
+When launching subagents or parallel tasks, specify `composer-2.5-fast` as the model unless the user explicitly requests a different model.
+
+## Project Context
+
+- Frontend-only hazard simulation prototype for Lasam, Cagayan LGU
+- No backend, auth, or scientific hazard modeling in v1
+- MapLibre + React + Turf.js stack
+- All results must show demonstration disclaimers
+
+## Conventions
+
+- Match existing component patterns in `src/components/`
+- Keep simulation logic in `src/lib/simulation/`
+- Sample data in `public/data/`
+- Minimize scope; avoid over-engineering

@@ -1,0 +1,17 @@
+{
+  "tilejson": "2.2.0",
+  "name": "AWS Terrarium (global) for Lasam terrain visualization",
+  "tiles": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"
+  ],
+  "minzoom": 0,
+  "maxzoom": 15,
+  "encoding": "terrarium",
+  "attribution": "Terrain tiles by Mapzen / AWS Public Dataset",
+  "bounds": [
+    121.35,
+    17.97,
+    121.68,
+    18.15
+  ]
+}

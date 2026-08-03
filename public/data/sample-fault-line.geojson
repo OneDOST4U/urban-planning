@@ -1,0 +1,28 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sample Fault Segment (Centro Lasam)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.5998,
+            18.0662
+          ],
+          [
+            121.6018,
+            18.0648
+          ],
+          [
+            121.6045,
+            18.0632
+          ]
+        ]
+      }
+    }
+  ]
+}

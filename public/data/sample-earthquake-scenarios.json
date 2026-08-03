@@ -1,0 +1,25 @@
+{
+  "scenarios": [
+    {
+      "id": "minor",
+      "label": "Minor (M 4.5)",
+      "magnitude": 4.5,
+      "depth": 10,
+      "radius": 2000
+    },
+    {
+      "id": "moderate",
+      "label": "Moderate (M 6.0)",
+      "magnitude": 6,
+      "depth": 15,
+      "radius": 8000
+    },
+    {
+      "id": "major",
+      "label": "Major (M 7.0)",
+      "magnitude": 7,
+      "depth": 20,
+      "radius": 15000
+    }
+  ]
+}

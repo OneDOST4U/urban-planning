@@ -1,0 +1,15 @@
+{
+  "name": "Lasam Terrain DEM",
+  "source": "synthetic-prototype",
+  "resolution_m": 90,
+  "vertical_datum": "EGM96-approx",
+  "crs": "EPSG:4326",
+  "extent": {
+    "west": 121.35,
+    "south": 17.97,
+    "east": 121.68,
+    "north": 18.15
+  },
+  "disclaimer": "Preliminary DEM for demonstration only. Replace with Copernicus GLO-30 / LiDAR DTM before official planning use.",
+  "generated_at": "2026-07-24T05:08:45.949Z"
+}

@@ -1,0 +1,39 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lasam contributing watershed (approximate)",
+        "data_source": "Municipal bbox stub — replace with HydroSHEDS"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              121.35,
+              17.97
+            ],
+            [
+              121.68,
+              17.97
+            ],
+            [
+              121.68,
+              18.15
+            ],
+            [
+              121.35,
+              18.15
+            ],
+            [
+              121.35,
+              17.97
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
