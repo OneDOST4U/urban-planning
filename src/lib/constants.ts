@@ -12,12 +12,13 @@ export const FLOOD_SCENARIOS = [
   { id: 'custom', label: 'Custom scenario', hours: 0 },
 ] as const
 
-export const FAULT_BUFFER_OPTIONS = [
-  { value: 100, label: '100 meters' },
-  { value: 250, label: '250 meters' },
-  { value: 500, label: '500 meters' },
-  { value: 1000, label: '1 kilometer' },
-] as const
+export const VOLCANO_COLORS = {
+  none: '#94a3b8',
+  low: '#fde047',
+  moderate: '#fb923c',
+  high: '#ef4444',
+  severe: '#7f1d1d',
+} as const
 
 export const FLOOD_COLORS = {
   none: '#94a3b8',
@@ -37,3 +38,6 @@ export const EARTHQUAKE_COLORS = {
 
 export const DEMO_DISCLAIMER =
   'For demonstration only. Results are not official hazard assessments and must not be used for planning decisions without validated GIS and engineering review.'
+
+export const SIMULATION_DISCLAIMER =
+  'Preliminary planning prototype — MGB flood susceptibility (clipped to PSA Lasam), PHIVOLCS fault, and Cagua volcano. Not a substitute for official DENR-MGB / PHIVOLCS products. Sources: DENR-MGB, PSA / GeoRisk, PHIVOLCS / GeoRisk ULAP / GVP.'

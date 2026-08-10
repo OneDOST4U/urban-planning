@@ -1,0 +1,136 @@
+{
+  "type": "FeatureCollection",
+  "properties": {
+    "name": "Lasam critical facilities (demonstration)",
+    "disclaimer": "Seed OSM-style points for demo. Refresh via npm run fetch:facilities when network allows.",
+    "data_source": "OpenStreetMap / curated seed"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-elem-san-lorenzo",
+        "name": "San Lorenzo Es",
+        "category": "elementary_school",
+        "amenity": "school",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": { "type": "Point", "coordinates": [121.612, 18.072] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-elem-centro",
+        "name": "Lasam Central School",
+        "category": "elementary_school",
+        "amenity": "school",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": { "type": "Point", "coordinates": [121.598, 18.061] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-sec-western",
+        "name": "Western Cagayan Sat",
+        "category": "secondary_school",
+        "amenity": "school",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": { "type": "Point", "coordinates": [121.605, 18.075] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-sec-lasam-nhs",
+        "name": "Lasam National High School",
+        "category": "secondary_school",
+        "amenity": "school",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": { "type": "Point", "coordinates": [121.595, 18.068] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "health-alannay",
+        "name": "Alannay Barangay Health Station",
+        "category": "govt_health",
+        "amenity": "clinic",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": { "type": "Point", "coordinates": [121.598, 18.058] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "health-rhub",
+        "name": "Lasam Rural Health Unit",
+        "category": "govt_health",
+        "amenity": "clinic",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": { "type": "Point", "coordinates": [121.602, 18.065] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "health-puyaoan",
+        "name": "Puyaoan General Hospital",
+        "category": "private_health",
+        "amenity": "hospital",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": { "type": "Point", "coordinates": [121.75, 18.2] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "health-private-clinic",
+        "name": "Lasam Private Medical Clinic",
+        "category": "private_health",
+        "amenity": "clinic",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": { "type": "Point", "coordinates": [121.608, 18.066] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "road-primary-cvr",
+        "name": "Cagayan Valley Rd; Cagayan (first District)",
+        "category": "primary_road",
+        "highway": "primary",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [121.55, 18.02],
+          [121.58, 18.04],
+          [121.62, 18.07],
+          [121.66, 18.1]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "road-secondary-cvr",
+        "name": "Cagayan Valley Rd; Cagayan (first District)",
+        "category": "secondary_road",
+        "highway": "secondary",
+        "data_source": "Curated seed (OSM-style)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [121.5, 18.05],
+          [121.54, 18.055],
+          [121.58, 18.06],
+          [121.62, 18.055]
+        ]
+      }
+    }
+  ]
+}

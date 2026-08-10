@@ -1,7 +1,6 @@
 import { Maximize2, RotateCcw, Map, Box } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { DEMO_DISCLAIMER } from '@/lib/constants'
 
 interface HeaderProps {
   is3D: boolean
@@ -14,12 +13,14 @@ export function Header({ is3D, onToggle3D, onReset, onFullscreen }: HeaderProps)
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4">
       <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-xs font-bold text-sky-700">
-          LGU
-        </div>
+        <img
+          src="/lasam-logo.png"
+          alt="Municipality of Lasam logo"
+          className="h-9 w-9 shrink-0 object-contain"
+        />
         <div>
-          <h1 className="text-sm font-semibold text-slate-900 sm:text-base">
-            Lasam Urban Hazard Planning
+          <h1 className="text-xs font-semibold text-slate-900 sm:text-sm">
+            LGU LASAM URBAN PLANNING ASSESSMENT
           </h1>
           <p className="hidden text-xs text-slate-500 sm:block">Interactive demonstration prototype</p>
         </div>
@@ -40,13 +41,5 @@ export function Header({ is3D, onToggle3D, onReset, onFullscreen }: HeaderProps)
         </Button>
       </div>
     </header>
-  )
-}
-
-export function DisclaimerBanner() {
-  return (
-    <div className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-center text-xs text-amber-900">
-      {DEMO_DISCLAIMER}
-    </div>
   )
 }

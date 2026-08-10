@@ -1,8 +1,20 @@
-export type HazardMode = 'flood' | 'earthquake' | 'fault' | 'layers'
-export type MapTool = 'select' | 'pan' | 'draw-fault' | 'epicenter' | 'measure' | 'zoom-home'
+import type { ProposedBuildingType } from '@/lib/assessment/buildingTypes'
+
+export type HazardMode = 'flood' | 'fault' | 'volcano' | 'layers'
+export type MapTool =
+  | 'select'
+  | 'pan'
+  | 'draw-fault'
+  | 'epicenter'
+  | 'measure'
+  | 'zoom-home'
+  | 'place-site'
+
+export type { ProposedBuildingType }
 
 export type FloodExposure = 'none' | 'low' | 'moderate' | 'high' | 'severe'
 export type EarthquakeDamage = 'minimal' | 'light' | 'moderate' | 'severe' | 'critical'
+export type VolcanoExposure = 'none' | 'low' | 'moderate' | 'high' | 'severe'
 export type ValidationStatus = 'unverified' | 'validated' | 'corrected'
 
 export interface BuildingProperties {
@@ -30,6 +42,8 @@ export interface BuildingProperties {
   floodExposure?: FloodExposure
   earthquakeDamage?: EarthquakeDamage
   faultDistance?: number
+  volcanoDistanceKm?: number
+  volcanoExposure?: VolcanoExposure
   selected?: number
 }
 
@@ -49,6 +63,7 @@ export interface SimulationStats {
   floodAffected: number
   faultExposed: number
   earthquakeAffected: number
+  volcanoAffected: number
   lowRisk: number
   moderateRisk: number
   highRisk: number
@@ -68,6 +83,7 @@ export interface SelectedBuilding {
   earthquakeStatus: string
   faultDistance: string
   floodDepth: string
+  volcanoStatus?: string
   name?: string | null
 }
 
@@ -87,14 +103,6 @@ export interface RiverSettings {
   riverbanks: boolean
   watershed: boolean
   flowArrows: boolean
-}
-
-export interface FloodScenarioSettings {
-  riverStageM: number
-  riverRiseM: number
-  durationMin: number
-  propagationSpeed: number
-  maxWaterElevationM: number
 }
 
 export interface TerrainSample {
@@ -126,20 +134,35 @@ export interface ElevationGrid {
   unit?: string
 }
 
+export interface AssessmentRow {
+  label: string
+  value: string
+}
+
+export interface SiteAssessmentInput {
+  lat: number
+  lng: number
+  buildingType: ProposedBuildingType
+}
+
+export interface SiteAssessmentResult {
+  input: SiteAssessmentInput
+  assessedAt: string
+  seismic: AssessmentRow[]
+  volcanic: AssessmentRow[]
+  hydromet: AssessmentRow[]
+  facilities: AssessmentRow[]
+}
+
 export interface SimulationState {
   hazardMode: HazardMode
   activeTool: MapTool
   is3D: boolean
-  isPlaying: boolean
-  simulationSpeed: number
-  floodDepth: number
   floodOpacity: number
-  floodScenario: string
   earthquakeMagnitude: number
   earthquakeDepth: number
   earthquakeRadius: number
   epicenter: [number, number] | null
-  faultBuffer: number
   faultLineName: string
   stats: SimulationStats
   selectedBuilding: SelectedBuilding | null

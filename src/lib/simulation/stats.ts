@@ -1,25 +1,29 @@
 import { getTypeColor } from '@/lib/buildings/colors'
+import { VOLCANO_COLORS } from '@/lib/simulation/volcano'
 import type { BuildingCollection, SimulationStats } from '@/types'
 
 export function computeStats(buildings: BuildingCollection): SimulationStats {
   let floodAffected = 0
   let faultExposed = 0
   let earthquakeAffected = 0
+  let volcanoAffected = 0
   let lowRisk = 0
   let moderateRisk = 0
   let highRisk = 0
 
   for (const feature of buildings.features) {
-    const { floodExposure, earthquakeDamage, faultDistance } = feature.properties
+    const { floodExposure, earthquakeDamage, faultDistance, volcanoExposure } = feature.properties
 
     if (floodExposure && floodExposure !== 'none') floodAffected += 1
     if (earthquakeDamage && earthquakeDamage !== 'minimal') earthquakeAffected += 1
     if (faultDistance !== undefined && faultDistance <= 500) faultExposed += 1
+    if (volcanoExposure && volcanoExposure !== 'none') volcanoAffected += 1
 
     const riskScore =
       (floodExposure === 'high' || floodExposure === 'severe' ? 2 : floodExposure === 'moderate' ? 1 : 0) +
       (earthquakeDamage === 'severe' || earthquakeDamage === 'critical' ? 2 : earthquakeDamage === 'moderate' ? 1 : 0) +
-      (faultDistance !== undefined && faultDistance <= 250 ? 1 : 0)
+      (faultDistance !== undefined && faultDistance <= 250 ? 1 : 0) +
+      (volcanoExposure === 'severe' || volcanoExposure === 'high' ? 2 : volcanoExposure === 'moderate' ? 1 : 0)
 
     if (riskScore >= 3) highRisk += 1
     else if (riskScore >= 1) moderateRisk += 1
@@ -31,6 +35,7 @@ export function computeStats(buildings: BuildingCollection): SimulationStats {
     floodAffected,
     faultExposed,
     earthquakeAffected,
+    volcanoAffected,
     lowRisk,
     moderateRisk,
     highRisk,
@@ -44,6 +49,7 @@ export function getBuildingColor(
   hazardMode: string | undefined,
   baseColor?: string,
   buildingType?: string,
+  volcanoExposure?: string,
 ): string {
   const defaultColor = baseColor ?? getTypeColor(buildingType ?? 'Residential')
 
@@ -69,6 +75,10 @@ export function getBuildingColor(
 
   if (hazardMode === 'fault' && faultDistance !== undefined && faultDistance <= 500) {
     return faultDistance <= 250 ? '#ef4444' : '#fb923c'
+  }
+
+  if (hazardMode === 'volcano' && volcanoExposure && volcanoExposure !== 'none') {
+    return VOLCANO_COLORS[volcanoExposure as keyof typeof VOLCANO_COLORS] ?? defaultColor
   }
 
   return defaultColor

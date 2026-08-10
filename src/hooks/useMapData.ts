@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { Feature, FeatureCollection, LineString, Polygon } from 'geojson'
+import type { Feature, FeatureCollection, LineString } from 'geojson'
 import { dataUrl } from '@/lib/dataVersion'
 import type { BuildingCollection, ElevationGrid } from '@/types'
 
@@ -15,8 +15,10 @@ export interface MapData {
   flowArrows: FeatureCollection
   contours: FeatureCollection
   elevationGrid: ElevationGrid | null
-  floodZone: Feature<Polygon>
-  defaultFaultLine: Feature<LineString>
+  mgbFlood: FeatureCollection
+  defaultFaults: FeatureCollection
+  volcanoes: FeatureCollection
+  facilities: FeatureCollection
 }
 
 interface UseMapDataResult {
@@ -44,6 +46,19 @@ async function fetchJsonOptional<T>(url: string, fallback: T): Promise<T> {
 
 const emptyFc: FeatureCollection = { type: 'FeatureCollection', features: [] }
 
+function asFaultCollection(
+  data: FeatureCollection | { features?: Feature[] } | null,
+): FeatureCollection {
+  if (!data?.features?.length) return emptyFc
+  return {
+    type: 'FeatureCollection',
+    features: data.features.filter(
+      (f): f is Feature =>
+        f?.geometry?.type === 'LineString' || f?.geometry?.type === 'MultiLineString',
+    ),
+  }
+}
+
 export function useMapData(): UseMapDataResult {
   const [data, setData] = useState<MapData | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -60,7 +75,8 @@ export function useMapData(): UseMapDataResult {
       try {
         const [
           buildings,
-          boundary,
+          psaBoundary,
+          osmBoundary,
           riversLegacy,
           riversMain,
           riversTributaries,
@@ -70,13 +86,24 @@ export function useMapData(): UseMapDataResult {
           flowArrows,
           contours,
           elevationGrid,
-          flood,
-          fault,
+          mgbFlood,
+          phivolcsFaults,
+          sampleFault,
+          volcanoes,
+          facilities,
         ] = await Promise.all([
           fetchJson<BuildingCollection>(dataUrl('/data/administrative/lasam-buildings.geojson'))
             .catch(() => fetchJson<BuildingCollection>(dataUrl('/data/lasam-buildings.geojson'))),
-          fetchJson<FeatureCollection>(dataUrl('/data/administrative/lasam-boundary.geojson'))
-            .catch(() => fetchJson<FeatureCollection>(dataUrl('/data/lasam-boundary.geojson'))),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/administrative/psa-lasam-boundary.geojson'),
+            emptyFc,
+          ),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/administrative/lasam-boundary.geojson'),
+            emptyFc,
+          ).catch(() =>
+            fetchJsonOptional<FeatureCollection>(dataUrl('/data/lasam-boundary.geojson'), emptyFc),
+          ),
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/lasam-rivers.geojson'), emptyFc),
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/rivers-main.geojson'), emptyFc),
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/rivers-tributaries.geojson'), emptyFc),
@@ -86,14 +113,57 @@ export function useMapData(): UseMapDataResult {
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/flow-arrows.geojson'), emptyFc),
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/terrain/contours.geojson'), emptyFc),
           fetchJsonOptional<ElevationGrid | null>(dataUrl('/data/terrain/elevation-grid.json'), null),
-          fetchJson<{ features: Feature<Polygon>[] }>(dataUrl('/data/sample-flood-zone.geojson')),
-          fetchJson<{ features: Feature<LineString>[] }>(dataUrl('/data/sample-fault-line.geojson')),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/hazards/mgb-flood-lasam.geojson'),
+            emptyFc,
+          ),
+          fetchJsonOptional<FeatureCollection | null>(
+            dataUrl('/data/hazards/phivolcs-faults-lasam.geojson'),
+            null,
+          ),
+          fetchJsonOptional<{ features: Feature<LineString>[] } | null>(
+            dataUrl('/data/sample-fault-line.geojson'),
+            null,
+          ),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/hazards/phivolcs-volcanoes-northern-luzon.geojson'),
+            emptyFc,
+          ),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/facilities/lasam-critical-facilities.geojson'),
+            emptyFc,
+          ),
         ])
 
         if (cancelled) return
 
-        if (!flood.features[0] || !fault.features[0]) {
-          throw new Error('Required GeoJSON features are missing from sample data.')
+        const boundary =
+          psaBoundary.features.length > 0
+            ? psaBoundary
+            : osmBoundary.features.length > 0
+              ? osmBoundary
+              : emptyFc
+
+        if (boundary.features.length === 0) {
+          throw new Error(
+            'Municipal boundary missing. Run npm run fetch:boundary (or ensure OSM lasam-boundary.geojson exists).',
+          )
+        }
+
+        if (mgbFlood.features.length === 0) {
+          console.warn(
+            'MGB flood GeoJSON missing — run: npm run fetch:boundary && npm run fetch:flood',
+          )
+        }
+
+        const defaultFaults = asFaultCollection(phivolcsFaults)
+        const faults =
+          defaultFaults.features.length > 0
+            ? defaultFaults
+            : asFaultCollection(sampleFault)
+
+        if (faults.features.length === 0) {
+          console.warn('No fault line GeoJSON loaded — fault simulation will be inactive.')
         }
 
         const riversMainSafe = riversMain.features.length ? riversMain : riversLegacy
@@ -114,8 +184,10 @@ export function useMapData(): UseMapDataResult {
           flowArrows,
           contours,
           elevationGrid,
-          floodZone: flood.features[0],
-          defaultFaultLine: fault.features[0],
+          mgbFlood,
+          defaultFaults: faults,
+          volcanoes,
+          facilities,
         })
       } catch (err) {
         if (!cancelled) {

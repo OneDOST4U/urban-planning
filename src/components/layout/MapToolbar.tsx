@@ -7,6 +7,7 @@ import {
   Ruler,
   Home,
   Trash2,
+  MapPin,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -16,20 +17,27 @@ interface MapToolbarProps {
   activeTool: MapTool
   onToolChange: (tool: MapTool) => void
   onClearDrawings: () => void
+  className?: string
 }
 
 const tools: { id: MapTool; label: string; icon: ComponentType<{ className?: string }> }[] = [
   { id: 'select', label: 'Select', icon: MousePointer2 },
   { id: 'pan', label: 'Pan', icon: Hand },
+  { id: 'place-site', label: 'Drop pin (site)', icon: MapPin },
   { id: 'draw-fault', label: 'Draw Fault', icon: PencilLine },
   { id: 'epicenter', label: 'Epicenter', icon: Target },
   { id: 'measure', label: 'Measure', icon: Ruler },
   { id: 'zoom-home', label: 'Zoom Home', icon: Home },
 ]
 
-export function MapToolbar({ activeTool, onToolChange, onClearDrawings }: MapToolbarProps) {
+export function MapToolbar({ activeTool, onToolChange, onClearDrawings, className }: MapToolbarProps) {
   return (
-    <div className="absolute left-3 top-3 z-10 flex flex-col gap-1 rounded-lg border border-slate-200 bg-white p-1 shadow-lg">
+    <div
+      className={cn(
+        'absolute left-3 top-3 z-10 flex flex-col gap-1 rounded-lg border border-slate-200 bg-white p-1 shadow-lg',
+        className,
+      )}
+    >
       {tools.map(({ id, label, icon: Icon }) => (
         <Button
           key={id}

@@ -1,4 +1,5 @@
-import { PanelRightOpen } from 'lucide-react'
+import { useState } from 'react'
+import { Layers } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { HazardPanel } from '@/components/layout/HazardPanel'
 import type { ComponentProps } from 'react'
@@ -10,12 +11,17 @@ interface MobileHazardDrawerProps extends HazardPanelProps {
   onToggle: () => void
 }
 
+/** Below app header (h-14) + spacing */
+const PANEL_TOGGLE_TOP = 'top-[calc(3.5rem+0.75rem)]'
+
 export function MobileHazardDrawer({ isOpen, onToggle, ...panelProps }: MobileHazardDrawerProps) {
+  const [desktopOpen, setDesktopOpen] = useState(true)
+
   return (
     <>
-      <div className="absolute bottom-20 right-3 z-20 lg:hidden">
+      <div className={`fixed right-3 z-20 lg:hidden ${PANEL_TOGGLE_TOP}`}>
         <Button size="sm" onClick={onToggle} className="shadow-lg">
-          <PanelRightOpen className="mr-2 h-4 w-4" />
+          <Layers className="mr-2 h-4 w-4" />
           Hazard Panel
         </Button>
       </div>
@@ -45,9 +51,21 @@ export function MobileHazardDrawer({ isOpen, onToggle, ...panelProps }: MobileHa
         </div>
       </div>
 
-      <div className="hidden lg:flex">
-        <HazardPanel {...panelProps} />
-      </div>
+      {desktopOpen ? (
+        <div className="hidden shrink-0 lg:flex">
+          <HazardPanel {...panelProps} onCollapse={() => setDesktopOpen(false)} />
+        </div>
+      ) : (
+        <Button
+          size="sm"
+          className={`fixed right-3 z-20 hidden shadow-lg lg:inline-flex ${PANEL_TOGGLE_TOP}`}
+          onClick={() => setDesktopOpen(true)}
+          title="Show hazard panel"
+        >
+          <Layers className="mr-2 h-4 w-4" />
+          Hazard Panel
+        </Button>
+      )}
     </>
   )
 }

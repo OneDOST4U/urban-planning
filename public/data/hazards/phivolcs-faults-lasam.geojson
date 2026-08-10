@@ -1,0 +1,5177 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020020001052400005",
+        "name": "Dummon River Fault System (Active Fault, Certain)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051020024",
+        "afcodepk": "201020020001052400005",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.81931358300005,
+            18.05521119200006
+          ],
+          [
+            121.82658394100008,
+            18.054862998000033
+          ],
+          [
+            121.83520045000012,
+            18.05480300800002
+          ],
+          [
+            121.84842800100012,
+            18.057089941000072
+          ],
+          [
+            121.85483097200006,
+            18.05952891100003
+          ],
+          [
+            121.86146127500001,
+            18.063593811000032
+          ],
+          [
+            121.8686935820001,
+            18.06924291000007
+          ],
+          [
+            121.87628118400005,
+            18.074389302000043
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020020001010200059",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020020001010200059",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 32
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.76679630800004,
+            18.01229360800005
+          ],
+          [
+            121.77391075500009,
+            18.02034247200004
+          ],
+          [
+            121.78148264000004,
+            18.026712538000027
+          ],
+          [
+            121.78530901300007,
+            18.029157885000075
+          ],
+          [
+            121.78682581200007,
+            18.030564292000065
+          ],
+          [
+            121.789867318,
+            18.03227442000002
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020020001010200065",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020020001010200065",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 36
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            122.0463499970001,
+            18.152392915000064
+          ],
+          [
+            122.05520099300008,
+            18.15966394000003
+          ],
+          [
+            122.06338808500004,
+            18.16581067800007
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020020001010200088",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020020001010200088",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 46
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.95347752100008,
+            18.084372544000075
+          ],
+          [
+            121.95805641600009,
+            18.08572272400005
+          ],
+          [
+            121.96477233900009,
+            18.08856960600008
+          ],
+          [
+            121.97301100200002,
+            18.09296292600004
+          ],
+          [
+            121.98281100600002,
+            18.10054995400003
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020720001041400347",
+        "name": "Unnamed Offshore Projection (Active Fault, Approximate Offshore Projection)",
+        "fault_name": "Unnamed Offshore Projection",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate Offshore Projection",
+        "line_type": "Dotted - red",
+        "legend_key": "active-concealed",
+        "mechanism": null,
+        "scale": "1:500,000",
+        "datemapped": 2000,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 172,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201041720014",
+        "afcodepk": "201020720001041400347",
+        "fccode": "01",
+        "ttcode": "04",
+        "ltcode": "14",
+        "objectid": 188
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.71959568000011,
+            18.500984127000038
+          ],
+          [
+            121.77597022000009,
+            18.687216959000068
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020020001010200463",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020020001010200463",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 265
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.79110448100005,
+            18.031703374000074
+          ],
+          [
+            121.79332082500002,
+            18.03258856800005
+          ],
+          [
+            121.79575222400001,
+            18.033997888000044
+          ],
+          [
+            121.79894092500001,
+            18.036562074000074
+          ],
+          [
+            121.80043312900011,
+            18.038197602000025
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020020001010200464",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020020001010200464",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 266
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.8984742340001,
+            18.07367738800002
+          ],
+          [
+            121.90951021600006,
+            18.07449918700007
+          ],
+          [
+            121.91138872600004,
+            18.075438435000024
+          ],
+          [
+            121.91737627400005,
+            18.07813878500002
+          ],
+          [
+            121.9199592010001,
+            18.079899779000073
+          ],
+          [
+            121.92688602800001,
+            18.082013107000023
+          ],
+          [
+            121.93005592100008,
+            18.08295195000005
+          ],
+          [
+            121.9340476210001,
+            18.083421561000023
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010200702",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010200702",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 473
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.95445873900007,
+            18.04975488100007
+          ],
+          [
+            121.95821196300005,
+            18.050295661000064
+          ],
+          [
+            121.96572278600001,
+            18.05222877700004
+          ],
+          [
+            121.97357476900004,
+            18.054541976000053
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010200970",
+        "name": "Taboan River Fault (Active Fault, Approximate)",
+        "fault_name": "Taboan River Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 103,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011030002",
+        "afcodepk": "201020036901010200970",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 727
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.96190723300003,
+            17.83757530400004
+          ],
+          [
+            121.95929161900006,
+            17.836835032000067
+          ],
+          [
+            121.95351162700001,
+            17.83488922600003
+          ],
+          [
+            121.94690603000004,
+            17.832674679000036
+          ],
+          [
+            121.93878080400009,
+            17.830979915000057
+          ],
+          [
+            121.93093347600006,
+            17.828956185000038
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010200973",
+        "name": "Taboan River Fault (Active Fault, Approximate)",
+        "fault_name": "Taboan River Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 103,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011030002",
+        "afcodepk": "201020036901010200973",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 730
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.90748743500001,
+            17.81685088000006
+          ],
+          [
+            121.90391078700009,
+            17.813706472000035
+          ],
+          [
+            121.89846760700004,
+            17.810095747000048
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901052401044",
+        "name": "Dummon River Fault System (Active Fault, Certain)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051020024",
+        "afcodepk": "201020036901052401044",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 795
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.73148373700008,
+            17.99502347600003
+          ],
+          [
+            121.73406091700008,
+            17.996425002000024
+          ],
+          [
+            121.74042906000011,
+            17.998895549000054
+          ],
+          [
+            121.7486294150001,
+            18.003400918000068
+          ],
+          [
+            121.75940293400004,
+            18.00853892600003
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010201093",
+        "name": "Taboan River Fault (Active Fault, Approximate)",
+        "fault_name": "Taboan River Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 103,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011030002",
+        "afcodepk": "201020036901010201093",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 842
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.92169876500009,
+            17.82847222500004
+          ],
+          [
+            121.91781450500002,
+            17.82543550300005
+          ],
+          [
+            121.91590764800003,
+            17.82366987300003
+          ],
+          [
+            121.91212921600004,
+            17.819997534000038
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020676401010201192",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020676401010201192",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 934
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.88853037700005,
+            18.104530843000077
+          ],
+          [
+            121.88115253400008,
+            18.101169179000067
+          ],
+          [
+            121.86913296300008,
+            18.09522692400003
+          ],
+          [
+            121.85481047500002,
+            18.089818279000042
+          ],
+          [
+            121.85393403300009,
+            18.089420768000025
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901052401255",
+        "name": "Dummon River Fault System (Active Fault, Certain)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051020024",
+        "afcodepk": "201020036901052401255",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 993
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.7868115660001,
+            18.02533360700005
+          ],
+          [
+            121.79276214300012,
+            18.02900276500003
+          ],
+          [
+            121.80074897600002,
+            18.033087936000072
+          ],
+          [
+            121.80595389100006,
+            18.03533966300006
+          ],
+          [
+            121.8093172130001,
+            18.037025044000075
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901052401351",
+        "name": "Dummon River Fault System (Active Fault, Certain)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051020024",
+        "afcodepk": "201020036901052401351",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 1081
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.90989541300007,
+            18.04276386600003
+          ],
+          [
+            121.91866436200007,
+            18.043914608000023
+          ],
+          [
+            121.92147588900002,
+            18.04406483500003
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010201412",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010201412",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 1139
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.63280398300003,
+            17.96406489900005
+          ],
+          [
+            121.64547200400011,
+            17.967934919000072
+          ],
+          [
+            121.657653374,
+            17.975604194000027
+          ],
+          [
+            121.66355539900007,
+            17.979511441000056
+          ],
+          [
+            121.66684630800012,
+            17.98200210300007
+          ],
+          [
+            121.671543713,
+            17.98610647000004
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010201508",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010201508",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 1228
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.84092212300004,
+            18.04178231000003
+          ],
+          [
+            121.83375399200008,
+            18.04193732500005
+          ],
+          [
+            121.82814692500006,
+            18.04198287300005
+          ],
+          [
+            121.82064692300003,
+            18.040549412000075
+          ],
+          [
+            121.81523977100005,
+            18.039194589000033
+          ],
+          [
+            121.81077433700011,
+            18.037528190000046
+          ],
+          [
+            121.8092854040001,
+            18.037043192000056
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010201803",
+        "name": "Taboan River Fault (Active Fault, Approximate)",
+        "fault_name": "Taboan River Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 103,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011030002",
+        "afcodepk": "201020036901010201803",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 1496
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            122.00220323200006,
+            17.856604583000035
+          ],
+          [
+            121.99367483300011,
+            17.852730913000073
+          ],
+          [
+            121.97929943400004,
+            17.84651527500006
+          ],
+          [
+            121.96878481400006,
+            17.840517146000025
+          ],
+          [
+            121.96500318300002,
+            17.838714278000054
+          ],
+          [
+            121.9620451190001,
+            17.837576037000076
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901052401984",
+        "name": "Dummon River Fault System (Active Fault, Certain)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051020024",
+        "afcodepk": "201020036901052401984",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 1664
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.86159632900001,
+            18.042122423000023
+          ],
+          [
+            121.86843477200011,
+            18.04191572600007
+          ],
+          [
+            121.8746692090001,
+            18.042034424000065
+          ],
+          [
+            121.8789493920001,
+            18.042250309000053
+          ],
+          [
+            121.88141743900007,
+            18.04250001300005
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010202109",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010202109",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 1781
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.78142083700004,
+            18.02207135200007
+          ],
+          [
+            121.78681202700011,
+            18.025266352000074
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020676401010202176",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020676401010202176",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 1840
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.91158974300004,
+            18.11125472200007
+          ],
+          [
+            121.90055552000001,
+            18.105796248000047
+          ],
+          [
+            121.89662317900002,
+            18.103389927000023
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010202265",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010202265",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 1928
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.939860296,
+            18.045346753000047
+          ],
+          [
+            121.949286443,
+            18.04844480500003
+          ],
+          [
+            121.95470606600009,
+            18.049756219000074
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010202607",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010202607",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2245
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.88132747300006,
+            18.04242136000005
+          ],
+          [
+            121.89655267500007,
+            18.042334763000042
+          ],
+          [
+            121.90995165200002,
+            18.042965668000022
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901052402649",
+        "name": "Dummon River Fault System (Active Fault, Certain)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051020024",
+        "afcodepk": "201020036901052402649",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 2284
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              122.02860708000003,
+              18.06722280400004
+            ],
+            [
+              122.04292372400005,
+              18.07338178400005
+            ],
+            [
+              122.05613876000007,
+              18.078628249000076
+            ],
+            [
+              122.06396067200001,
+              18.08233725100007
+            ]
+          ],
+          [
+            [
+              121.99846176300002,
+              18.060062524000045
+            ],
+            [
+              122.00835147600003,
+              18.063042412000073
+            ],
+            [
+              122.01527799300004,
+              18.064499213000033
+            ],
+            [
+              122.01878596900008,
+              18.065292357000033
+            ],
+            [
+              122.0257902620001,
+              18.066289751000056
+            ]
+          ],
+          [
+            [
+              122.06396517200005,
+              18.082340887000043
+            ],
+            [
+              122.07509409200009,
+              18.087398258000064
+            ],
+            [
+              122.08372296100003,
+              18.090910735000023
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020676401010202774",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020676401010202774",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2398
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.96280892800007,
+            18.126560359000052
+          ],
+          [
+            121.97020797700009,
+            18.13110025900005
+          ],
+          [
+            121.9795014130001,
+            18.137659204000045
+          ],
+          [
+            121.98851894900008,
+            18.14871647900003
+          ],
+          [
+            121.99151716800009,
+            18.15337808700008
+          ],
+          [
+            121.99612538500003,
+            18.158778804000065
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010202873",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010202873",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2490
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.68223557300007,
+            17.98620609900007
+          ],
+          [
+            121.69044476400006,
+            17.986467452000056
+          ],
+          [
+            121.71012316300005,
+            17.98799744100006
+          ],
+          [
+            121.71369126700006,
+            17.988021152000044
+          ],
+          [
+            121.720068405,
+            17.98894056000006
+          ],
+          [
+            121.722063434,
+            17.989557524000077
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010202881",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010202881",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2498
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.9734263680001,
+            18.05454118800003
+          ],
+          [
+            121.98562984900002,
+            18.05720821500006
+          ],
+          [
+            121.9984763010001,
+            18.05997246100003
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020676401010202899",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020676401010202899",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2514
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.91581397200002,
+            18.090630961000045
+          ],
+          [
+            121.92069297500007,
+            18.09337496200004
+          ],
+          [
+            121.9316699640001,
+            18.10496187600006
+          ],
+          [
+            121.93837798900006,
+            18.11166989000003
+          ],
+          [
+            121.94965998000009,
+            18.119596882000053
+          ],
+          [
+            121.95819702800009,
+            18.125390899000024
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010202996",
+        "name": "Taboan River Fault (Active Fault, Approximate)",
+        "fault_name": "Taboan River Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 103,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011030002",
+        "afcodepk": "201020036901010202996",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2602
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            122.03020867800001,
+            17.875497766000024
+          ],
+          [
+            122.04401619900011,
+            17.881834611000045
+          ],
+          [
+            122.05017737300011,
+            17.884013990000028
+          ],
+          [
+            122.05671281200011,
+            17.88619499200007
+          ],
+          [
+            122.06734728900005,
+            17.89152978000004
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020676401010203091",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020676401010203091",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2685
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.84172524400003,
+            18.087673555000038
+          ],
+          [
+            121.83653602600009,
+            18.086056944000063
+          ],
+          [
+            121.82952299300007,
+            18.082092945000056
+          ],
+          [
+            121.81824101400002,
+            18.07507994200006
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010203133",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010203133",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2726
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.92141698600005,
+            18.04403061200003
+          ],
+          [
+            121.93310287700001,
+            18.04419732200006
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020676401010203163",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020676401010203163",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2753
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.81047651500012,
+            18.067058118000034
+          ],
+          [
+            121.79075364200003,
+            18.072693247000075
+          ],
+          [
+            121.76727401300002,
+            18.07269319100004
+          ],
+          [
+            121.72782822300007,
+            18.067997312000045
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010203303",
+        "name": "Dummon River Fault System (Active Fault, Approximate)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011020002",
+        "afcodepk": "201020036901010203303",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2879
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.8616290540001,
+            18.04215324100005
+          ],
+          [
+            121.85522306200005,
+            18.042574829000046
+          ],
+          [
+            121.84666202300002,
+            18.041871550000053
+          ],
+          [
+            121.84081358800006,
+            18.04167909100005
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901052403347",
+        "name": "Dummon River Fault System (Active Fault, Certain)",
+        "fault_name": "Dummon River Fault System",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 102,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051020024",
+        "afcodepk": "201020036901052403347",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 2918
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.75942817200007,
+            18.008519859000046
+          ],
+          [
+            121.77025121200006,
+            18.013679612000033
+          ],
+          [
+            121.77502400600008,
+            18.01641896800004
+          ],
+          [
+            121.78151952100006,
+            18.022056793000047
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "201020036901010203380",
+        "name": "Taboan River Fault (Active Fault, Approximate)",
+        "fault_name": "Taboan River Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": null,
+        "scale": "1:50,000",
+        "datemapped": 2012,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 103,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011030002",
+        "afcodepk": "201020036901010203380",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 2946
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.89561852000008,
+            17.810517980000043
+          ],
+          [
+            121.8887116630001,
+            17.80339736700006
+          ],
+          [
+            121.88058023400004,
+            17.793063967000023
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010306285134176",
+        "name": "East Cordillera Fault (Active Fault, Approximate - Upthrown Area)",
+        "fault_name": "East Cordillera Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate - Upthrown Area",
+        "line_type": "Line type 13",
+        "legend_key": "active-approximate",
+        "mechanism": "Reverse",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 162,
+        "segname": "02",
+        "segment_label": "02",
+        "afcode": "201031620213",
+        "afcodepk": "20101010306285134176",
+        "fccode": "01",
+        "ttcode": "03",
+        "ltcode": "13",
+        "objectid": 3173
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.44544113400002,
+            17.780792200000064
+          ],
+          [
+            121.44497748100002,
+            17.77900975400007
+          ],
+          [
+            121.4442737930001,
+            17.777282772000035
+          ],
+          [
+            121.44404471500002,
+            17.776075986000023
+          ],
+          [
+            121.44387403000007,
+            17.775041801000043
+          ],
+          [
+            121.44365542500009,
+            17.77263013700002
+          ],
+          [
+            121.44325019200005,
+            17.77102029100007
+          ],
+          [
+            121.44307901600007,
+            17.770043482000062
+          ],
+          [
+            121.44302810600004,
+            17.769010252000044
+          ],
+          [
+            121.44292379400008,
+            17.76723066900007
+          ],
+          [
+            121.44251708000002,
+            17.765792947000023
+          ],
+          [
+            121.44210837700007,
+            17.764584726000066
+          ],
+          [
+            121.44104647200004,
+            17.762740119000057
+          ],
+          [
+            121.44039926000005,
+            17.761415233000037
+          ],
+          [
+            121.440111838,
+            17.760035839000068
+          ],
+          [
+            121.4400604430001,
+            17.75905998500002
+          ],
+          [
+            121.44013951400007,
+            17.757684319000077
+          ],
+          [
+            121.4401948520001,
+            17.75737698300003
+          ],
+          [
+            121.44039494900005,
+            17.75502603800004
+          ],
+          [
+            121.44046330900005,
+            17.75405113900007
+          ],
+          [
+            121.44013098300002,
+            17.750950014000068
+          ],
+          [
+            121.43984307400001,
+            17.749627995000026
+          ],
+          [
+            121.43980016100011,
+            17.747676763000072
+          ],
+          [
+            121.4396295140001,
+            17.746642576000056
+          ],
+          [
+            121.43896640100002,
+            17.740268197000034
+          ],
+          [
+            121.438925487,
+            17.738087462000067
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010306285134177",
+        "name": "East Cordillera Fault (Active Fault, Approximate - Upthrown Area)",
+        "fault_name": "East Cordillera Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate - Upthrown Area",
+        "line_type": "Line type 13",
+        "legend_key": "active-approximate",
+        "mechanism": "Reverse",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 162,
+        "segname": "02",
+        "segment_label": "02",
+        "afcode": "201031620213",
+        "afcodepk": "20101010306285134177",
+        "fccode": "01",
+        "ttcode": "03",
+        "ltcode": "13",
+        "objectid": 3174
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.44358030600006,
+            17.75340538000006
+          ],
+          [
+            121.44293260400002,
+            17.752137876000063
+          ],
+          [
+            121.44241014500005,
+            17.750240199000075
+          ],
+          [
+            121.44211972800008,
+            17.749205059000076
+          ],
+          [
+            121.44218907000004,
+            17.748115408000047
+          ],
+          [
+            121.44245682500002,
+            17.747244891000037
+          ],
+          [
+            121.44253535700011,
+            17.746513676000063
+          ],
+          [
+            121.4424544740001,
+            17.745133805000023
+          ],
+          [
+            121.4424699110001,
+            17.743355173000054
+          ],
+          [
+            121.44224684500011,
+            17.741459882000072
+          ],
+          [
+            121.44195743500006,
+            17.74030999100006
+          ],
+          [
+            121.44191997100006,
+            17.737727627000027
+          ],
+          [
+            121.44183893700006,
+            17.737426457000026
+          ],
+          [
+            121.44129398100006,
+            17.734342558000037
+          ],
+          [
+            121.44123943700004,
+            17.734006686000043
+          ],
+          [
+            121.44088560500006,
+            17.73261974600007
+          ],
+          [
+            121.44083618200011,
+            17.732456864000028
+          ],
+          [
+            121.43982935400004,
+            17.730251659000032
+          ],
+          [
+            121.43947910500003,
+            17.72921603900005
+          ],
+          [
+            121.43920926700002,
+            17.728114278000078
+          ],
+          [
+            121.43882505200008,
+            17.727313621000064
+          ],
+          [
+            121.4382991870001,
+            17.726506930000028
+          ],
+          [
+            121.43740863700009,
+            17.725639130000047
+          ],
+          [
+            121.43616487700001,
+            17.724079953000057
+          ],
+          [
+            121.43535320100011,
+            17.721032368000067
+          ],
+          [
+            121.43495211800007,
+            17.718963510000037
+          ],
+          [
+            121.43466577700008,
+            17.71746936100004
+          ],
+          [
+            121.434383937,
+            17.71545883600004
+          ],
+          [
+            121.43452714900002,
+            17.712763160000065
+          ],
+          [
+            121.43460799200011,
+            17.71035388000007
+          ],
+          [
+            121.43645976300002,
+            17.703942201000075
+          ],
+          [
+            121.43725590500003,
+            17.701882901000033
+          ],
+          [
+            121.43872343300006,
+            17.698337086000038
+          ],
+          [
+            121.43964272000005,
+            17.69587709700005
+          ],
+          [
+            121.44050013300011,
+            17.693646127000022
+          ],
+          [
+            121.44093702900011,
+            17.691583944000058
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010106285024178",
+        "name": "East Cordillera Fault (Active Fault, Approximate)",
+        "fault_name": "East Cordillera Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Reverse",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 162,
+        "segname": "02",
+        "segment_label": "02",
+        "afcode": "201011620202",
+        "afcodepk": "20101010106285024178",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3175
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.4194880660001,
+            17.693461873000047
+          ],
+          [
+            121.41915065300009,
+            17.692120309000074
+          ],
+          [
+            121.41746323200005,
+            17.685460294000052
+          ],
+          [
+            121.41576834700004,
+            17.67966089400005
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010106285024179",
+        "name": "East Cordillera Fault (Active Fault, Approximate)",
+        "fault_name": "East Cordillera Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Reverse",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 162,
+        "segname": "02",
+        "segment_label": "02",
+        "afcode": "201011620202",
+        "afcodepk": "20101010106285024179",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3176
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.4188532180001,
+            17.77808617200003
+          ],
+          [
+            121.41942341300012,
+            17.772855003000075
+          ],
+          [
+            121.41972513600001,
+            17.764107215000024
+          ],
+          [
+            121.41993425300006,
+            17.757366922000074
+          ],
+          [
+            121.42050872000004,
+            17.75163370300004
+          ],
+          [
+            121.42054849700003,
+            17.74711545300005
+          ],
+          [
+            121.42073226800005,
+            17.743243876000065
+          ],
+          [
+            121.42117334200009,
+            17.735644755000067
+          ],
+          [
+            121.42144687100006,
+            17.73373988800006
+          ],
+          [
+            121.421677294,
+            17.73199656500003
+          ],
+          [
+            121.42169052400004,
+            17.731632654000066
+          ],
+          [
+            121.42135007800005,
+            17.72746522500006
+          ],
+          [
+            121.42083238600003,
+            17.723828101000038
+          ],
+          [
+            121.42065042500008,
+            17.722763177000047
+          ],
+          [
+            121.42054125800007,
+            17.72200214800006
+          ],
+          [
+            121.41993816500008,
+            17.71870400800003
+          ],
+          [
+            121.4191395150001,
+            17.714863211000022
+          ],
+          [
+            121.41887630200006,
+            17.71175124100006
+          ],
+          [
+            121.41856748000009,
+            17.709878119000052
+          ],
+          [
+            121.41842463400008,
+            17.707863944000053
+          ],
+          [
+            121.4181332930001,
+            17.705708506000065
+          ],
+          [
+            121.41812971500008,
+            17.70417752800006
+          ],
+          [
+            121.41800981000006,
+            17.702506017000076
+          ],
+          [
+            121.41791924800009,
+            17.700028659000054
+          ],
+          [
+            121.41793133400006,
+            17.69865405400003
+          ],
+          [
+            121.41756930000008,
+            17.697276427000077
+          ],
+          [
+            121.41701706100002,
+            17.69625588100007
+          ],
+          [
+            121.41628933900006,
+            17.69391898300006
+          ],
+          [
+            121.41567949800003,
+            17.69236004100003
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101020108000014208",
+        "name": "Sicalao Fault (Potentially Active Fault, Approximate)",
+        "fault_name": "Sicalao Fault",
+        "fault_class": "Potentially Active",
+        "category_label": "Potentially Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - black",
+        "legend_key": "potential-approximate",
+        "mechanism": "Strike-Slip",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 180,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "202011800001",
+        "afcodepk": "20101020108000014208",
+        "fccode": "02",
+        "ttcode": "01",
+        "ltcode": "01",
+        "objectid": 3205
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.34176782700001,
+            17.983508528000073
+          ],
+          [
+            121.3404574860001,
+            17.98257926900004
+          ],
+          [
+            121.3297219430001,
+            17.976577113000076
+          ],
+          [
+            121.32044223900004,
+            17.972660096000027
+          ],
+          [
+            121.31810156200004,
+            17.971385222000038
+          ],
+          [
+            121.31729826200001,
+            17.971159683000053
+          ],
+          [
+            121.31659785900001,
+            17.971041085000024
+          ],
+          [
+            121.31362080500003,
+            17.970787845000075
+          ],
+          [
+            121.31170546900012,
+            17.970540172000028
+          ],
+          [
+            121.31026513400002,
+            17.970221027000036
+          ],
+          [
+            121.30874389100006,
+            17.969681845000025
+          ],
+          [
+            121.30310967700007,
+            17.967050620000066
+          ],
+          [
+            121.30288972700009,
+            17.966909930000043
+          ],
+          [
+            121.30209935100004,
+            17.966512257000034
+          ],
+          [
+            121.29980762600007,
+            17.965544282000053
+          ],
+          [
+            121.29904936300011,
+            17.965351085000066
+          ],
+          [
+            121.29462394600012,
+            17.96422199700004
+          ],
+          [
+            121.29404022300002,
+            17.96395969300005
+          ],
+          [
+            121.29081080800006,
+            17.96271626500004
+          ],
+          [
+            121.28951169900006,
+            17.962339602000043
+          ],
+          [
+            121.28642275800007,
+            17.96121138600006
+          ],
+          [
+            121.28554463400008,
+            17.960814020000043
+          ],
+          [
+            121.28424800300002,
+            17.96041356300003
+          ],
+          [
+            121.28308476000007,
+            17.959859556000026
+          ],
+          [
+            121.27523373000008,
+            17.954640708000056
+          ],
+          [
+            121.27219913500005,
+            17.952318674000026
+          ],
+          [
+            121.26910076200011,
+            17.950397646000056
+          ],
+          [
+            121.2642093710001,
+            17.947944138000025
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101020508000234209",
+        "name": "Sicalao Fault (Potentially Active Fault, Certain)",
+        "fault_name": "Sicalao Fault",
+        "fault_class": "Potentially Active",
+        "category_label": "Potentially Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - black",
+        "legend_key": "potential-certain",
+        "mechanism": "Strike-Slip",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 180,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "202051800023",
+        "afcodepk": "20101020508000234209",
+        "fccode": "02",
+        "ttcode": "05",
+        "ltcode": "23",
+        "objectid": 3206
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.41512264200003,
+            18.020036553000068
+          ],
+          [
+            121.4002538630001,
+            18.012971207000078
+          ],
+          [
+            121.38983564400007,
+            18.009212442000035
+          ],
+          [
+            121.38386618000004,
+            18.006236342000022
+          ],
+          [
+            121.37867746200004,
+            18.00315187800004
+          ],
+          [
+            121.3672670310001,
+            17.996572203000028
+          ],
+          [
+            121.3619568690001,
+            17.99371580600007
+          ],
+          [
+            121.35761901300009,
+            17.990624273000037
+          ],
+          [
+            121.3568025620001,
+            17.990288174000057
+          ],
+          [
+            121.35450025800003,
+            17.98922826000006
+          ],
+          [
+            121.35292636000008,
+            17.988611744000025
+          ],
+          [
+            121.35213514200007,
+            17.98824331000003
+          ],
+          [
+            121.35073256900012,
+            17.98751310600005
+          ],
+          [
+            121.3470359160001,
+            17.985957158000076
+          ],
+          [
+            121.34684233400003,
+            17.98584703800003
+          ],
+          [
+            121.34176782700001,
+            17.983508528000073
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101020108000014210",
+        "name": "Sicalao Fault (Potentially Active Fault, Approximate)",
+        "fault_name": "Sicalao Fault",
+        "fault_class": "Potentially Active",
+        "category_label": "Potentially Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - black",
+        "legend_key": "potential-approximate",
+        "mechanism": "Strike-Slip",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 180,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "202011800001",
+        "afcodepk": "20101020108000014210",
+        "fccode": "02",
+        "ttcode": "01",
+        "ltcode": "01",
+        "objectid": 3207
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.46499138500008,
+            18.057678313000054
+          ],
+          [
+            121.46172199600005,
+            18.054266917000064
+          ],
+          [
+            121.45910446700009,
+            18.051778736000074
+          ],
+          [
+            121.45428041200012,
+            18.047838382000066
+          ],
+          [
+            121.44969900100011,
+            18.04361298500004
+          ],
+          [
+            121.44504872800007,
+            18.040419734000068
+          ],
+          [
+            121.44158592600002,
+            18.038613051000027
+          ],
+          [
+            121.44027309900002,
+            18.037856520000048
+          ],
+          [
+            121.43896333100008,
+            18.036755740000046
+          ],
+          [
+            121.43575836600007,
+            18.032942838000054
+          ],
+          [
+            121.43355826200002,
+            18.030802004000066
+          ],
+          [
+            121.43123112900003,
+            18.029463399000065
+          ],
+          [
+            121.42782917500006,
+            18.02759960900005
+          ],
+          [
+            121.42712772700008,
+            18.027135831000066
+          ],
+          [
+            121.4262126540001,
+            18.026631173000055
+          ],
+          [
+            121.42583712100009,
+            18.026513833000024
+          ],
+          [
+            121.42516463100003,
+            18.026364706000038
+          ],
+          [
+            121.42430274800006,
+            18.026251143000025
+          ],
+          [
+            121.42304544700005,
+            18.026011354000048
+          ],
+          [
+            121.42124996900009,
+            18.025595021000072
+          ],
+          [
+            121.41928127500012,
+            18.024431348000064
+          ],
+          [
+            121.41618969100011,
+            18.02142236900005
+          ],
+          [
+            121.41512264200003,
+            18.020036553000068
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010107900024215",
+        "name": "Naglibacan Fault (Active Fault, Approximate)",
+        "fault_name": "Naglibacan Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 179,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011790002",
+        "afcodepk": "20101010107900024215",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3212
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.06948225500003,
+            17.920892292000076
+          ],
+          [
+            121.0711750690001,
+            17.92136809300007
+          ],
+          [
+            121.07344527900011,
+            17.922021725000036
+          ],
+          [
+            121.0748210160001,
+            17.92226486900006
+          ],
+          [
+            121.07583721900005,
+            17.922504434000075
+          ],
+          [
+            121.07786653200003,
+            17.923270365000064
+          ],
+          [
+            121.07959686600009,
+            17.923975945000052
+          ],
+          [
+            121.08102759600001,
+            17.924678545000063
+          ],
+          [
+            121.08176469300008,
+            17.924782205000042
+          ],
+          [
+            121.08305207100011,
+            17.924738692000062
+          ],
+          [
+            121.08417835400007,
+            17.924539856000024
+          ],
+          [
+            121.08671107800001,
+            17.92383594000006
+          ],
+          [
+            121.08898766800007,
+            17.92347967200004
+          ],
+          [
+            121.0900826940001,
+            17.923222831000032
+          ],
+          [
+            121.09086341600005,
+            17.923169322000035
+          ],
+          [
+            121.09410928600005,
+            17.92320126100003
+          ],
+          [
+            121.09469844900002,
+            17.923221158000047
+          ],
+          [
+            121.09733619000008,
+            17.92397876700005
+          ],
+          [
+            121.1018843060001,
+            17.92459705400006
+          ],
+          [
+            121.1055576870001,
+            17.924632991000067
+          ],
+          [
+            121.10926997000001,
+            17.924956088000044
+          ],
+          [
+            121.11310943700005,
+            17.92459191100005
+          ],
+          [
+            121.11857565700006,
+            17.924454818000072
+          ],
+          [
+            121.12054451800009,
+            17.924225094000064
+          ],
+          [
+            121.12338673700003,
+            17.923544277000076
+          ],
+          [
+            121.12770678100003,
+            17.923069717000033
+          ],
+          [
+            121.13250199100003,
+            17.923001232000047
+          ],
+          [
+            121.13711201800004,
+            17.923447186000033
+          ],
+          [
+            121.14073251500008,
+            17.923481947000028
+          ],
+          [
+            121.14152139800001,
+            17.923495437000042
+          ],
+          [
+            121.14321831600012,
+            17.923764189000053
+          ],
+          [
+            121.14469058000009,
+            17.92419059300005
+          ],
+          [
+            121.1464592320001,
+            17.924507186000028
+          ],
+          [
+            121.1477102,
+            17.924680581000075
+          ],
+          [
+            121.14900653500001,
+            17.924794502000054
+          ],
+          [
+            121.15121077800006,
+            17.92490170800005
+          ],
+          [
+            121.15420352300009,
+            17.925274459000036
+          ],
+          [
+            121.156655752,
+            17.925756767000053
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024224",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024224",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3221
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.07618878300002,
+            18.273974923000026
+          ],
+          [
+            121.07749653100007,
+            18.27170935600003
+          ],
+          [
+            121.08030486100006,
+            18.26662238700004
+          ],
+          [
+            121.08338001300001,
+            18.260008241000037
+          ],
+          [
+            121.08526954800004,
+            18.25653735000003
+          ],
+          [
+            121.08639805500002,
+            18.254014932000075
+          ],
+          [
+            121.08751655800006,
+            18.252400726000076
+          ],
+          [
+            121.08911464700009,
+            18.249483807000047
+          ],
+          [
+            121.09023728300008,
+            18.247487169000067
+          ],
+          [
+            121.09035415100004,
+            18.247212730000058
+          ],
+          [
+            121.09241537500009,
+            18.24217623900006
+          ],
+          [
+            121.09304986900008,
+            18.24096306100006
+          ],
+          [
+            121.09508246100006,
+            18.23805845100003
+          ],
+          [
+            121.09639956400008,
+            18.235059224000054
+          ],
+          [
+            121.0974951820001,
+            18.232082219000063
+          ],
+          [
+            121.0984513520001,
+            18.230082802000027
+          ],
+          [
+            121.09966945300005,
+            18.22756310400007
+          ],
+          [
+            121.10009204800008,
+            18.22663638100005
+          ],
+          [
+            121.10069275100011,
+            18.225071419000074
+          ],
+          [
+            121.10329111400006,
+            18.216662367000026
+          ],
+          [
+            121.1036443910001,
+            18.215658430000076
+          ],
+          [
+            121.1061400530001,
+            18.209247885000025
+          ],
+          [
+            121.10650908800005,
+            18.20790961800003
+          ],
+          [
+            121.10687921700003,
+            18.206064527000024
+          ],
+          [
+            121.10945984400007,
+            18.195574794000038
+          ],
+          [
+            121.11005351000006,
+            18.192712226000026
+          ],
+          [
+            121.11083147000011,
+            18.19015026900007
+          ],
+          [
+            121.11101444200006,
+            18.18935570800005
+          ],
+          [
+            121.11215416200002,
+            18.18554105900006
+          ],
+          [
+            121.11261493000006,
+            18.184254053000075
+          ],
+          [
+            121.11530671100002,
+            18.176970589000064
+          ],
+          [
+            121.116839389,
+            18.174059185000033
+          ],
+          [
+            121.11759236600005,
+            18.172543564000023
+          ],
+          [
+            121.11901329700004,
+            18.169126109000047
+          ],
+          [
+            121.1190869830001,
+            18.16895689000006
+          ],
+          [
+            121.11926312600008,
+            18.168647892000024
+          ],
+          [
+            121.12032803300008,
+            18.166948942000033
+          ],
+          [
+            121.12072017900005,
+            18.166197370000077
+          ],
+          [
+            121.12266137200004,
+            18.16155187100003
+          ],
+          [
+            121.12292269300008,
+            18.161064785000065
+          ],
+          [
+            121.123625618,
+            18.15963743800006
+          ],
+          [
+            121.12445418000004,
+            18.158151558000043
+          ],
+          [
+            121.12528770000006,
+            18.15680246200003
+          ],
+          [
+            121.12627187700002,
+            18.15455606200004
+          ],
+          [
+            121.12804107000011,
+            18.150662872000055
+          ],
+          [
+            121.13003750900009,
+            18.147468270000047
+          ],
+          [
+            121.13140452000005,
+            18.14526365000006
+          ],
+          [
+            121.13245320300007,
+            18.14306963000007
+          ],
+          [
+            121.13352123900006,
+            18.14085590700006
+          ],
+          [
+            121.1349318010001,
+            18.13752306600003
+          ],
+          [
+            121.14163964300008,
+            18.123843301000022
+          ],
+          [
+            121.14227153000002,
+            18.123192053000025
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244225",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244225",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3222
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.14227153000002,
+            18.123192053000025
+          ],
+          [
+            121.14506763600002,
+            18.119606573000056
+          ],
+          [
+            121.14769676000003,
+            18.114657969000064
+          ],
+          [
+            121.14864922800007,
+            18.113232899000025
+          ],
+          [
+            121.14979670000002,
+            18.111092576000033
+          ],
+          [
+            121.15101912900002,
+            18.108952964000025
+          ],
+          [
+            121.1518946650001,
+            18.107706414000063
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024226",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024226",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3223
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.17117454600009,
+            18.07314690100003
+          ],
+          [
+            121.17222060200004,
+            18.071692685000073
+          ],
+          [
+            121.17320602500001,
+            18.070058602000074
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244227",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244227",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3224
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.17320602500001,
+            18.070058602000074
+          ],
+          [
+            121.17386685100007,
+            18.068254738000064
+          ],
+          [
+            121.17418654000005,
+            18.067659225000057
+          ],
+          [
+            121.174786272,
+            18.06674442600007
+          ],
+          [
+            121.17505286200003,
+            18.06622071700002
+          ],
+          [
+            121.17538220100005,
+            18.065480299000058
+          ],
+          [
+            121.17564664600002,
+            18.065042960000028
+          ],
+          [
+            121.17601540400005,
+            18.064185888000054
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024228",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024228",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3225
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.17601540400005,
+            18.064185888000054
+          ],
+          [
+            121.17703972900006,
+            18.06041865900005
+          ],
+          [
+            121.17739413800007,
+            18.05877259400006
+          ],
+          [
+            121.17797595500008,
+            18.056884851000063
+          ],
+          [
+            121.17905806300007,
+            18.053739670000027
+          ],
+          [
+            121.17964472800008,
+            18.05137865200004
+          ],
+          [
+            121.17980390800005,
+            18.050483731000043
+          ],
+          [
+            121.17993300800003,
+            18.04887138400005
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244229",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244229",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3226
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.17993300800003,
+            18.04887138400005
+          ],
+          [
+            121.18050443900006,
+            18.04666616000003
+          ],
+          [
+            121.18167696500007,
+            18.043464435000033
+          ],
+          [
+            121.18191955500004,
+            18.042645434000065
+          ],
+          [
+            121.18271998600005,
+            18.040671023000073
+          ],
+          [
+            121.1832454790001,
+            18.03980937500006
+          ],
+          [
+            121.18370019700001,
+            18.039180660000056
+          ],
+          [
+            121.18461174400011,
+            18.037799066000048
+          ],
+          [
+            121.18611181900008,
+            18.033638934000066
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024230",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024230",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3227
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.1518946650001,
+            18.107706414000063
+          ],
+          [
+            121.15273835100004,
+            18.10592170800004
+          ],
+          [
+            121.15418942000008,
+            18.103425702000038
+          ],
+          [
+            121.1549508820001,
+            18.102071903000024
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024231",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024231",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3228
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.15761587800012,
+            18.097232629000075
+          ],
+          [
+            121.15901788500003,
+            18.094499858000063
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244232",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244232",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3229
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.1549508820001,
+            18.102071903000024
+          ],
+          [
+            121.15579417200001,
+            18.10057259200005
+          ],
+          [
+            121.15674912300005,
+            18.098896498000045
+          ],
+          [
+            121.1574761060001,
+            18.097505064000075
+          ],
+          [
+            121.15761587800012,
+            18.097232629000075
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244233",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244233",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3230
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.15901788500003,
+            18.094499858000063
+          ],
+          [
+            121.1595812490001,
+            18.09340172800006
+          ],
+          [
+            121.1598929380001,
+            18.092899998000064
+          ],
+          [
+            121.16058383900008,
+            18.09158635700004
+          ],
+          [
+            121.16068745200005,
+            18.091401252000026
+          ],
+          [
+            121.16128097500007,
+            18.090493889000072
+          ],
+          [
+            121.16315716400004,
+            18.088354089000063
+          ],
+          [
+            121.16337801600002,
+            18.08813728900003
+          ],
+          [
+            121.16371804100004,
+            18.08776892700007
+          ],
+          [
+            121.16433328000005,
+            18.087290515000063
+          ],
+          [
+            121.16583461000005,
+            18.085850316000062
+          ],
+          [
+            121.16617259500003,
+            18.085485076000055
+          ],
+          [
+            121.16642490800007,
+            18.085105354000063
+          ],
+          [
+            121.16693705400007,
+            18.084031450000055
+          ],
+          [
+            121.16708296500008,
+            18.083550827000067
+          ],
+          [
+            121.16811137500008,
+            18.07899827500006
+          ],
+          [
+            121.1682194760001,
+            18.07834854500004
+          ],
+          [
+            121.16828102600005,
+            18.07811130500005
+          ],
+          [
+            121.16868485400005,
+            18.077121504000047
+          ],
+          [
+            121.16876962800006,
+            18.07696461100005
+          ],
+          [
+            121.16891356800011,
+            18.076761373000068
+          ],
+          [
+            121.16974553500006,
+            18.075374365000073
+          ],
+          [
+            121.17117454600009,
+            18.07314690100003
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024234",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024234",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3231
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.18611181900008,
+            18.033638934000066
+          ],
+          [
+            121.18662331100006,
+            18.03249631500006
+          ],
+          [
+            121.18853324700001,
+            18.029000259000043
+          ],
+          [
+            121.18904103000011,
+            18.028216169000075
+          ],
+          [
+            121.18929773900004,
+            18.027549244000056
+          ],
+          [
+            121.18971243900012,
+            18.026094942000043
+          ],
+          [
+            121.19013301300004,
+            18.024066977000075
+          ],
+          [
+            121.19059227500009,
+            18.023138996000057
+          ],
+          [
+            121.19092269500004,
+            18.02259228300005
+          ],
+          [
+            121.19247943200003,
+            18.019408402000067
+          ],
+          [
+            121.19334646400011,
+            18.01769537000007
+          ],
+          [
+            121.19538441700001,
+            18.013865748000057
+          ],
+          [
+            121.19719500000008,
+            18.010273023000025
+          ],
+          [
+            121.198051383,
+            18.008614843000032
+          ],
+          [
+            121.19836072800001,
+            18.00771508100007
+          ],
+          [
+            121.19850024200002,
+            18.007414867000023
+          ],
+          [
+            121.19892937800012,
+            18.006679249000058
+          ],
+          [
+            121.19914969600006,
+            18.006374954000023
+          ],
+          [
+            121.1994692830001,
+            18.006010932000038
+          ],
+          [
+            121.1996260300001,
+            18.005749826000056
+          ],
+          [
+            121.19979665800008,
+            18.005371639000032
+          ],
+          [
+            121.19990017200007,
+            18.004840761000025
+          ],
+          [
+            121.19998164100002,
+            18.004399601000046
+          ],
+          [
+            121.20014116900006,
+            18.003975318000073
+          ],
+          [
+            121.20016432700004,
+            18.00392527100007
+          ],
+          [
+            121.20030406500007,
+            18.003690402000075
+          ],
+          [
+            121.20044091000011,
+            18.003358339000044
+          ],
+          [
+            121.20061398900009,
+            18.002778937000073
+          ],
+          [
+            121.20087986700003,
+            18.002122515000053
+          ],
+          [
+            121.20096387900003,
+            18.00195338800006
+          ],
+          [
+            121.20154409200006,
+            18.000911752000036
+          ],
+          [
+            121.20251676500004,
+            17.99960125100006
+          ],
+          [
+            121.2037920140001,
+            17.99715448200004
+          ],
+          [
+            121.20500435200006,
+            17.994625839000037
+          ],
+          [
+            121.20532151300006,
+            17.993726218000063
+          ],
+          [
+            121.205822366,
+            17.99163932600004
+          ],
+          [
+            121.20663429900003,
+            17.989172687000064
+          ],
+          [
+            121.20705808100001,
+            17.988029175000065
+          ],
+          [
+            121.20736945300007,
+            17.986884618000033
+          ],
+          [
+            121.20844397300004,
+            17.98438454500007
+          ],
+          [
+            121.20896920900009,
+            17.98267581300007
+          ],
+          [
+            121.21014769600004,
+            17.97977030100003
+          ],
+          [
+            121.21066295700007,
+            17.978221235000035
+          ],
+          [
+            121.21114822900006,
+            17.97593082900005
+          ],
+          [
+            121.21169266900006,
+            17.973963688000026
+          ],
+          [
+            121.21209773100009,
+            17.97095537900003
+          ],
+          [
+            121.21224365700004,
+            17.968529916000023
+          ],
+          [
+            121.21288272200002,
+            17.963710389000028
+          ],
+          [
+            121.21296212800007,
+            17.95955161200004
+          ],
+          [
+            121.2130034810001,
+            17.95874197200004
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024235",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024235",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3232
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.21253982500002,
+            17.948635426000067
+          ],
+          [
+            121.21241600500002,
+            17.94687252700004
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244236",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244236",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3233
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.21241600500002,
+            17.94687252700004
+          ],
+          [
+            121.21247664500004,
+            17.945649780000053
+          ],
+          [
+            121.21262300600006,
+            17.944876872000066
+          ],
+          [
+            121.21300506300008,
+            17.94243641500003
+          ],
+          [
+            121.2130320340001,
+            17.941298301000074
+          ],
+          [
+            121.21300604900011,
+            17.94082747400006
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244237",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244237",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3234
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.2130034810001,
+            17.95874197200004
+          ],
+          [
+            121.21305548900011,
+            17.95772372400006
+          ],
+          [
+            121.21283412000002,
+            17.956069927000044
+          ],
+          [
+            121.21276983000007,
+            17.95531058100005
+          ],
+          [
+            121.21276095600001,
+            17.952248300000065
+          ],
+          [
+            121.21257944400008,
+            17.949199497000052
+          ],
+          [
+            121.21253982500002,
+            17.948635426000067
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244238",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244238",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3235
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.2248853430001,
+            17.898579337000058
+          ],
+          [
+            121.22591440400004,
+            17.895540796000034
+          ],
+          [
+            121.22655464400009,
+            17.893933024000034
+          ],
+          [
+            121.22725639200007,
+            17.892415457000027
+          ],
+          [
+            121.22762436200003,
+            17.891440722000027
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244239",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244239",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3236
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.23715617300002,
+            17.870126838000033
+          ],
+          [
+            121.2381762330001,
+            17.867558846000065
+          ],
+          [
+            121.23884833000011,
+            17.86586165600005
+          ],
+          [
+            121.24019277700006,
+            17.862437385000078
+          ],
+          [
+            121.24133551500006,
+            17.860475502000043
+          ],
+          [
+            121.24222242700012,
+            17.85913882400007
+          ],
+          [
+            121.24288401000001,
+            17.858342467000057
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024240",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024240",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3237
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.21300604900011,
+            17.94082747400006
+          ],
+          [
+            121.21291937700005,
+            17.939257087000044
+          ],
+          [
+            121.21295711100004,
+            17.93866025600005
+          ],
+          [
+            121.21313659400005,
+            17.937285748000022
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024241",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024241",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3238
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.21907003100011,
+            17.914983561000042
+          ],
+          [
+            121.2213567440001,
+            17.908738517000074
+          ],
+          [
+            121.22226477600009,
+            17.905355119000035
+          ],
+          [
+            121.22359839800004,
+            17.902027947000022
+          ],
+          [
+            121.22386395700005,
+            17.90147032400006
+          ],
+          [
+            121.2248853430001,
+            17.898579337000058
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244242",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244242",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3239
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.21313659400005,
+            17.937285748000022
+          ],
+          [
+            121.21324287200002,
+            17.93647184500003
+          ],
+          [
+            121.21397265600001,
+            17.93316939700003
+          ],
+          [
+            121.21502612900008,
+            17.929541286000074
+          ],
+          [
+            121.21633574100008,
+            17.925589381000066
+          ],
+          [
+            121.21676423200006,
+            17.92404556500003
+          ],
+          [
+            121.21710332400005,
+            17.922026714000026
+          ],
+          [
+            121.21735915400006,
+            17.92042262600006
+          ],
+          [
+            121.21786981700006,
+            17.91835689100003
+          ],
+          [
+            121.21859721400006,
+            17.91624339300006
+          ],
+          [
+            121.21907003100011,
+            17.914983561000042
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024243",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024243",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3240
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.23254348500006,
+            17.878582451000057
+          ],
+          [
+            121.23276708000003,
+            17.87805809500003
+          ],
+          [
+            121.2337492470001,
+            17.87657292600005
+          ],
+          [
+            121.23438074500007,
+            17.875831616000028
+          ],
+          [
+            121.23460935000003,
+            17.875607074000072
+          ],
+          [
+            121.23500394300004,
+            17.875116578000075
+          ],
+          [
+            121.2355063010001,
+            17.87435233100007
+          ],
+          [
+            121.23611535900011,
+            17.873227477000057
+          ],
+          [
+            121.2365509980001,
+            17.872075925000047
+          ],
+          [
+            121.23708813000007,
+            17.870298133000063
+          ],
+          [
+            121.23715617300002,
+            17.870126838000033
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024244",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024244",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3241
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.22762436200003,
+            17.891440722000027
+          ],
+          [
+            121.22943612900008,
+            17.886641241000063
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244245",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244245",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3242
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.22943612900008,
+            17.886641241000063
+          ],
+          [
+            121.23086568700012,
+            17.882140434000064
+          ],
+          [
+            121.23095033400011,
+            17.881873924000047
+          ],
+          [
+            121.23184048100006,
+            17.880231050000077
+          ],
+          [
+            121.23254348500006,
+            17.878582451000057
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024246",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024246",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3243
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.24288401000001,
+            17.858342467000057
+          ],
+          [
+            121.24403709100011,
+            17.856088569000065
+          ],
+          [
+            121.2450514090001,
+            17.854484084000035
+          ],
+          [
+            121.2456183170001,
+            17.853951319000032
+          ],
+          [
+            121.24734875500008,
+            17.85250269000005
+          ],
+          [
+            121.24848488900011,
+            17.851198104000048
+          ],
+          [
+            121.25015697900005,
+            17.849330569000074
+          ],
+          [
+            121.25290586400001,
+            17.845835135000073
+          ],
+          [
+            121.25463908600011,
+            17.844087631000036
+          ],
+          [
+            121.25599671700002,
+            17.84245627200005
+          ],
+          [
+            121.2582010650001,
+            17.840384246000042
+          ],
+          [
+            121.2593734840001,
+            17.83854202300006
+          ],
+          [
+            121.26038289900009,
+            17.837415514000043
+          ],
+          [
+            121.26403589300003,
+            17.833951874000036
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244247",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244247",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3244
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.26403589300003,
+            17.833951874000036
+          ],
+          [
+            121.26495110500002,
+            17.83352374900005
+          ],
+          [
+            121.26563071200007,
+            17.833034738000038
+          ],
+          [
+            121.26639488000001,
+            17.832302794000043
+          ],
+          [
+            121.26697658500007,
+            17.83147434600005
+          ],
+          [
+            121.26798206600006,
+            17.82936642100003
+          ],
+          [
+            121.26892947300007,
+            17.82801893000004
+          ],
+          [
+            121.26984720300004,
+            17.826682368000036
+          ],
+          [
+            121.27137066000012,
+            17.824006458000042
+          ],
+          [
+            121.27279557200006,
+            17.821837664000043
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244248",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244248",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3245
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.28827536500012,
+            17.796514068000022
+          ],
+          [
+            121.28959349800004,
+            17.794374059000063
+          ],
+          [
+            121.28981466300002,
+            17.793932233000078
+          ],
+          [
+            121.29087866300006,
+            17.792222097000035
+          ],
+          [
+            121.29224254400003,
+            17.79055973000004
+          ],
+          [
+            121.29324838800005,
+            17.78898649000007
+          ],
+          [
+            121.29482411700008,
+            17.785988056000065
+          ],
+          [
+            121.29594338400011,
+            17.783750627000074
+          ],
+          [
+            121.29700317200002,
+            17.78251674200004
+          ],
+          [
+            121.29994473500005,
+            17.777569834000076
+          ],
+          [
+            121.30247560200007,
+            17.773814625000057
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244249",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244249",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3246
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.30489169700002,
+            17.769871109000064
+          ],
+          [
+            121.30667476700012,
+            17.76601370800006
+          ],
+          [
+            121.30891585100005,
+            17.76120398300003
+          ],
+          [
+            121.30994443500003,
+            17.75796157700006
+          ],
+          [
+            121.31096802500008,
+            17.755245066000043
+          ],
+          [
+            121.31147823300012,
+            17.75405414000005
+          ],
+          [
+            121.31235029000004,
+            17.751527562000035
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024250",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024250",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3247
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.30247560200007,
+            17.773814625000057
+          ],
+          [
+            121.30489169700002,
+            17.769871109000064
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024251",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024251",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3248
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.27279557200006,
+            17.821837664000043
+          ],
+          [
+            121.2754640390001,
+            17.81804723600004
+          ],
+          [
+            121.28827536500012,
+            17.796514068000022
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024252",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024252",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3249
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.23363642000004,
+            17.85708746800003
+          ],
+          [
+            121.23263052200002,
+            17.855816108000056
+          ],
+          [
+            121.23139013600007,
+            17.854026248000025
+          ],
+          [
+            121.22990844800006,
+            17.85240630800007
+          ],
+          [
+            121.22837087000005,
+            17.850384233000057
+          ],
+          [
+            121.22713170200007,
+            17.848479616000077
+          ],
+          [
+            121.22386501000005,
+            17.845638517000054
+          ],
+          [
+            121.2214992260001,
+            17.842576114000053
+          ],
+          [
+            121.21641480700009,
+            17.835816899000065
+          ],
+          [
+            121.21334886800003,
+            17.830912055000056
+          ],
+          [
+            121.20976756100004,
+            17.82589538800005
+          ],
+          [
+            121.1981449220001,
+            17.809867931000042
+          ],
+          [
+            121.19787000100007,
+            17.809541412000044
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010505900244256",
+        "name": "Bangui Fault (Active Fault, Certain)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Certain",
+        "line_type": "Solid - red",
+        "legend_key": "active-certain",
+        "mechanism": "Strike-Slip, left-lateral",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201051590024",
+        "afcodepk": "20101010505900244256",
+        "fccode": "01",
+        "ttcode": "05",
+        "ltcode": "24",
+        "objectid": 3253
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.25619130600012,
+            17.826459157000045
+          ],
+          [
+            121.2554566020001,
+            17.825018217000036
+          ],
+          [
+            121.25458267800002,
+            17.822500259000037
+          ],
+          [
+            121.25325746400006,
+            17.820193405000055
+          ],
+          [
+            121.25149009300003,
+            17.817165398000043
+          ],
+          [
+            121.24875303800002,
+            17.813770075000036
+          ],
+          [
+            121.24824162900006,
+            17.812474558000076
+          ],
+          [
+            121.24580134200005,
+            17.80936874200006
+          ],
+          [
+            121.24329965900006,
+            17.804899711000076
+          ],
+          [
+            121.24152624700002,
+            17.802517038000076
+          ],
+          [
+            121.23420848800004,
+            17.792984190000027
+          ],
+          [
+            121.23110633800002,
+            17.788724753000054
+          ],
+          [
+            121.22933252900009,
+            17.786413706000076
+          ],
+          [
+            121.22718237400011,
+            17.784314378000033
+          ],
+          [
+            121.2259765980001,
+            17.782606110000074
+          ],
+          [
+            121.22493574400005,
+            17.780624420000038
+          ],
+          [
+            121.22345947400004,
+            17.778519235000033
+          ],
+          [
+            121.2207553390001,
+            17.77443063000004
+          ],
+          [
+            121.21496606100004,
+            17.766967022000074
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "20101010105900024257",
+        "name": "Bangui Fault (Active Fault, Approximate)",
+        "fault_name": "Bangui Fault",
+        "fault_class": "Active",
+        "category_label": "Active Fault",
+        "trace_type": "Approximate",
+        "line_type": "Dashed - red",
+        "legend_key": "active-approximate",
+        "mechanism": "Strike-Slip",
+        "scale": "1:50,000",
+        "datemapped": 2019,
+        "data_source": "PHIVOLCS / GeoRisk ULAP",
+        "fname": 159,
+        "segname": "00",
+        "segment_label": "00",
+        "afcode": "201011590002",
+        "afcodepk": "20101010105900024257",
+        "fccode": "01",
+        "ttcode": "01",
+        "ltcode": "02",
+        "objectid": 3254
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            121.31235029000004,
+            17.751527562000035
+          ],
+          [
+            121.31369787200003,
+            17.74618408500004
+          ],
+          [
+            121.3147294040001,
+            17.74260696700003
+          ],
+          [
+            121.31727195400003,
+            17.732188767000025
+          ],
+          [
+            121.31784043700009,
+            17.730089857000053
+          ],
+          [
+            121.319416509,
+            17.72694770000004
+          ],
+          [
+            121.32008114500002,
+            17.72523211400005
+          ],
+          [
+            121.32054353800004,
+            17.723801672000036
+          ],
+          [
+            121.32235477300003,
+            17.71897128200004
+          ],
+          [
+            121.3237418120001,
+            17.714679922000073
+          ],
+          [
+            121.32435156700001,
+            17.713489796000033
+          ],
+          [
+            121.3249688840001,
+            17.711486896000054
+          ],
+          [
+            121.3251314470001,
+            17.71010168400005
+          ],
+          [
+            121.32569440800012,
+            17.708576454000024
+          ],
+          [
+            121.32623371800003,
+            17.704229997000027
+          ],
+          [
+            121.32727890900003,
+            17.699122832000057
+          ],
+          [
+            121.3279032370001,
+            17.696354949000067
+          ],
+          [
+            121.32840219500008,
+            17.692043991000048
+          ],
+          [
+            121.32873918200005,
+            17.687982671000043
+          ],
+          [
+            121.32837344000006,
+            17.684393498000077
+          ],
+          [
+            121.32859312700009,
+            17.681477811000036
+          ],
+          [
+            121.32812140400006,
+            17.678001395000024
+          ],
+          [
+            121.3273726320001,
+            17.67225774600007
+          ],
+          [
+            121.32740479000006,
+            17.670191834000036
+          ],
+          [
+            121.32700350700009,
+            17.66649777600003
+          ],
+          [
+            121.32650146500009,
+            17.663393806000045
+          ],
+          [
+            121.32544899900006,
+            17.65596732800003
+          ],
+          [
+            121.32371070900001,
+            17.649353133000034
+          ],
+          [
+            121.32356863200005,
+            17.647600114000056
+          ],
+          [
+            121.32354048700006,
+            17.64449133900007
+          ],
+          [
+            121.3234136420001,
+            17.64330063400007
+          ],
+          [
+            121.32332634000011,
+            17.642874918000075
+          ]
+        ]
+      }
+    }
+  ],
+  "properties": {
+    "name": "PHIVOLCS Active Faults (Lasam 50 km)",
+    "source": "PHIVOLCS / GeoRisk ULAP ActiveFault MapServer",
+    "source_url": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/PHIVOLCSPublic/ActiveFault/MapServer/0",
+    "center": [
+      121.6015,
+      18.0645
+    ],
+    "radius_m": 50000,
+    "fccode_filter": [
+      "01",
+      "02"
+    ],
+    "fetched_at": "2026-08-07T07:35:46.303Z",
+    "disclaimer": "For demonstration only. Not validated for official hazard assessment or planning decisions."
+  }
+}

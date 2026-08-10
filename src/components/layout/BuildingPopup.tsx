@@ -37,7 +37,7 @@ export function BuildingPopup({ building, onClose }: BuildingPopupProps) {
             {building.groundElevation != null ? `${building.groundElevation.toFixed(1)} m` : '—'}
           </p>
         </div>
-        <div><span className="text-slate-500">Flood depth</span><p className="font-medium text-sky-700">{building.floodDepth}</p></div>
+        <div><span className="text-slate-500">Flood note</span><p className="font-medium text-sky-700">{building.floodDepth}</p></div>
         <div><span className="text-slate-500">Flood status</span><p className="font-medium">{building.floodStatus}</p></div>
         <div><span className="text-slate-500">Earthquake</span><p className="font-medium">{building.earthquakeStatus}</p></div>
         <div><span className="text-slate-500">Fault distance</span><p className="font-medium">{building.faultDistance}</p></div>

@@ -29,9 +29,10 @@ export function BuildingInfoPanel({ building }: BuildingInfoPanelProps) {
       building.groundElevation != null ? `${building.groundElevation.toFixed(1)} m` : '—',
     ],
     ['Flood Status', building.floodStatus],
-    ['Simulated Flood Depth', building.floodDepth],
+    ['Flood Note', building.floodDepth],
     ['Earthquake Status', building.earthquakeStatus],
     ['Distance from Fault', building.faultDistance],
+    ['Cagua Volcano', building.volcanoStatus ?? '—'],
   ]
 
   return (

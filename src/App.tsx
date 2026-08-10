@@ -1,39 +1,54 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Feature, FeatureCollection, LineString } from 'geojson'
-import { Header, DisclaimerBanner } from '@/components/layout/Header'
+import type { FeatureCollection } from 'geojson'
+import { Header } from '@/components/layout/Header'
+import { DisclaimerModal } from '@/components/layout/DisclaimerModal'
 import { MapToolbar } from '@/components/layout/MapToolbar'
+import { SiteAssessmentPopup } from '@/components/layout/SiteAssessmentPopup'
+import { AssessmentReportModal } from '@/components/layout/AssessmentReportModal'
 import { MobileHazardDrawer } from '@/components/layout/MobileHazardDrawer'
-import { SimulationBar } from '@/components/layout/SimulationBar'
 import { BuildingPopup } from '@/components/layout/BuildingPopup'
 import { RiverInfoCard, type SelectedRiver } from '@/components/layout/RiverInfoCard'
 import { MapView } from '@/components/map/MapView'
 import { Button } from '@/components/ui/button'
 import { useMapData } from '@/hooks/useMapData'
 import { LASAM_CENTER } from '@/lib/constants'
+import { DEFAULT_PROPOSED_BUILDING_TYPE } from '@/lib/assessment/buildingTypes'
 import {
-  applyFloodSimulation,
-  applyTerrainAwareFlood,
-  floodStatusLabel,
-  getFloodDepthAtBuilding,
-} from '@/lib/simulation/flood'
+  applyMgbFloodExposure,
+  countMgbExposureByClass,
+  floodExposureToMgbLabel,
+} from '@/lib/simulation/mgbFlood'
 import { applyEarthquakeSimulation, earthquakeStatusLabel, getEarthquakeRadius } from '@/lib/simulation/earthquake'
-import { applyFaultExposure } from '@/lib/simulation/fault'
-import { computeStats } from '@/lib/simulation/stats'
+import { applyFaultDistances } from '@/lib/simulation/fault'
+import { collectPresentLegendKeys } from '@/lib/simulation/faultLegend'
+import {
+  CAGUA_CENTER,
+  applyVolcanoDistances,
+  volcanoStatusLabel,
+} from '@/lib/simulation/volcano'
+import { assessSite, isWithinLasamBbox } from '@/lib/assessment/siteAssessment'
 import type {
-  FloodScenarioSettings,
   HazardMode,
   MapTool,
+  ProposedBuildingType,
   RiverSettings,
   SelectedBuilding,
+  SiteAssessmentResult,
   TerrainSettings,
 } from '@/types'
+
+const DEFAULT_FAULT_NAME = 'PHIVOLCS Active Faults (Lasam 50 km)'
+
+const emptyFaults: FeatureCollection = { type: 'FeatureCollection', features: [] }
 
 const initialLayerVisibility = {
   boundary: true,
   buildings: true,
-  flood: true,
+  flood: false,
   fault: true,
   epicenter: true,
+  volcano: true,
+  site: true,
 }
 
 const initialTerrain: TerrainSettings = {
@@ -54,117 +69,108 @@ const initialRivers: RiverSettings = {
   flowArrows: false,
 }
 
-const initialFloodScenario: FloodScenarioSettings = {
-  riverStageM: 14,
-  riverRiseM: 0,
-  durationMin: 60,
-  propagationSpeed: 1,
-  maxWaterElevationM: 22,
-}
-
 export default function App() {
   const { data, error, isLoading, retry } = useMapData()
 
-  const [faultLine, setFaultLine] = useState<Feature<LineString> | null>(null)
-  const [faultBufferGeom, setFaultBufferGeom] = useState<GeoJSON.Feature<GeoJSON.Polygon> | null>(null)
-  const [faultExposedCount, setFaultExposedCount] = useState(0)
+  const [faultLines, setFaultLines] = useState<FeatureCollection | null>(null)
 
   const [hazardMode, setHazardMode] = useState<HazardMode>('flood')
   const [activeTool, setActiveTool] = useState<MapTool>('select')
   const [is3D, setIs3D] = useState(true)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [simulationSpeed, setSimulationSpeed] = useState(1)
   const [mobilePanelOpen, setMobilePanelOpen] = useState(false)
-  const [measureLabel, setMeasureLabel] = useState<string | null>(null)
+  const [disclaimerOpen, setDisclaimerOpen] = useState(true)
 
-  const [floodOpacity, setFloodOpacity] = useState(0.45)
-  const [floodScenario, setFloodScenario] = useState('rise-1m')
-  const [floodSettings, setFloodSettings] = useState(initialFloodScenario)
-  const [floodProgress, setFloodProgress] = useState(1)
+  const [floodOpacity, setFloodOpacity] = useState(0.55)
 
   const [earthquakeMagnitude, setEarthquakeMagnitude] = useState(6)
-  const [earthquakeDepth, setEarthquakeDepth] = useState(15)
   const [earthquakeRadius, setEarthquakeRadius] = useState(getEarthquakeRadius(6))
   const [epicenter, setEpicenter] = useState<[number, number] | null>(LASAM_CENTER)
 
-  const [faultBuffer, setFaultBuffer] = useState(250)
-  const [faultLineName, setFaultLineName] = useState('Sample Fault Line')
+  const [faultLineName, setFaultLineName] = useState(DEFAULT_FAULT_NAME)
+  const [assessLat, setAssessLat] = useState(String(LASAM_CENTER[1]))
+  const [assessLng, setAssessLng] = useState(String(LASAM_CENTER[0]))
+  const [assessBuildingType, setAssessBuildingType] = useState<ProposedBuildingType>(
+    DEFAULT_PROPOSED_BUILDING_TYPE,
+  )
+  const [assessmentResult, setAssessmentResult] = useState<SiteAssessmentResult | null>(null)
+  const [assessError, setAssessError] = useState<string | null>(null)
+  const [assessPanelOpen, setAssessPanelOpen] = useState(false)
+  const [reportOpen, setReportOpen] = useState(false)
+  const [siteCoords, setSiteCoords] = useState<[number, number] | null>(null)
+  const [pendingSiteCoords, setPendingSiteCoords] = useState<[number, number] | null>(null)
   const [layerVisibility, setLayerVisibility] = useState(initialLayerVisibility)
   const [terrainSettings, setTerrainSettings] = useState(initialTerrain)
   const [riverSettings, setRiverSettings] = useState(initialRivers)
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null)
   const [selectedRiver, setSelectedRiver] = useState<SelectedRiver | null>(null)
-  const [inundation, setInundation] = useState<FeatureCollection | null>(null)
-  const [waterSurfaceM, setWaterSurfaceM] = useState(0)
 
   useEffect(() => {
-    if (data?.defaultFaultLine) setFaultLine(data.defaultFaultLine)
+    if (data?.defaultFaults) {
+      setFaultLines(data.defaultFaults)
+      setFaultLineName(DEFAULT_FAULT_NAME)
+    }
   }, [data])
 
-  const processedBuildings = useMemo(() => {
+  const activeFaults = faultLines ?? data?.defaultFaults ?? emptyFaults
+  const faultSegmentCount = activeFaults.features.length
+  const activeFaultCount = activeFaults.features.filter(
+    (f) => f.properties?.fault_class === 'Active',
+  ).length
+  const potentialFaultCount = activeFaults.features.filter(
+    (f) => f.properties?.fault_class === 'Potentially Active',
+  ).length
+  const faultLegendKeysPresent = collectPresentLegendKeys(activeFaults.features)
+
+  const baseBuildings = useMemo(() => {
     if (!data) return null
-
-    let result = data.buildings
-    let nextInundation: FeatureCollection = { type: 'FeatureCollection', features: [] }
-    let nextWater = 0
-
-    if (data.elevationGrid && floodSettings.riverRiseM > 0) {
-      const terrainResult = applyTerrainAwareFlood(
-        data.buildings,
-        data.elevationGrid,
-        data.rivers,
-        floodSettings.riverStageM,
-        floodSettings.riverRiseM,
-        floodSettings.maxWaterElevationM,
-        floodProgress,
-      )
-      result = terrainResult.buildings
-      nextInundation = terrainResult.inundation
-      nextWater = terrainResult.waterSurfaceM
-    } else {
-      // Legacy fallback when no rise configured
-      result = applyFloodSimulation(data.buildings, data.floodZone, 0)
-    }
-
+    let result = applyMgbFloodExposure(data.buildings, data.mgbFlood)
     result = applyEarthquakeSimulation(result, epicenter, earthquakeMagnitude, earthquakeRadius)
+    return result
+  }, [data, epicenter, earthquakeMagnitude, earthquakeRadius])
 
-    const activeFault = faultLine ?? data.defaultFaultLine
-    if (activeFault) {
-      result = applyFaultExposure(result, activeFault, faultBuffer).buildings
+  const [faultBuildings, setFaultBuildings] = useState<
+    NonNullable<ReturnType<typeof useMapData>['data']>['buildings'] | null
+  >(null)
+
+  const processedBuildings = faultBuildings ?? baseBuildings
+
+  useEffect(() => {
+    if (!baseBuildings || !data) {
+      setFaultBuildings(null)
+      return
     }
 
-    ;(result as BuildingCollectionWithMeta)._inundation = nextInundation
-    ;(result as BuildingCollectionWithMeta)._water = nextWater
+    setFaultBuildings(null)
 
-    return result
-  }, [
-    data,
-    floodSettings,
-    floodProgress,
-    epicenter,
-    earthquakeMagnitude,
-    earthquakeRadius,
-    faultLine,
-    faultBuffer,
-  ])
+    let cancelled = false
+    const timer = window.setTimeout(() => {
+      try {
+        let next = baseBuildings
+        const faults = faultLines ?? data.defaultFaults
+        if (faults.features.length) {
+          next = applyFaultDistances(next, faults)
+        }
 
-  useEffect(() => {
-    if (!processedBuildings) return
-    const meta = processedBuildings as BuildingCollectionWithMeta
-    setInundation(meta._inundation ?? { type: 'FeatureCollection', features: [] })
-    setWaterSurfaceM(meta._water ?? 0)
-  }, [processedBuildings])
+        next = applyVolcanoDistances(next, CAGUA_CENTER)
+        if (cancelled) return
+        setFaultBuildings(next)
+      } catch (err) {
+        console.error('Hazard exposure failed:', err)
+        if (!cancelled) {
+          setFaultBuildings(null)
+        }
+      }
+    }, 0)
 
-  useEffect(() => {
-    if (!processedBuildings || !data) return
-    const activeFault = faultLine ?? data.defaultFaultLine
-    const faultResult = applyFaultExposure(processedBuildings, activeFault, faultBuffer)
-    setFaultBufferGeom(faultResult.buffer)
-    setFaultExposedCount(faultResult.exposedCount)
-  }, [processedBuildings, faultLine, data, faultBuffer])
+    return () => {
+      cancelled = true
+      window.clearTimeout(timer)
+    }
+  }, [baseBuildings, data, faultLines])
 
-  const stats = useMemo(
-    () => computeStats(processedBuildings ?? { type: 'FeatureCollection', features: [] }),
+  const mgbExposureCounts = useMemo(
+    () =>
+      countMgbExposureByClass(processedBuildings ?? { type: 'FeatureCollection', features: [] }),
     [processedBuildings],
   )
 
@@ -178,8 +184,6 @@ export default function App() {
         ? `${feature.properties.faultDistance} meters`
         : 'Not calculated'
 
-    const depth = getFloodDepthAtBuilding(feature, data.floodZone, floodSettings.riverRiseM)
-
     return {
       id: feature.properties.id,
       type: feature.properties.type,
@@ -191,54 +195,107 @@ export default function App() {
       dataSource: feature.properties.data_source,
       validationStatus: feature.properties.validation_status,
       name: feature.properties.name,
-      floodStatus: floodStatusLabel(feature.properties.floodExposure ?? 'none'),
+      floodStatus: floodExposureToMgbLabel(feature.properties.floodExposure ?? 'none'),
       earthquakeStatus: earthquakeStatusLabel(feature.properties.earthquakeDamage ?? 'minimal'),
       faultDistance,
-      floodDepth: `${depth.toFixed(2)} m (simulated)`,
+      floodDepth: 'MGB susceptibility (class-based, not scenario depth)',
+      volcanoStatus:
+        feature.properties.volcanoDistanceKm != null
+          ? `${volcanoStatusLabel(feature.properties.volcanoExposure ?? 'none')} · ${feature.properties.volcanoDistanceKm.toFixed(1)} km from Cagua`
+          : 'Not calculated',
     }
-  }, [selectedBuildingId, processedBuildings, data, floodSettings.riverRiseM])
-
-  useEffect(() => {
-    if (!isPlaying) return
-
-    const interval = window.setInterval(() => {
-      if (hazardMode === 'flood') {
-        setFloodProgress((p) => (p >= 1 ? 0.05 : Number((p + 0.05 * simulationSpeed).toFixed(2))))
-        setFloodSettings((s) => ({
-          ...s,
-          riverRiseM: s.riverRiseM <= 0 ? 1 : s.riverRiseM,
-        }))
-      } else if (hazardMode === 'earthquake') {
-        setEarthquakeMagnitude((m) => {
-          const next = m >= 8 ? 4 : Number((m + 0.05 * simulationSpeed).toFixed(1))
-          setEarthquakeRadius(getEarthquakeRadius(next))
-          return next
-        })
-      }
-    }, 200)
-
-    return () => window.clearInterval(interval)
-  }, [isPlaying, hazardMode, simulationSpeed])
+  }, [selectedBuildingId, processedBuildings, data])
 
   const handleReset = useCallback(() => {
     if (!data) return
-    setFloodSettings(initialFloodScenario)
-    setFloodProgress(1)
-    setFloodScenario('rise-1m')
+    setFloodOpacity(0.55)
     setEarthquakeMagnitude(6)
-    setEarthquakeDepth(15)
     setEarthquakeRadius(getEarthquakeRadius(6))
     setEpicenter(LASAM_CENTER)
-    setFaultLine(data.defaultFaultLine)
-    setFaultBuffer(250)
-    setFaultLineName('Sample Fault Line')
+    setFaultLines(data.defaultFaults)
+    setFaultLineName(DEFAULT_FAULT_NAME)
     setSelectedBuildingId(null)
     setSelectedRiver(null)
-    setIsPlaying(false)
     setHazardMode('flood')
     setActiveTool('select')
-    setMeasureLabel(null)
+    setAssessmentResult(null)
+    setAssessError(null)
+    setAssessPanelOpen(false)
+    setReportOpen(false)
+    setSiteCoords(null)
+    setPendingSiteCoords(null)
+    setAssessLat(String(LASAM_CENTER[1]))
+    setAssessLng(String(LASAM_CENTER[0]))
+    setAssessBuildingType(DEFAULT_PROPOSED_BUILDING_TYPE)
+    setLayerVisibility(initialLayerVisibility)
   }, [data])
+
+  const handleAssessSite = useCallback(() => {
+    if (!data) return
+    const lat = Number(assessLat)
+    const lng = Number(assessLng)
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+      setAssessError('Enter valid decimal latitude and longitude.')
+      return
+    }
+    if (!isWithinLasamBbox(lng, lat)) {
+      setAssessError('Coordinates must be within the Lasam assessment area (approx. 121.45–121.75 E, 18.00–18.15 N).')
+      return
+    }
+    setAssessError(null)
+    const result = assessSite(
+      { lat, lng, buildingType: assessBuildingType },
+      {
+        faults: activeFaults,
+        volcanoes: data.volcanoes,
+        facilities: data.facilities,
+        mgbFlood: data.mgbFlood,
+      },
+    )
+    setAssessmentResult(result)
+    setSiteCoords([lng, lat])
+    setAssessPanelOpen(false)
+    setReportOpen(true)
+  }, [data, assessLat, assessLng, assessBuildingType, activeFaults])
+
+  const handleSitePlace = useCallback((coords: [number, number]) => {
+    setPendingSiteCoords(coords)
+    setAssessLng(coords[0].toFixed(6))
+    setAssessLat(coords[1].toFixed(6))
+    setAssessError(null)
+  }, [])
+
+  const handleConfirmMapSite = useCallback(() => {
+    if (!pendingSiteCoords || !data) return
+    const [lng, lat] = pendingSiteCoords
+    if (!isWithinLasamBbox(lng, lat)) {
+      setAssessError('Picked point is outside the Lasam assessment bbox.')
+      setAssessPanelOpen(true)
+      setActiveTool('select')
+      return
+    }
+    setAssessError(null)
+    const result = assessSite(
+      { lat, lng, buildingType: assessBuildingType },
+      {
+        faults: activeFaults,
+        volcanoes: data.volcanoes,
+        facilities: data.facilities,
+        mgbFlood: data.mgbFlood,
+      },
+    )
+    setAssessmentResult(result)
+    setSiteCoords(pendingSiteCoords)
+    setPendingSiteCoords(null)
+    setActiveTool('select')
+    setAssessPanelOpen(false)
+    setReportOpen(true)
+  }, [pendingSiteCoords, data, assessBuildingType, activeFaults])
+
+  const handleCancelPickOnMap = useCallback(() => {
+    setPendingSiteCoords(null)
+    setActiveTool('select')
+  }, [])
 
   const handleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -248,70 +305,24 @@ export default function App() {
     }
   }
 
-  const timelineProgress =
-    hazardMode === 'flood'
-      ? floodProgress
-      : hazardMode === 'earthquake'
-        ? (earthquakeMagnitude - 4) / 4
-        : faultBuffer / 1000
-
-  const currentValue =
-    measureLabel ??
-    (hazardMode === 'flood'
-      ? `River stage ${floodSettings.riverStageM.toFixed(1)} m + rise ${floodSettings.riverRiseM.toFixed(1)} m · water ${waterSurfaceM.toFixed(1)} m ASL`
-      : hazardMode === 'earthquake'
-        ? `Magnitude M ${earthquakeMagnitude.toFixed(1)} · Depth ${earthquakeDepth} km`
-        : `Fault buffer: ${faultBuffer} m`)
-
   const hazardPanelProps = {
     hazardMode,
     onHazardModeChange: setHazardMode,
     floodOpacity,
-    floodScenario,
-    floodSettings,
     onFloodOpacityChange: setFloodOpacity,
-    onFloodScenarioChange: (s: string) => {
-      setFloodScenario(s)
-      const presets: Record<string, Partial<FloodScenarioSettings>> = {
-        'rise-0.5m': { riverRiseM: 0.5 },
-        'rise-1m': { riverRiseM: 1 },
-        'rise-2m': { riverRiseM: 2 },
-        'rise-3m': { riverRiseM: 3 },
-        custom: {},
-      }
-      setFloodSettings((prev) => ({ ...prev, ...(presets[s] ?? { riverRiseM: 1 }) }))
-      setFloodProgress(1)
-    },
-    onFloodSettingsChange: (patch: Partial<FloodScenarioSettings>) => {
-      setFloodSettings((prev) => ({ ...prev, ...patch }))
-      setFloodProgress(1)
-    },
-    onResetFlood: () => {
-      setFloodSettings(initialFloodScenario)
-      setFloodProgress(1)
-      setFloodScenario('rise-1m')
-    },
-    earthquakeMagnitude,
-    earthquakeDepth,
-    earthquakeRadius,
-    onEarthquakeMagnitudeChange: (m: number) => {
-      setEarthquakeMagnitude(m)
-      setEarthquakeRadius(getEarthquakeRadius(m))
-    },
-    onEarthquakeDepthChange: setEarthquakeDepth,
-    onEarthquakeRadiusChange: setEarthquakeRadius,
-    onResetEarthquake: () => {
-      setEarthquakeMagnitude(6)
-      setEpicenter(LASAM_CENTER)
-      setEarthquakeRadius(getEarthquakeRadius(6))
-    },
-    faultBuffer,
+    mgbFeatureCount: data?.mgbFlood.features.length ?? 0,
+    mgbExposureCounts,
     faultLineName,
-    faultExposedCount,
-    onFaultBufferChange: setFaultBuffer,
+    faultSegmentCount,
+    activeFaultCount,
+    potentialFaultCount,
+    faultLegendKeysPresent,
     onFaultLineNameChange: setFaultLineName,
     onDeleteFaultLine: () => {
-      if (data) setFaultLine(data.defaultFaultLine)
+      if (data) {
+        setFaultLines(data.defaultFaults)
+        setFaultLineName(DEFAULT_FAULT_NAME)
+      }
     },
     layerVisibility,
     onLayerVisibilityChange: (layer: string, visible: boolean) =>
@@ -354,10 +365,7 @@ export default function App() {
         onReset={handleReset}
         onFullscreen={handleFullscreen}
       />
-      <DisclaimerBanner />
-      <div className="bg-amber-50 px-4 py-1.5 text-center text-[11px] text-amber-900">
-        Preliminary Planning Simulation — terrain-connected flood demo only. Not validated for official decisions.
-      </div>
+      <DisclaimerModal open={disclaimerOpen} onClose={() => setDisclaimerOpen(false)} />
 
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
         <div className="relative h-[55vh] min-h-[420px] flex-1 lg:h-auto lg:min-h-0">
@@ -372,39 +380,88 @@ export default function App() {
             flowArrows={data.flowArrows}
             contours={data.contours}
             elevationGrid={data.elevationGrid}
-            inundation={inundation}
-            waterSurfaceM={waterSurfaceM}
-            floodZone={data.floodZone}
-            faultLine={faultLine}
-            faultBuffer={faultBufferGeom}
+            mgbFlood={data.mgbFlood}
+            faultLines={activeFaults}
             epicenter={epicenter}
             earthquakeRadius={earthquakeRadius}
             earthquakeMagnitude={earthquakeMagnitude}
             hazardMode={hazardMode}
             activeTool={activeTool}
             is3D={is3D}
-            isPlaying={isPlaying}
-            floodDepth={floodSettings.riverRiseM}
             floodOpacity={floodOpacity}
             selectedBuildingId={selectedBuildingId}
+            siteCoords={pendingSiteCoords ?? siteCoords}
             layerVisibility={layerVisibility}
             terrainSettings={terrainSettings}
             riverSettings={riverSettings}
             onBuildingSelect={setSelectedBuildingId}
             onRiverSelect={setSelectedRiver}
             onEpicenterPlace={setEpicenter}
+            onSitePlace={handleSitePlace}
+            flyToSite={Boolean(siteCoords) && !pendingSiteCoords && activeTool !== 'place-site'}
             onFaultLineDrawn={(line) => {
-              setFaultLine({ ...line, properties: { ...line.properties, name: faultLineName } })
+              const drawn: FeatureCollection = {
+                type: 'FeatureCollection',
+                features: [
+                  {
+                    ...line,
+                    properties: {
+                      ...line.properties,
+                      name: faultLineName || 'Drawn Fault Line',
+                      fault_name: faultLineName || 'Drawn Fault Line',
+                      fault_class: 'Active',
+                      category_label: 'Active Fault',
+                      trace_type: 'Certain',
+                      legend_key: 'active-certain',
+                      fccode: '01',
+                      ttcode: '05',
+                      data_source: 'User drawn',
+                    },
+                  },
+                ],
+              }
+              setFaultLines(drawn)
             }}
-            onMeasureUpdate={setMeasureLabel}
+            onMeasureUpdate={() => {}}
+          />
+          <SiteAssessmentPopup
+            open={assessPanelOpen}
+            onOpenChange={setAssessPanelOpen}
+            assessLat={assessLat}
+            assessLng={assessLng}
+            assessBuildingType={assessBuildingType}
+            assessmentResult={assessmentResult}
+            assessError={assessError}
+            onAssessLatChange={setAssessLat}
+            onAssessLngChange={setAssessLng}
+            onAssessBuildingTypeChange={setAssessBuildingType}
+            onAssessSite={handleAssessSite}
+            onPickSiteOnMap={() => {
+              setAssessPanelOpen(false)
+              setPendingSiteCoords(null)
+              setActiveTool('place-site')
+            }}
+            pickingOnMap={activeTool === 'place-site'}
+            pendingSiteCoords={pendingSiteCoords}
+            onConfirmMapSite={handleConfirmMapSite}
+            onCancelPickOnMap={handleCancelPickOnMap}
+          />
+          <AssessmentReportModal
+            open={reportOpen}
+            result={assessmentResult}
+            buildings={data?.buildings ?? null}
+            onClose={() => setReportOpen(false)}
           />
           <MapToolbar
             activeTool={activeTool}
             onToolChange={setActiveTool}
+            className="left-3 top-14"
             onClearDrawings={() => {
-              if (data) setFaultLine(data.defaultFaultLine)
+              if (data) {
+                setFaultLines(data.defaultFaults)
+                setFaultLineName(DEFAULT_FAULT_NAME)
+              }
               setEpicenter(LASAM_CENTER)
-              setMeasureLabel(null)
             }}
           />
           {selectedBuilding && (
@@ -421,34 +478,6 @@ export default function App() {
           onToggle={() => setMobilePanelOpen((v) => !v)}
         />
       </div>
-
-      <SimulationBar
-        stats={stats}
-        hazardMode={hazardMode}
-        isPlaying={isPlaying}
-        simulationSpeed={simulationSpeed}
-        currentValue={currentValue}
-        timelineProgress={timelineProgress}
-        onPlayPause={() => setIsPlaying((p) => !p)}
-        onStepBack={() => {
-          if (hazardMode === 'flood') {
-            setFloodSettings((s) => ({ ...s, riverRiseM: Math.max(0, s.riverRiseM - 0.5) }))
-            setFloodProgress(1)
-          } else setEarthquakeMagnitude((m) => Math.max(4, Number((m - 0.2).toFixed(1))))
-        }}
-        onStepForward={() => {
-          if (hazardMode === 'flood') {
-            setFloodSettings((s) => ({ ...s, riverRiseM: Math.min(5, s.riverRiseM + 0.5) }))
-            setFloodProgress(1)
-          } else setEarthquakeMagnitude((m) => Math.min(8, Number((m + 0.2).toFixed(1))))
-        }}
-        onSpeedChange={setSimulationSpeed}
-      />
     </div>
   )
-}
-
-type BuildingCollectionWithMeta = NonNullable<ReturnType<typeof useMapData>['data']>['buildings'] & {
-  _inundation?: FeatureCollection
-  _water?: number
 }

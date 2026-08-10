@@ -4,12 +4,18 @@ import type { Map, MapLayerMouseEvent, MapMouseEvent } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import distance from '@turf/distance'
 import { point } from '@turf/turf'
-import { LASAM_CENTER, DEFAULT_ZOOM } from '@/lib/constants'
+import { fitMapToLasam, getLasamCenter } from '@/lib/map/lasamView'
 import { createMap, createMapFallback, bindMapResize } from '@/lib/map/createMap'
-import { GIS_BUILDING_LAYERS, hideBasemapBuildings } from '@/lib/map/buildingLayers'
-import { createEarthquakeRings, floodVisualHeight } from '@/lib/map/visuals'
+import { GIS_BUILDING_LAYERS, hideBasemapBuildings, applyBuildingExtrusionPaint, raiseBuildingLayers, BUILDING_COLOR, BUILDING_SELECTED, BUILDING_LIGHT } from '@/lib/map/buildingLayers'
+import { createEarthquakeRings } from '@/lib/map/visuals'
+import {
+  CAGUA_CENTER,
+  createVolcanoPointFeature,
+} from '@/lib/simulation/volcano'
 import { buildTerrainSample } from '@/lib/terrain/elevation'
 import { getBuildingColor } from '@/lib/simulation/stats'
+import { MGB_FLOOD_COLORS } from '@/lib/simulation/mgbFlood'
+import { FAULT_LAYER_IDS } from '@/lib/simulation/faultLegend'
 import { MapLegend } from '@/components/map/MapLegend'
 import { TerrainInfoBar } from '@/components/map/TerrainInfoBar'
 import type {
@@ -21,7 +27,7 @@ import type {
   TerrainSample,
   TerrainSettings,
 } from '@/types'
-import type { Feature, FeatureCollection, LineString, Polygon } from 'geojson'
+import type { Feature, FeatureCollection, LineString } from 'geojson'
 import type { SelectedRiver } from '@/components/layout/RiverInfoCard'
 
 interface MapViewProps {
@@ -35,27 +41,26 @@ interface MapViewProps {
   flowArrows: FeatureCollection
   contours: FeatureCollection
   elevationGrid: ElevationGrid | null
-  inundation: FeatureCollection | null
-  waterSurfaceM: number
-  floodZone: Feature<Polygon> | null
-  faultLine: Feature<LineString> | null
-  faultBuffer: Feature<Polygon> | null
+  mgbFlood: FeatureCollection | null
+  faultLines: FeatureCollection | null
   epicenter: [number, number] | null
   earthquakeRadius: number
   earthquakeMagnitude: number
   hazardMode: HazardMode
   activeTool: MapTool
   is3D: boolean
-  isPlaying: boolean
-  floodDepth: number
   floodOpacity: number
   selectedBuildingId: string | null
+  siteCoords: [number, number] | null
+  /** When true, confirm fly-to runs for a committed site pin (not while dragging/picking). */
+  flyToSite?: boolean
   layerVisibility: Record<string, boolean>
   terrainSettings: TerrainSettings
   riverSettings: RiverSettings
   onBuildingSelect: (buildingId: string | null) => void
   onRiverSelect: (river: SelectedRiver | null) => void
   onEpicenterPlace: (coords: [number, number]) => void
+  onSitePlace: (coords: [number, number]) => void
   onFaultLineDrawn: (line: Feature<LineString>) => void
   onMeasureUpdate: (value: string | null) => void
   onMapReady?: () => void
@@ -72,39 +77,48 @@ export function MapView({
   flowArrows,
   contours,
   elevationGrid,
-  inundation,
-  waterSurfaceM,
-  floodZone,
-  faultLine,
-  faultBuffer,
+  mgbFlood,
+  faultLines,
   epicenter,
   earthquakeRadius,
-  earthquakeMagnitude,
+  earthquakeMagnitude: _earthquakeMagnitude,
   hazardMode,
   activeTool,
   is3D,
-  isPlaying,
-  floodDepth,
   floodOpacity,
   selectedBuildingId,
+  siteCoords,
+  flyToSite = false,
   layerVisibility,
   terrainSettings,
   riverSettings,
   onBuildingSelect,
   onRiverSelect,
   onEpicenterPlace,
+  onSitePlace,
   onFaultLineDrawn,
   onMeasureUpdate,
   onMapReady,
 }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<Map | null>(null)
+  const siteMarkerRef = useRef<maplibregl.Marker | null>(null)
   const drawPointsRef = useRef<[number, number][]>([])
   const isDrawingRef = useRef(false)
   const measurePointsRef = useRef<[number, number][]>([])
-  const shakeFrameRef = useRef<number | null>(null)
-  const terrainAlignedRef = useRef<globalThis.Map<string, number>>(new globalThis.Map())
-  const terrainAlignedOnceRef = useRef(false)
+  const activeToolRef = useRef(activeTool)
+  const onBuildingSelectRef = useRef(onBuildingSelect)
+  const onRiverSelectRef = useRef(onRiverSelect)
+  const elevationGridRef = useRef(elevationGrid)
+  const onMapReadyRef = useRef(onMapReady)
+
+  useEffect(() => {
+    activeToolRef.current = activeTool
+    onBuildingSelectRef.current = onBuildingSelect
+    onRiverSelectRef.current = onRiverSelect
+    elevationGridRef.current = elevationGrid
+    onMapReadyRef.current = onMapReady
+  }, [activeTool, onBuildingSelect, onRiverSelect, elevationGrid, onMapReady])
 
   const [toolHint, setToolHint] = useState<string | null>(null)
   const [mapError, setMapError] = useState<string | null>(null)
@@ -114,9 +128,11 @@ export function MapView({
     const layerMap: Record<string, string[]> = {
       boundary: ['boundary-fill', 'boundary-line'],
       buildings: [...GIS_BUILDING_LAYERS],
-      flood: ['flood-zone-fill', 'flood-water-3d'],
-      fault: ['fault-line', 'fault-buffer-fill'],
+      flood: ['flood-zone-fill'],
+      fault: [...FAULT_LAYER_IDS],
       epicenter: ['epicenter-rings', 'epicenter-point'],
+      volcano: ['volcano-point'],
+      site: [],
       hillshade: ['hillshade'],
       contours: ['contours'],
       riversMain: ['rivers-main'],
@@ -143,6 +159,12 @@ export function MapView({
         }
       }
     }
+
+    const siteVisible = layerVisibility.site ?? true
+    const markerEl = siteMarkerRef.current?.getElement()
+    if (markerEl) {
+      markerEl.style.display = siteVisible ? '' : 'none'
+    }
   }, [layerVisibility, terrainSettings, riverSettings])
 
   const addBuildingLayers = useCallback((map: Map) => {
@@ -154,15 +176,13 @@ export function MapView({
       id: 'buildings-footprint',
       type: 'fill',
       source: 'buildings',
-      layout: {
-        visibility: is3D || terrainSettings.terrain3d ? 'none' : 'visible',
-      },
+      layout: { visibility: 'none' },
       paint: {
         'fill-color': [
           'case',
           ['==', ['get', 'selected'], 1],
-          '#3b82f6',
-          ['coalesce', ['get', 'color'], ['get', 'baseColor'], '#b8bcc4'],
+          BUILDING_SELECTED,
+          BUILDING_COLOR,
         ],
         'fill-opacity': 0.55,
       },
@@ -171,6 +191,7 @@ export function MapView({
       id: 'buildings-3d',
       type: 'fill-extrusion',
       source: 'buildings',
+      filter: ['!=', ['get', 'selected'], 1],
       layout: {
         visibility: is3D || terrainSettings.terrain3d ? 'visible' : 'none',
       },
@@ -178,29 +199,38 @@ export function MapView({
         'fill-extrusion-color': [
           'case',
           ['==', ['get', 'selected'], 1],
-          '#2563eb',
-          ['coalesce', ['get', 'color'], ['get', 'baseColor'], '#b8bcc4'],
+          BUILDING_SELECTED,
+          ['coalesce', ['get', 'color'], BUILDING_COLOR],
         ],
-        // Absolute ASL to match MapLibre terrain; ground_elevation_m is synced to
-        // queryTerrainElevation when terrain tiles are ready (see align effect).
-        'fill-extrusion-height': [
-          '+',
-          ['coalesce', ['get', 'ground_elevation_m'], 0],
-          ['get', 'height'],
-        ],
-        'fill-extrusion-base': ['coalesce', ['get', 'ground_elevation_m'], 0],
-        'fill-extrusion-opacity': 0.96,
+        'fill-extrusion-height': ['get', 'height'],
+        'fill-extrusion-base': 0,
+        'fill-extrusion-opacity': 1,
         'fill-extrusion-vertical-gradient': true,
       },
     })
     map.addLayer({
+      id: 'buildings-3d-selected',
+      type: 'fill-extrusion',
+      source: 'buildings',
+      filter: ['==', ['get', 'selected'], 1],
+      layout: {
+        visibility: is3D || terrainSettings.terrain3d ? 'visible' : 'none',
+      },
+      paint: {
+        'fill-extrusion-color': BUILDING_SELECTED,
+        'fill-extrusion-height': ['get', 'height'],
+        'fill-extrusion-base': 0,
+        'fill-extrusion-opacity': 1,
+        'fill-extrusion-vertical-gradient': false,
+      },
+    })
+    applyBuildingExtrusionPaint(map, terrainSettings.terrain3d)
+    raiseBuildingLayers(map)
+    map.addLayer({
       id: 'buildings-outline',
       type: 'line',
       source: 'buildings',
-      layout: {
-        // Outline on terrain also creates a dark “ghost” under floating boxes
-        visibility: is3D || terrainSettings.terrain3d ? 'none' : 'visible',
-      },
+      layout: { visibility: 'none' },
       paint: {
         'line-color': '#6b7280',
         'line-width': 0.5,
@@ -213,37 +243,30 @@ export function MapView({
     const map = mapRef.current
     if (!map?.getSource('buildings')) return
 
-    const aligned = terrainAlignedRef.current
-
     const colored = {
       ...buildings,
-      features: buildings.features.map((f) => {
-        const terrainGround = aligned.get(f.properties.id)
-        const ground = terrainGround ?? f.properties.ground_elevation_m
-        const height = f.properties.height ?? 3
-        return {
-          ...f,
-          properties: {
-            ...f.properties,
-            ground_elevation_m: ground,
-            roof_elevation_m:
-              ground != null ? Number((ground + height).toFixed(2)) : f.properties.roof_elevation_m,
-            color: getBuildingColor(
-              f.properties.floodExposure,
-              f.properties.earthquakeDamage,
-              f.properties.faultDistance,
-              hazardMode,
-              f.properties.baseColor,
-              f.properties.type,
-            ),
-            selected: f.properties.id === selectedBuildingId ? 1 : 0,
-          },
-        }
-      }),
+      features: buildings.features.map((f) => ({
+        ...f,
+        properties: {
+          ...f.properties,
+          baseColor: BUILDING_COLOR,
+          color: getBuildingColor(
+            f.properties.floodExposure,
+            f.properties.earthquakeDamage,
+            f.properties.faultDistance,
+            hazardMode,
+            BUILDING_COLOR,
+            f.properties.type,
+            f.properties.volcanoExposure,
+          ),
+          selected: f.properties.id === selectedBuildingId ? 1 : 0,
+        },
+      })),
     }
 
     ;(map.getSource('buildings') as maplibregl.GeoJSONSource).setData(colored as GeoJSON.FeatureCollection)
-  }, [buildings, hazardMode, selectedBuildingId])
+    applyBuildingExtrusionPaint(map, terrainSettings.terrain3d)
+  }, [buildings, selectedBuildingId, terrainSettings.terrain3d, hazardMode])
 
   const flyToBuilding = useCallback((buildingId: string) => {
     const map = mapRef.current
@@ -266,11 +289,13 @@ export function MapView({
     async function initMap() {
       if (!containerRef.current) return
 
+      const municipalCenter = getLasamCenter(boundary)
+
       try {
         let map = createMap({
           container: containerRef.current,
-          center: LASAM_CENTER,
-          zoom: DEFAULT_ZOOM,
+          center: municipalCenter,
+          zoom: 11,
           pitch: 52,
           bearing: -20,
         })
@@ -289,8 +314,8 @@ export function MapView({
           map.remove()
           map = createMapFallback({
             container: containerRef.current,
-            center: LASAM_CENTER,
-            zoom: DEFAULT_ZOOM,
+            center: municipalCenter,
+            zoom: 11,
             pitch: 52,
             bearing: -20,
           })
@@ -306,6 +331,7 @@ export function MapView({
         }
 
         hideBasemapBuildings(map)
+        map.setLight(BUILDING_LIGHT)
         unbindResize = bindMapResize(map, containerRef.current)
         map.addControl(new maplibregl.NavigationControl(), 'bottom-right')
         map.addControl(new maplibregl.ScaleControl(), 'bottom-left')
@@ -327,8 +353,8 @@ export function MapView({
             type: 'hillshade',
             source: 'lasam-dem',
             paint: {
-              'hillshade-exaggeration': 0.45,
-              'hillshade-shadow-color': '#1e293b',
+              'hillshade-exaggeration': 0.3,
+              'hillshade-shadow-color': '#94a3b8',
               'hillshade-highlight-color': '#f8fafc',
             },
             layout: { visibility: terrainSettings.hillshade ? 'visible' : 'none' },
@@ -433,39 +459,175 @@ export function MapView({
           layout: { visibility: terrainSettings.contours ? 'visible' : 'none' },
         })
 
-        const initialFlood = inundation ?? (floodZone
-          ? { type: 'FeatureCollection', features: [floodZone] }
-          : { type: 'FeatureCollection', features: [] })
+        const initialFlood = mgbFlood ?? { type: 'FeatureCollection', features: [] }
         map.addSource('flood-zone', { type: 'geojson', data: initialFlood })
         map.addLayer({
           id: 'flood-zone-fill',
           type: 'fill',
           source: 'flood-zone',
-          paint: { 'fill-color': '#0284c7', 'fill-opacity': 0 },
-        })
-        map.addLayer({
-          id: 'flood-water-3d',
-          type: 'fill-extrusion',
-          source: 'flood-zone',
           paint: {
-            'fill-extrusion-color': '#0ea5e9',
-            'fill-extrusion-height': 0,
-            'fill-extrusion-opacity': 0,
+            'fill-color': [
+              'match',
+              ['get', 'susceptibility'],
+              'low',
+              MGB_FLOOD_COLORS.low,
+              'moderate',
+              MGB_FLOOD_COLORS.moderate,
+              'high',
+              MGB_FLOOD_COLORS.high,
+              'very_high',
+              MGB_FLOOD_COLORS.very_high,
+              '#94a3b8',
+            ],
+            'fill-opacity': floodOpacity,
+            'fill-outline-color': '#0f172a',
           },
         })
 
         addBuildingLayers(map)
 
-        const initialFault = faultLine ?? { type: 'FeatureCollection', features: [] }
+        const initialFault = faultLines ?? { type: 'FeatureCollection', features: [] }
         map.addSource('fault-line', { type: 'geojson', data: initialFault })
-        map.addLayer({ id: 'fault-line', type: 'line', source: 'fault-line', paint: { 'line-color': '#dc2626', 'line-width': 3 } })
 
-      map.addSource('fault-buffer', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } })
-      map.addLayer({ id: 'fault-buffer-fill', type: 'fill', source: 'fault-buffer', paint: { 'fill-color': '#f97316', 'fill-opacity': 0.22 } })
+        const faultLayerDefs: {
+          id: (typeof FAULT_LAYER_IDS)[number]
+          filter: maplibregl.FilterSpecification
+          color: string
+          width: number
+          dasharray?: number[]
+        }[] = [
+          {
+            id: 'fault-line-active-certain',
+            filter: [
+              'any',
+              ['==', ['get', 'legend_key'], 'active-certain'],
+              [
+                'all',
+                ['!', ['has', 'legend_key']],
+                ['any', ['==', ['get', 'fault_class'], 'Active'], ['!', ['has', 'fault_class']]],
+              ],
+            ],
+            color: '#dc2626',
+            width: 3,
+          },
+          {
+            id: 'fault-line-active-approximate',
+            filter: ['==', ['get', 'legend_key'], 'active-approximate'],
+            color: '#dc2626',
+            width: 2.5,
+            dasharray: [2, 1.5],
+          },
+          {
+            id: 'fault-line-active-concealed',
+            filter: ['==', ['get', 'legend_key'], 'active-concealed'],
+            color: '#dc2626',
+            width: 2.5,
+            dasharray: [0.5, 1.5],
+          },
+          {
+            id: 'fault-line-active-fissures',
+            filter: ['==', ['get', 'legend_key'], 'active-fissures'],
+            color: '#ca8a04',
+            width: 3,
+          },
+          {
+            id: 'fault-line-potential-certain',
+            filter: [
+              'any',
+              ['==', ['get', 'legend_key'], 'potential-certain'],
+              [
+                'all',
+                ['!', ['has', 'legend_key']],
+                ['==', ['get', 'fault_class'], 'Potentially Active'],
+              ],
+            ],
+            color: '#171717',
+            width: 2.5,
+          },
+          {
+            id: 'fault-line-potential-approximate',
+            filter: ['==', ['get', 'legend_key'], 'potential-approximate'],
+            color: '#171717',
+            width: 2.5,
+            dasharray: [2, 1.5],
+          },
+        ]
+
+        for (const def of faultLayerDefs) {
+          map.addLayer({
+            id: def.id,
+            type: 'line',
+            source: 'fault-line',
+            filter: def.filter,
+            paint: {
+              'line-color': def.color,
+              'line-width': def.width,
+              ...(def.dasharray ? { 'line-dasharray': def.dasharray } : {}),
+            },
+          })
+        }
+
+        const showFaultPopup = (e: MapLayerMouseEvent) => {
+          if (activeToolRef.current !== 'select') return
+          const feature = e.features?.[0]
+          if (!feature?.properties) return
+          const p = feature.properties
+          const title = String(p.fault_name ?? p.name ?? 'Fault segment')
+          const category = String(p.category_label ?? p.fault_class ?? '—')
+          const trace = String(p.trace_type ?? '—')
+          const segment = p.segname != null ? String(p.segname) : '—'
+          new maplibregl.Popup({ closeButton: true, maxWidth: '280px' })
+            .setLngLat(e.lngLat)
+            .setHTML(
+              `<div style="font:12px/1.4 system-ui,sans-serif;color:#0f172a">
+                <strong style="display:block;margin-bottom:4px">${title}</strong>
+                <div><span style="color:#64748b">Category:</span> ${category}</div>
+                <div><span style="color:#64748b">Trace type:</span> ${trace}</div>
+                <div><span style="color:#64748b">Segment:</span> ${segment}</div>
+                <div style="margin-top:6px;font-size:10px;color:#94a3b8">Source: PHIVOLCS / GeoRisk ULAP (demo)</div>
+              </div>`,
+            )
+            .addTo(map)
+        }
+
+        for (const layerId of FAULT_LAYER_IDS) {
+          map.on('click', layerId, showFaultPopup)
+          map.on('mouseenter', layerId, () => {
+            map.getCanvas().style.cursor = 'pointer'
+          })
+          map.on('mouseleave', layerId, () => {
+            map.getCanvas().style.cursor = ''
+          })
+        }
 
       map.addSource('epicenter', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } })
       map.addLayer({ id: 'epicenter-rings', type: 'fill', source: 'epicenter', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': '#ef4444', 'fill-opacity': ['coalesce', ['get', 'opacity'], 0.12] } })
       map.addLayer({ id: 'epicenter-point', type: 'circle', source: 'epicenter', filter: ['==', ['geometry-type'], 'Point'], paint: { 'circle-radius': 9, 'circle-color': '#dc2626', 'circle-stroke-width': 2, 'circle-stroke-color': '#fff' } })
+
+      map.addSource('volcano', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [createVolcanoPointFeature()],
+        },
+      })
+      map.addLayer({
+        id: 'volcano-point',
+        type: 'circle',
+        source: 'volcano',
+        filter: ['==', ['geometry-type'], 'Point'],
+        paint: {
+          'circle-radius': 10,
+          'circle-color': '#b45309',
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#fff',
+        },
+      })
+
+      map.addSource('site-assessment', {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: [] },
+      })
 
       map.addSource('measure', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } })
       map.addLayer({ id: 'measure-line', type: 'line', source: 'measure', paint: { 'line-color': '#7c3aed', 'line-width': 2, 'line-dasharray': [2, 2] } })
@@ -475,23 +637,24 @@ export function MapView({
       map.addLayer({ id: 'draw-fault-line', type: 'line', source: 'draw-fault', paint: { 'line-color': '#b91c1c', 'line-width': 3, 'line-dasharray': [2, 1] } })
 
       map.on('click', 'buildings-3d', (e: MapLayerMouseEvent) => {
-        if (activeTool !== 'select') return
+        if (activeToolRef.current !== 'select') return
         const feature = e.features?.[0]
         if (feature?.properties?.id) {
-          onBuildingSelect(feature.properties.id as string)
+          onBuildingSelectRef.current(feature.properties.id as string)
         }
       })
 
       const selectRiver = (e: MapLayerMouseEvent) => {
-        if (activeTool !== 'select') return
+        if (activeToolRef.current !== 'select') return
         const feature = e.features?.[0]
         if (!feature?.properties) return
         const coords = (feature.geometry as LineString).coordinates?.[0]
         let bankElevationM: number | null = null
-        if (elevationGrid && coords) {
-          bankElevationM = buildTerrainSample(elevationGrid, coords[0], coords[1]).elevation
+        const grid = elevationGridRef.current
+        if (grid && coords) {
+          bankElevationM = buildTerrainSample(grid, coords[0], coords[1]).elevation
         }
-        onRiverSelect({
+        onRiverSelectRef.current({
           id: String(feature.properties.id ?? ''),
           name: String(feature.properties.name ?? feature.properties.waterway ?? 'Waterway'),
           waterway: String(feature.properties.waterway ?? 'stream'),
@@ -508,18 +671,12 @@ export function MapView({
           return
         }
 
-        map.flyTo({
-          center: LASAM_CENTER,
-          zoom: DEFAULT_ZOOM,
-          pitch: 52,
-          bearing: -20,
-          duration: 0,
-        })
+        fitMapToLasam(map, boundary, { duration: 0 })
 
         applyLayerVisibility(map)
         mapRef.current = map
         setMapError(null)
-        onMapReady?.()
+        onMapReadyRef.current?.()
       } catch (error) {
         if (!cancelled) {
           setMapError(error instanceof Error ? error.message : 'Failed to initialize map')
@@ -532,109 +689,38 @@ export function MapView({
     return () => {
       cancelled = true
       unbindResize?.()
+      siteMarkerRef.current?.remove()
+      siteMarkerRef.current = null
       mapRef.current?.remove()
       mapRef.current = null
     }
-  }, [onBuildingSelect, onFaultLineDrawn, onMapReady, activeTool, buildings, boundary, riversMain, riversTributaries, drainage, riverbanks, watersheds, flowArrows, contours, floodZone, inundation, faultLine, addBuildingLayers, applyLayerVisibility, is3D, terrainSettings, riverSettings, elevationGrid, onRiverSelect])
+    // Map must init once; data updates use setData in separate effects below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     updateBuildingColors()
   }, [updateBuildingColors])
 
-  // Hide flat footprint/outline when 3D or terrain is on (those layers cause the dark “shadow”).
+  // Keep footprint/outline hidden in 3D — they cast dark ghosts on the terrain.
   useEffect(() => {
     const map = mapRef.current
     if (!map?.getLayer('buildings-footprint')) return
-    const showFlat = !(is3D || terrainSettings.terrain3d)
-    map.setLayoutProperty('buildings-footprint', 'visibility', showFlat ? 'visible' : 'none')
+    const show3d = is3D || terrainSettings.terrain3d
+    map.setLayoutProperty('buildings-footprint', 'visibility', show3d ? 'none' : 'visible')
     if (map.getLayer('buildings-outline')) {
-      map.setLayoutProperty('buildings-outline', 'visibility', showFlat ? 'visible' : 'none')
+      map.setLayoutProperty('buildings-outline', 'visibility', show3d ? 'none' : 'visible')
     }
     if (map.getLayer('buildings-3d')) {
-      map.setLayoutProperty('buildings-3d', 'visibility', showFlat ? 'none' : 'visible')
+      map.setLayoutProperty('buildings-3d', 'visibility', show3d ? 'visible' : 'none')
+      applyBuildingExtrusionPaint(map, terrainSettings.terrain3d)
     }
+    if (map.getLayer('buildings-3d-selected')) {
+      map.setLayoutProperty('buildings-3d-selected', 'visibility', show3d ? 'visible' : 'none')
+    }
+    map.setLight(BUILDING_LIGHT)
+    raiseBuildingLayers(map)
   }, [is3D, terrainSettings.terrain3d])
-
-  /**
-   * Snap building bases to AWS Terrarium mesh once — synthetic DEM often mismatches,
-   * which floats boxes and leaves a gap above the draped footprint “shadow”.
-   */
-  useEffect(() => {
-    const map = mapRef.current
-    if (!map || !terrainSettings.terrain3d) {
-      terrainAlignedOnceRef.current = false
-      terrainAlignedRef.current.clear()
-      return
-    }
-    if (terrainAlignedOnceRef.current && terrainAlignedRef.current.size > 0) {
-      updateBuildingColors()
-      return
-    }
-
-    let cancelled = false
-
-    const align = () => {
-      if (cancelled || !map.getSource('buildings')) return
-      if (typeof map.queryTerrainElevation !== 'function') return
-
-      const next = new globalThis.Map<string, number>()
-      for (const feature of buildings.features) {
-        const ring = feature.geometry.coordinates[0]
-        if (!ring?.length) continue
-
-        const points = ring.slice(0, -1)
-        if (points.length === 0) continue
-
-        // Centroid + up to 3 corners — enough to seat the box without 13k×N tile queries
-        let lngSum = 0
-        let latSum = 0
-        for (const [lng, lat] of points) {
-          lngSum += lng
-          latSum += lat
-        }
-        const samplePts: Array<{ lng: number; lat: number }> = [
-          { lng: lngSum / points.length, lat: latSum / points.length },
-          { lng: points[0][0], lat: points[0][1] },
-          {
-            lng: points[Math.floor(points.length / 3)][0],
-            lat: points[Math.floor(points.length / 3)][1],
-          },
-          {
-            lng: points[Math.floor((2 * points.length) / 3)][0],
-            lat: points[Math.floor((2 * points.length) / 3)][1],
-          },
-        ]
-
-        let minElev = Infinity
-        let samples = 0
-        for (const pt of samplePts) {
-          const elev = map.queryTerrainElevation(pt)
-          if (elev != null && Number.isFinite(elev)) {
-            minElev = Math.min(minElev, elev)
-            samples += 1
-          }
-        }
-        if (samples > 0) {
-          next.set(feature.properties.id, Number(minElev.toFixed(2)))
-        }
-      }
-
-      if (next.size === 0) return
-      terrainAlignedRef.current = next
-      terrainAlignedOnceRef.current = true
-      updateBuildingColors()
-    }
-
-    const onIdle = () => align()
-    map.once('idle', onIdle)
-    const timer = window.setTimeout(align, 1000)
-
-    return () => {
-      cancelled = true
-      map.off('idle', onIdle)
-      window.clearTimeout(timer)
-    }
-  }, [buildings.features.length, terrainSettings.terrain3d, updateBuildingColors])
 
   useEffect(() => {
     if (selectedBuildingId) flyToBuilding(selectedBuildingId)
@@ -644,23 +730,16 @@ export function MapView({
     const map = mapRef.current
     if (!map?.isStyleLoaded()) return
 
-    const floodData =
-      inundation && inundation.features.length > 0
-        ? inundation
-        : floodZone
-          ? { type: 'FeatureCollection', features: [floodZone] }
-          : { type: 'FeatureCollection', features: [] }
+    const floodData = mgbFlood ?? { type: 'FeatureCollection', features: [] }
 
-    ;(map.getSource('flood-zone') as maplibregl.GeoJSONSource)?.setData(floodData as GeoJSON.FeatureCollection)
+    ;(map.getSource('flood-zone') as maplibregl.GeoJSONSource)?.setData(
+      floodData as GeoJSON.FeatureCollection,
+    )
 
-    const active = waterSurfaceM > 0 || floodDepth > 0
-    const opacity = active ? Math.min(floodOpacity, 0.12 + Math.max(floodDepth, waterSurfaceM - 10) * 0.08) : 0
-    map.setPaintProperty('flood-zone-fill', 'fill-opacity', opacity)
-    const height = waterSurfaceM > 0 ? waterSurfaceM : floodVisualHeight(floodDepth)
-    map.setPaintProperty('flood-water-3d', 'fill-extrusion-height', height)
-    map.setPaintProperty('flood-water-3d', 'fill-extrusion-base', waterSurfaceM > 0 ? Math.max(0, waterSurfaceM - 3) : 0)
-    map.setPaintProperty('flood-water-3d', 'fill-extrusion-opacity', active ? 0.35 + floodOpacity * 0.35 : 0)
-  }, [floodZone, inundation, floodDepth, floodOpacity, waterSurfaceM])
+    if (map.getLayer('flood-zone-fill')) {
+      map.setPaintProperty('flood-zone-fill', 'fill-opacity', floodOpacity)
+    }
+  }, [mgbFlood, floodOpacity])
 
   useEffect(() => {
     const map = mapRef.current
@@ -670,6 +749,8 @@ export function MapView({
     } else {
       map.setTerrain(null)
     }
+    map.setLight(BUILDING_LIGHT)
+    applyBuildingExtrusionPaint(map, terrainSettings.terrain3d)
     if (map.getLayer('hillshade')) {
       map.setLayoutProperty('hillshade', 'visibility', terrainSettings.hillshade ? 'visible' : 'none')
     }
@@ -702,14 +783,11 @@ export function MapView({
     const map = mapRef.current
     if (!map?.isStyleLoaded()) return
 
-    if (faultLine) {
-      ;(map.getSource('fault-line') as maplibregl.GeoJSONSource)?.setData(faultLine)
-    }
-
-    ;(map.getSource('fault-buffer') as maplibregl.GeoJSONSource)?.setData(
-      faultBuffer ?? { type: 'FeatureCollection', features: [] },
+    const faultData = faultLines ?? { type: 'FeatureCollection', features: [] }
+    ;(map.getSource('fault-line') as maplibregl.GeoJSONSource)?.setData(
+      faultData as GeoJSON.FeatureCollection,
     )
-  }, [faultLine, faultBuffer])
+  }, [faultLines])
 
   useEffect(() => {
     const map = mapRef.current
@@ -735,6 +813,64 @@ export function MapView({
   useEffect(() => {
     const map = mapRef.current
     if (!map) return
+
+    if (!siteCoords) {
+      siteMarkerRef.current?.remove()
+      siteMarkerRef.current = null
+      ;(map.getSource('site-assessment') as maplibregl.GeoJSONSource | undefined)?.setData({
+        type: 'FeatureCollection',
+        features: [],
+      })
+      return
+    }
+
+    ;(map.getSource('site-assessment') as maplibregl.GeoJSONSource | undefined)?.setData({
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          properties: { id: 'proposed-site' },
+          geometry: { type: 'Point', coordinates: siteCoords },
+        },
+      ],
+    })
+
+    if (!siteMarkerRef.current) {
+      const el = document.createElement('div')
+      el.className = 'site-pin-marker'
+      el.style.cssText =
+        'width:36px;height:48px;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;'
+      el.innerHTML =
+        '<img src="/markers/site-pin.svg" alt="" width="36" height="48" draggable="false" style="display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));" />'
+      siteMarkerRef.current = new maplibregl.Marker({ element: el, anchor: 'bottom', offset: [0, 2] })
+        .setLngLat(siteCoords)
+        .addTo(map)
+    } else {
+      siteMarkerRef.current.setLngLat(siteCoords)
+    }
+
+    const siteVisible = layerVisibility.site ?? true
+    siteMarkerRef.current.getElement().style.display = siteVisible ? '' : 'none'
+
+    if (flyToSite) {
+      map.flyTo({
+        center: siteCoords,
+        zoom: Math.max(map.getZoom(), 16),
+        pitch: is3D ? 55 : 0,
+        duration: 900,
+      })
+    }
+  }, [siteCoords, flyToSite, is3D, layerVisibility.site])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || hazardMode !== 'volcano') return
+    map.flyTo({ center: CAGUA_CENTER, zoom: 9.2, pitch: is3D ? 45 : 0, duration: 1200 })
+  }, [hazardMode, is3D])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
     map.easeTo({ pitch: is3D ? 55 : 0, duration: 700 })
   }, [is3D])
 
@@ -745,20 +881,29 @@ export function MapView({
     const hints: Partial<Record<MapTool, string>> = {
       'draw-fault': 'Click to add fault points. Double-click to finish the line.',
       epicenter: 'Click the map to place the earthquake epicenter.',
+      'place-site': 'Click the map to drop the proposed building site pin.',
       measure: 'Click two points to measure distance.',
-      'zoom-home': 'Click anywhere to fly back to Lasam center.',
+      'zoom-home': 'Click anywhere to view all of Lasam.',
     }
 
     setToolHint(hints[activeTool] ?? null)
 
     const handleClick = (e: MapMouseEvent) => {
+      if (activeTool === 'place-site') {
+        onSitePlace([e.lngLat.lng, e.lngLat.lat])
+        return
+      }
+
       if (activeTool === 'epicenter') {
         onEpicenterPlace([e.lngLat.lng, e.lngLat.lat])
         return
       }
 
       if (activeTool === 'zoom-home') {
-        map.flyTo({ center: LASAM_CENTER, zoom: DEFAULT_ZOOM, pitch: is3D ? 55 : 0 })
+        fitMapToLasam(map, boundary, {
+          pitch: is3D ? 52 : 0,
+          duration: 1200,
+        })
         return
       }
 
@@ -838,37 +983,7 @@ export function MapView({
       map.off('click', handleClick)
       map.off('dblclick', handleDblClick)
     }
-  }, [activeTool, is3D, onEpicenterPlace, onFaultLineDrawn, onMeasureUpdate])
-
-  useEffect(() => {
-    const map = mapRef.current
-    const container = containerRef.current
-    if (!map || !container) return
-
-    const shouldShake =
-      hazardMode === 'earthquake' && (isPlaying || earthquakeMagnitude >= 5.5)
-
-    if (!shouldShake) {
-      map.setBearing(-15)
-      map.setPitch(is3D ? 55 : 0)
-      if (shakeFrameRef.current) cancelAnimationFrame(shakeFrameRef.current)
-      return
-    }
-
-    let frame = 0
-    const animate = () => {
-      frame += 1
-      const intensity = Math.min(1.2, (earthquakeMagnitude - 4) * 0.25)
-      map.setBearing(-15 + Math.sin(frame * 0.6) * intensity)
-      map.setPitch((is3D ? 55 : 0) + Math.cos(frame * 0.45) * intensity)
-      shakeFrameRef.current = requestAnimationFrame(animate)
-    }
-
-    shakeFrameRef.current = requestAnimationFrame(animate)
-    return () => {
-      if (shakeFrameRef.current) cancelAnimationFrame(shakeFrameRef.current)
-    }
-  }, [hazardMode, isPlaying, earthquakeMagnitude, is3D])
+  }, [activeTool, is3D, boundary, onEpicenterPlace, onSitePlace, onFaultLineDrawn, onMeasureUpdate])
 
   useEffect(() => {
     if (activeTool !== 'measure') {

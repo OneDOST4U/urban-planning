@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "PHIVOLCS-CAGUA",
+        "name": "Cagua Volcano",
+        "local_name": "Bantay ti Apuy",
+        "municipality": "Gonzaga",
+        "province": "Cagayan",
+        "volcano_type": "Stratovolcano",
+        "elevation_m": 1133,
+        "last_eruption": "1860 CE (phreatic; phivolcs/GVP)",
+        "status": "Active",
+        "data_source": "PHIVOLCS / Smithsonian GVP (demonstration)",
+        "disclaimer": "Preliminary planning rings only. Not an official PHIVOLCS hazard zone map."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [122.123, 18.222]
+      }
+    }
+  ]
+}
