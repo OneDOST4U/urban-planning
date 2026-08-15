@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import * as maplibregl from 'maplibre-gl'
 import type { FeatureCollection } from 'geojson'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { createMap, createMapFallback } from '@/lib/map/createMap'
+import { createMap, createMapFallback, prepareBasemap } from '@/lib/map/createMap'
 import { hideBasemapBuildings, BUILDING_COLOR, BUILDING_LIGHT } from '@/lib/map/buildingLayers'
 import { createProposedBuildingCollection } from '@/lib/assessment/proposedBuilding'
 import {
@@ -105,6 +105,7 @@ export const ProposedBuildingPreviewMap = forwardRef<
         }
 
         hideBasemapBuildings(map)
+        prepareBasemap(map)
         map.setLight(BUILDING_LIGHT)
 
         try {

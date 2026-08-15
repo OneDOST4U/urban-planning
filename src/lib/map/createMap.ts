@@ -1,6 +1,7 @@
 import * as maplibregl from 'maplibre-gl'
 import type { Map, MapOptions, StyleSpecification } from 'maplibre-gl'
-import { MAPLIBRE_DEMO_STYLE, MAP_STYLE, OSM_RASTER_STYLE } from '@/lib/map/styles'
+import { installRasterUnderlay } from '@/lib/map/basemapUnderlay'
+import { CARTO_RASTER_STYLE, MAP_STYLE } from '@/lib/map/styles'
 
 export function createMap(options: Omit<MapOptions, 'style'> & { container: HTMLElement }): Map {
   return new maplibregl.Map({
@@ -9,11 +10,16 @@ export function createMap(options: Omit<MapOptions, 'style'> & { container: HTML
   })
 }
 
-/** Last-resort basemap if the primary raster source errors on load. */
+/** Apply Carto underlay after the vector style loads (OpenFreeMap + reliable high-zoom tiles). */
+export function prepareBasemap(map: Map): void {
+  installRasterUnderlay(map)
+}
+
+/** Full raster basemap if the vector style JSON cannot load. */
 export function createMapFallback(options: Omit<MapOptions, 'style'> & { container: HTMLElement }): Map {
   return new maplibregl.Map({
     ...options,
-    style: MAPLIBRE_DEMO_STYLE,
+    style: CARTO_RASTER_STYLE,
   })
 }
 
@@ -24,8 +30,7 @@ export function createMapWithStyle(
   return new maplibregl.Map({ ...options, style })
 }
 
-/** OSM raster — kept for explicit fallback wiring in map init. */
-export { OSM_RASTER_STYLE }
+export { CARTO_RASTER_STYLE as OSM_RASTER_STYLE }
 
 export function bindMapResize(map: Map, container: HTMLElement): () => void {
   let active = true

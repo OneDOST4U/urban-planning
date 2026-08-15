@@ -1,12 +1,36 @@
 import type { StyleSpecification } from 'maplibre-gl'
+import { CARTO_RASTER_TILES } from '@/lib/map/basemapUnderlay'
 
 /** MapLibre official demo tiles — reliable for local development */
 export const MAPLIBRE_DEMO_STYLE = 'https://demotiles.maplibre.org/style.json'
 
-/** OpenFreeMap — vector tiles; low-zoom raster only, vectors often blank in rural PH */
+/** OpenFreeMap — vector style with natural-earth low zoom + OSM vectors */
 export const OPENFREEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty'
 
-/** Reliable raster basemap using OpenStreetMap tiles */
+/** Full raster fallback when the vector style JSON cannot load */
+export const CARTO_RASTER_STYLE: StyleSpecification = {
+  version: 8,
+  sources: {
+    carto: {
+      type: 'raster',
+      tiles: CARTO_RASTER_TILES,
+      tileSize: 256,
+      maxzoom: 20,
+      attribution: '© OpenStreetMap © CARTO',
+    },
+  },
+  layers: [
+    {
+      id: 'carto-tiles',
+      type: 'raster',
+      source: 'carto',
+      minzoom: 0,
+      maxzoom: 22,
+    },
+  ],
+}
+
+/** @deprecated Use CARTO_RASTER_STYLE — OSM direct tiles block many production referrers */
 export const OSM_RASTER_STYLE: StyleSpecification = {
   version: 8,
   sources: {
@@ -32,14 +56,12 @@ export const OSM_RASTER_STYLE: StyleSpecification = {
   ],
 }
 
-/**
- * Primary basemap for production: raster tiles load at all zoom levels.
- * OpenFreeMap vectors fail when zoomed into Lasam (background + beige extrusions only).
- */
-export const MAP_STYLE = OSM_RASTER_STYLE
+/** Vector basemap; pair with installRasterUnderlay() for production reliability */
+export const MAP_STYLE = OPENFREEMAP_STYLE
 
 export const MAP_STYLE_CANDIDATES: Array<string | StyleSpecification> = [
-  OSM_RASTER_STYLE,
   OPENFREEMAP_STYLE,
+  CARTO_RASTER_STYLE,
   MAPLIBRE_DEMO_STYLE,
+  OSM_RASTER_STYLE,
 ]

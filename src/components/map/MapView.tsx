@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import distance from '@turf/distance'
 import { point } from '@turf/turf'
 import { fitMapToLasam, getLasamCenter } from '@/lib/map/lasamView'
-import { createMap, createMapFallback, bindMapResize } from '@/lib/map/createMap'
+import { createMap, createMapFallback, bindMapResize, prepareBasemap } from '@/lib/map/createMap'
 import { hideBasemapBuildings, applyBuildingExtrusionPaint, raiseBuildingLayers, BUILDING_COLOR, BUILDING_SELECTED, BUILDING_LIGHT } from '@/lib/map/buildingLayers'
 import { LAYER_ID_MAP, resolveMapLibreLayerVisibility } from '@/lib/map/layerVisibility'
 import { createEarthquakeRings } from '@/lib/map/visuals'
@@ -316,6 +316,7 @@ export function MapView({
         }
 
         hideBasemapBuildings(map)
+        prepareBasemap(map)
         map.setLight(BUILDING_LIGHT)
         unbindResize = bindMapResize(map, containerRef.current)
         map.addControl(new maplibregl.NavigationControl(), 'bottom-right')
