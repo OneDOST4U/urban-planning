@@ -1,7 +1,7 @@
 /** Lasam poblacion / Centro — PhilAtlas municipal center */
 export const LASAM_CENTER: [number, number] = [121.6015, 18.0645]
 export const DEFAULT_ZOOM = 17
-export { MAPLIBRE_DEMO_STYLE as MAP_STYLE } from '@/lib/map/styles'
+export { MAP_STYLE } from '@/lib/map/styles'
 
 export const FLOOD_SCENARIOS = [
   { id: '1h', label: '1-hour rainfall', hours: 1 },
