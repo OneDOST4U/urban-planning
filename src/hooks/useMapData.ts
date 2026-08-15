@@ -25,6 +25,7 @@ interface UseMapDataResult {
   data: MapData | null
   error: string | null
   isLoading: boolean
+  isEnhancing: boolean
   retry: () => void
 }
 
@@ -59,10 +60,51 @@ function asFaultCollection(
   }
 }
 
+function buildMapData(
+  partial: Omit<
+    MapData,
+    'rivers' | 'defaultFaults'
+  > & {
+    riversLegacy: FeatureCollection
+    phivolcsFaults: FeatureCollection | null
+    sampleFault: { features: Feature<LineString>[] } | null
+  },
+): MapData {
+  const defaultFaults = asFaultCollection(partial.phivolcsFaults)
+  const faults =
+    defaultFaults.features.length > 0 ? defaultFaults : asFaultCollection(partial.sampleFault)
+
+  const riversMainSafe = partial.riversMain.features.length
+    ? partial.riversMain
+    : partial.riversLegacy
+
+  return {
+    buildings: partial.buildings,
+    boundary: partial.boundary,
+    rivers: {
+      type: 'FeatureCollection',
+      features: [...riversMainSafe.features, ...partial.riversTributaries.features],
+    },
+    riversMain: riversMainSafe,
+    riversTributaries: partial.riversTributaries,
+    drainage: partial.drainage,
+    riverbanks: partial.riverbanks,
+    watersheds: partial.watersheds,
+    flowArrows: partial.flowArrows,
+    contours: partial.contours,
+    elevationGrid: partial.elevationGrid,
+    mgbFlood: partial.mgbFlood,
+    defaultFaults: faults,
+    volcanoes: partial.volcanoes,
+    facilities: partial.facilities,
+  }
+}
+
 export function useMapData(): UseMapDataResult {
   const [data, setData] = useState<MapData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isEnhancing, setIsEnhancing] = useState(false)
   const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
@@ -70,6 +112,7 @@ export function useMapData(): UseMapDataResult {
 
     async function load() {
       setIsLoading(true)
+      setIsEnhancing(false)
       setError(null)
 
       try {
@@ -80,12 +123,6 @@ export function useMapData(): UseMapDataResult {
           riversLegacy,
           riversMain,
           riversTributaries,
-          drainage,
-          riverbanks,
-          watersheds,
-          flowArrows,
-          contours,
-          elevationGrid,
           mgbFlood,
           phivolcsFaults,
           sampleFault,
@@ -106,13 +143,10 @@ export function useMapData(): UseMapDataResult {
           ),
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/lasam-rivers.geojson'), emptyFc),
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/rivers-main.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/rivers-tributaries.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/drainage.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/riverbanks.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/watersheds.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/flow-arrows.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/terrain/contours.geojson'), emptyFc),
-          fetchJsonOptional<ElevationGrid | null>(dataUrl('/data/terrain/elevation-grid.json'), null),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/hydrology/rivers-tributaries.geojson'),
+            emptyFc,
+          ),
           fetchJsonOptional<FeatureCollection>(
             dataUrl('/data/hazards/mgb-flood-lasam.geojson'),
             emptyFc,
@@ -156,46 +190,72 @@ export function useMapData(): UseMapDataResult {
           )
         }
 
-        const defaultFaults = asFaultCollection(phivolcsFaults)
-        const faults =
-          defaultFaults.features.length > 0
-            ? defaultFaults
-            : asFaultCollection(sampleFault)
-
-        if (faults.features.length === 0) {
-          console.warn('No fault line GeoJSON loaded — fault simulation will be inactive.')
-        }
-
-        const riversMainSafe = riversMain.features.length ? riversMain : riversLegacy
-        const allRivers: FeatureCollection = {
-          type: 'FeatureCollection',
-          features: [...riversMainSafe.features, ...riversTributaries.features],
-        }
-
-        setData({
+        const critical = buildMapData({
           buildings,
           boundary,
-          rivers: allRivers,
-          riversMain: riversMainSafe,
+          riversLegacy,
+          riversMain,
           riversTributaries,
-          drainage,
-          riverbanks,
-          watersheds,
-          flowArrows,
-          contours,
-          elevationGrid,
+          drainage: emptyFc,
+          riverbanks: emptyFc,
+          watersheds: emptyFc,
+          flowArrows: emptyFc,
+          contours: emptyFc,
+          elevationGrid: null,
           mgbFlood,
-          defaultFaults: faults,
+          phivolcsFaults,
+          sampleFault,
           volcanoes,
           facilities,
         })
+
+        if (critical.defaultFaults.features.length === 0) {
+          console.warn('No fault line GeoJSON loaded — fault simulation will be inactive.')
+        }
+
+        setData(critical)
+        setIsLoading(false)
+        setIsEnhancing(true)
+
+        const [drainage, riverbanks, watersheds, flowArrows, contours, elevationGrid] =
+          await Promise.all([
+            fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/drainage.geojson'), emptyFc),
+            fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/riverbanks.geojson'), emptyFc),
+            fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/watersheds.geojson'), emptyFc),
+            fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/flow-arrows.geojson'), emptyFc),
+            fetchJsonOptional<FeatureCollection>(dataUrl('/data/terrain/contours.geojson'), emptyFc),
+            fetchJsonOptional<ElevationGrid | null>(dataUrl('/data/terrain/elevation-grid.json'), null),
+          ])
+
+        if (cancelled) return
+
+        setData((prev) =>
+          prev
+            ? {
+                ...prev,
+                drainage,
+                riverbanks,
+                watersheds,
+                flowArrows,
+                contours,
+                elevationGrid,
+                rivers: {
+                  type: 'FeatureCollection',
+                  features: [...prev.riversMain.features, ...prev.riversTributaries.features],
+                },
+              }
+            : prev,
+        )
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : 'Unknown error loading map data.')
           setData(null)
         }
       } finally {
-        if (!cancelled) setIsLoading(false)
+        if (!cancelled) {
+          setIsLoading(false)
+          setIsEnhancing(false)
+        }
       }
     }
 
@@ -209,6 +269,7 @@ export function useMapData(): UseMapDataResult {
     data,
     error,
     isLoading,
+    isEnhancing,
     retry: () => setAttempt((a) => a + 1),
   }
 }

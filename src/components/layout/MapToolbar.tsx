@@ -8,6 +8,7 @@ import {
   Home,
   Trash2,
   MapPin,
+  Layers,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -17,6 +18,8 @@ interface MapToolbarProps {
   activeTool: MapTool
   onToolChange: (tool: MapTool) => void
   onClearDrawings: () => void
+  onOpenLayers?: () => void
+  layersActive?: boolean
   className?: string
 }
 
@@ -30,7 +33,14 @@ const tools: { id: MapTool; label: string; icon: ComponentType<{ className?: str
   { id: 'zoom-home', label: 'Zoom Home', icon: Home },
 ]
 
-export function MapToolbar({ activeTool, onToolChange, onClearDrawings, className }: MapToolbarProps) {
+export function MapToolbar({
+  activeTool,
+  onToolChange,
+  onClearDrawings,
+  onOpenLayers,
+  layersActive,
+  className,
+}: MapToolbarProps) {
   return (
     <div
       className={cn(
@@ -50,6 +60,20 @@ export function MapToolbar({ activeTool, onToolChange, onClearDrawings, classNam
           <Icon className="h-4 w-4" />
         </Button>
       ))}
+      {onOpenLayers && (
+        <>
+          <div className="my-1 h-px bg-slate-200" />
+          <Button
+            variant={layersActive ? 'default' : 'ghost'}
+            size="icon"
+            title="Map layers"
+            onClick={onOpenLayers}
+            className={cn('h-9 w-9', layersActive && 'shadow-sm')}
+          >
+            <Layers className="h-4 w-4" />
+          </Button>
+        </>
+      )}
       <div className="my-1 h-px bg-slate-200" />
       <Button variant="ghost" size="icon" title="Clear drawings" onClick={onClearDrawings} className="h-9 w-9 text-red-600">
         <Trash2 className="h-4 w-4" />

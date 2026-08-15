@@ -6,7 +6,8 @@ import distance from '@turf/distance'
 import { point } from '@turf/turf'
 import { fitMapToLasam, getLasamCenter } from '@/lib/map/lasamView'
 import { createMap, createMapFallback, bindMapResize } from '@/lib/map/createMap'
-import { GIS_BUILDING_LAYERS, hideBasemapBuildings, applyBuildingExtrusionPaint, raiseBuildingLayers, BUILDING_COLOR, BUILDING_SELECTED, BUILDING_LIGHT } from '@/lib/map/buildingLayers'
+import { hideBasemapBuildings, applyBuildingExtrusionPaint, raiseBuildingLayers, BUILDING_COLOR, BUILDING_SELECTED, BUILDING_LIGHT } from '@/lib/map/buildingLayers'
+import { LAYER_ID_MAP, resolveMapLibreLayerVisibility } from '@/lib/map/layerVisibility'
 import { createEarthquakeRings } from '@/lib/map/visuals'
 import {
   CAGUA_CENTER,
@@ -125,38 +126,20 @@ export function MapView({
   const [terrainSample, setTerrainSample] = useState<TerrainSample | null>(null)
 
   const applyLayerVisibility = useCallback((map: Map) => {
-    const layerMap: Record<string, string[]> = {
-      boundary: ['boundary-fill', 'boundary-line'],
-      buildings: [...GIS_BUILDING_LAYERS],
-      flood: ['flood-zone-fill'],
-      fault: [...FAULT_LAYER_IDS],
-      epicenter: ['epicenter-rings', 'epicenter-point'],
-      volcano: ['volcano-point'],
-      site: [],
-      hillshade: ['hillshade'],
-      contours: ['contours'],
-      riversMain: ['rivers-main'],
-      riversTributaries: ['rivers-tributaries'],
-      drainage: ['drainage'],
-      riverbanks: ['riverbanks-fill', 'riverbanks-line'],
-      watershed: ['watershed-fill', 'watershed-line'],
-      flowArrows: ['flow-arrows'],
-    }
-
-    for (const [key, layers] of Object.entries(layerMap)) {
-      let visible = layerVisibility[key] ?? true
-      if (key === 'hillshade') visible = terrainSettings.hillshade
-      if (key === 'contours') visible = terrainSettings.contours
-      if (key === 'riversMain') visible = riverSettings.main
-      if (key === 'riversTributaries') visible = riverSettings.tributaries
-      if (key === 'drainage') visible = riverSettings.drainage
-      if (key === 'riverbanks') visible = riverSettings.riverbanks
-      if (key === 'watershed') visible = riverSettings.watershed
-      if (key === 'flowArrows') visible = riverSettings.flowArrows
-      for (const layerId of layers) {
-        if (map.getLayer(layerId)) {
-          map.setLayoutProperty(layerId, 'visibility', visible ? 'visible' : 'none')
-        }
+    for (const layerIds of Object.values(LAYER_ID_MAP)) {
+      for (const layerId of layerIds) {
+        if (!map.getLayer(layerId)) continue
+        map.setLayoutProperty(
+          layerId,
+          'visibility',
+          resolveMapLibreLayerVisibility(
+            layerId,
+            layerVisibility,
+            terrainSettings,
+            riverSettings,
+            is3D,
+          ),
+        )
       }
     }
 
@@ -165,7 +148,9 @@ export function MapView({
     if (markerEl) {
       markerEl.style.display = siteVisible ? '' : 'none'
     }
-  }, [layerVisibility, terrainSettings, riverSettings])
+
+    raiseBuildingLayers(map)
+  }, [layerVisibility, terrainSettings, riverSettings, is3D])
 
   const addBuildingLayers = useCallback((map: Map) => {
     map.addSource('buildings', { type: 'geojson', data: buildings })
@@ -702,25 +687,14 @@ export function MapView({
     updateBuildingColors()
   }, [updateBuildingColors])
 
-  // Keep footprint/outline hidden in 3D — they cast dark ghosts on the terrain.
+  // Sync 3D building paint when mode/terrain changes; visibility handled by applyLayerVisibility.
   useEffect(() => {
     const map = mapRef.current
-    if (!map?.getLayer('buildings-footprint')) return
-    const show3d = is3D || terrainSettings.terrain3d
-    map.setLayoutProperty('buildings-footprint', 'visibility', show3d ? 'none' : 'visible')
-    if (map.getLayer('buildings-outline')) {
-      map.setLayoutProperty('buildings-outline', 'visibility', show3d ? 'none' : 'visible')
-    }
-    if (map.getLayer('buildings-3d')) {
-      map.setLayoutProperty('buildings-3d', 'visibility', show3d ? 'visible' : 'none')
-      applyBuildingExtrusionPaint(map, terrainSettings.terrain3d)
-    }
-    if (map.getLayer('buildings-3d-selected')) {
-      map.setLayoutProperty('buildings-3d-selected', 'visibility', show3d ? 'visible' : 'none')
-    }
+    if (!map?.getLayer('buildings-3d')) return
+    applyBuildingExtrusionPaint(map, terrainSettings.terrain3d)
     map.setLight(BUILDING_LIGHT)
-    raiseBuildingLayers(map)
-  }, [is3D, terrainSettings.terrain3d])
+    applyLayerVisibility(map)
+  }, [is3D, terrainSettings.terrain3d, applyLayerVisibility])
 
   useEffect(() => {
     if (selectedBuildingId) flyToBuilding(selectedBuildingId)
@@ -743,6 +717,21 @@ export function MapView({
 
   useEffect(() => {
     const map = mapRef.current
+    if (!map?.isStyleLoaded()) return
+
+    ;(map.getSource('rivers-main') as maplibregl.GeoJSONSource | undefined)?.setData(riversMain)
+    ;(map.getSource('rivers-tributaries') as maplibregl.GeoJSONSource | undefined)?.setData(
+      riversTributaries,
+    )
+    ;(map.getSource('drainage') as maplibregl.GeoJSONSource | undefined)?.setData(drainage)
+    ;(map.getSource('riverbanks') as maplibregl.GeoJSONSource | undefined)?.setData(riverbanks)
+    ;(map.getSource('watersheds') as maplibregl.GeoJSONSource | undefined)?.setData(watersheds)
+    ;(map.getSource('flow-arrows') as maplibregl.GeoJSONSource | undefined)?.setData(flowArrows)
+    ;(map.getSource('contours') as maplibregl.GeoJSONSource | undefined)?.setData(contours)
+  }, [riversMain, riversTributaries, drainage, riverbanks, watersheds, flowArrows, contours])
+
+  useEffect(() => {
+    const map = mapRef.current
     if (!map?.getSource('lasam-dem')) return
     if (terrainSettings.terrain3d) {
       map.setTerrain({ source: 'lasam-dem', exaggeration: terrainSettings.exaggeration })
@@ -751,13 +740,8 @@ export function MapView({
     }
     map.setLight(BUILDING_LIGHT)
     applyBuildingExtrusionPaint(map, terrainSettings.terrain3d)
-    if (map.getLayer('hillshade')) {
-      map.setLayoutProperty('hillshade', 'visibility', terrainSettings.hillshade ? 'visible' : 'none')
-    }
-    if (map.getLayer('contours')) {
-      map.setLayoutProperty('contours', 'visibility', terrainSettings.contours ? 'visible' : 'none')
-    }
-  }, [terrainSettings])
+    applyLayerVisibility(map)
+  }, [terrainSettings, applyLayerVisibility])
 
   useEffect(() => {
     const map = mapRef.current

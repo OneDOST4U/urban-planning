@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { CAGUA_META } from '@/lib/simulation/volcano'
 import { FAULT_LEGEND_ENTRIES } from '@/lib/simulation/faultLegend'
 import { MGB_FLOOD_LEGEND, type MgbSusceptibility } from '@/lib/simulation/mgbFlood'
+import { LAYER_VISIBILITY_LABELS } from '@/lib/map/layerVisibility'
 import { BuildingInfoPanel } from '@/components/layout/BuildingInfoPanel'
 import type {
   HazardMode,
@@ -255,6 +256,14 @@ export function HazardPanel(props: HazardPanelProps) {
                     />
                   </div>
                 </div>
+                <div className="flex items-center justify-between gap-3">
+                  <Label htmlFor="show-fault-layer">Show PHIVOLCS fault lines</Label>
+                  <Switch
+                    id="show-fault-layer"
+                    checked={props.layerVisibility.fault !== false}
+                    onCheckedChange={(v) => props.onLayerVisibilityChange('fault', v)}
+                  />
+                </div>
                 <div className="overflow-hidden rounded-md border border-teal-700/20">
                   <div className="bg-teal-700 px-3 py-1.5 text-center text-xs font-semibold text-white">
                     Active Fault
@@ -295,6 +304,14 @@ export function HazardPanel(props: HazardPanelProps) {
                 </p>
                 <div className="rounded-md border border-amber-100 bg-amber-50 px-3 py-2 text-xs text-amber-900">
                   Last known eruption: {CAGUA_META.lastEruption}
+                </div>
+                <div className="flex items-center justify-between gap-3">
+                  <Label htmlFor="show-volcano-layer">Show Cagua volcano marker</Label>
+                  <Switch
+                    id="show-volcano-layer"
+                    checked={props.layerVisibility.volcano !== false}
+                    onCheckedChange={(v) => props.onLayerVisibilityChange('volcano', v)}
+                  />
                 </div>
                 <p className="text-[11px] leading-relaxed text-slate-500">
                   Lasam is approximately 50–60 km from the Cagua summit. Toggle the volcano layer on
@@ -374,8 +391,8 @@ export function HazardPanel(props: HazardPanelProps) {
               </CardHeader>
               <CardContent className="space-y-3">
                 {Object.entries(props.layerVisibility).map(([layer, visible]) => (
-                  <div key={layer} className="flex items-center justify-between">
-                    <Label className="capitalize">{layer.replace('-', ' ')}</Label>
+                  <div key={layer} className="flex items-center justify-between gap-3">
+                    <Label>{LAYER_VISIBILITY_LABELS[layer] ?? layer}</Label>
                     <Switch
                       checked={visible}
                       onCheckedChange={(checked) => props.onLayerVisibilityChange(layer, checked)}

@@ -44,7 +44,7 @@ const emptyFaults: FeatureCollection = { type: 'FeatureCollection', features: []
 const initialLayerVisibility = {
   boundary: true,
   buildings: true,
-  flood: false,
+  flood: true,
   fault: true,
   epicenter: true,
   volcano: true,
@@ -70,7 +70,7 @@ const initialRivers: RiverSettings = {
 }
 
 export default function App() {
-  const { data, error, isLoading, retry } = useMapData()
+  const { data, error, isLoading, isEnhancing, retry } = useMapData()
 
   const [faultLines, setFaultLines] = useState<FeatureCollection | null>(null)
 
@@ -341,7 +341,7 @@ export default function App() {
       <div className="flex h-screen items-center justify-center bg-slate-50">
         <div className="text-center">
           <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-sky-600 border-t-transparent" />
-          <p className="text-sm text-slate-600">Loading Lasam terrain & hazard map…</p>
+          <p className="text-sm text-slate-600">Loading Lasam hazard map…</p>
         </div>
       </div>
     )
@@ -365,6 +365,11 @@ export default function App() {
         onReset={handleReset}
         onFullscreen={handleFullscreen}
       />
+      {isEnhancing && (
+        <div className="border-b border-sky-100 bg-sky-50 px-4 py-1.5 text-center text-xs text-sky-800">
+          Loading terrain & hydrology layers in the background…
+        </div>
+      )}
       <DisclaimerModal open={disclaimerOpen} onClose={() => setDisclaimerOpen(false)} />
 
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
@@ -456,6 +461,11 @@ export default function App() {
             activeTool={activeTool}
             onToolChange={setActiveTool}
             className="left-3 top-14"
+            layersActive={hazardMode === 'layers'}
+            onOpenLayers={() => {
+              setHazardMode('layers')
+              setMobilePanelOpen(true)
+            }}
             onClearDrawings={() => {
               if (data) {
                 setFaultLines(data.defaultFaults)

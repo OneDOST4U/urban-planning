@@ -77,5 +77,17 @@ export function MapLegend({ hazardMode }: MapLegendProps) {
     )
   }
 
+  if (hazardMode === 'layers') {
+    return (
+      <div className="absolute bottom-4 left-3 z-10 hidden max-w-xs rounded-lg border border-slate-200 bg-white/95 p-3 shadow-lg backdrop-blur sm:block">
+        <p className="mb-2 text-xs font-semibold text-slate-700">Map layers</p>
+        <p className="text-[11px] leading-relaxed text-slate-600">
+          Use the Layers tab to toggle buildings, flood, faults, terrain, and rivers. The layers
+          button on the left toolbar opens the same controls.
+        </p>
+      </div>
+    )
+  }
+
   return null
 }
