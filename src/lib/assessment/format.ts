@@ -20,11 +20,6 @@ export function formatApproxDistanceKm(distanceKm: number, direction: string, of
   return `Approximately ${distanceKm.toFixed(1)} km ${direction} of ${ofName}`
 }
 
-export function formatFacilityDistance(name: string, distanceM: number): string {
-  if (distanceM < 1000) return `${name} (${Math.round(distanceM)} m)`
-  return `${name} (${(distanceM / 1000).toFixed(1)} km)`
-}
-
 /** Rough Lasam municipal bbox for form validation */
 export const LASAM_ASSESS_BBOX = {
   west: 121.45,

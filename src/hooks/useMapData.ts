@@ -18,7 +18,6 @@ export interface MapData {
   mgbFlood: FeatureCollection
   defaultFaults: FeatureCollection
   volcanoes: FeatureCollection
-  facilities: FeatureCollection
 }
 
 interface UseMapDataResult {
@@ -93,7 +92,6 @@ function buildMapData(
     mgbFlood: partial.mgbFlood,
     defaultFaults: faults,
     volcanoes: partial.volcanoes,
-    facilities: partial.facilities,
   }
 }
 
@@ -117,7 +115,6 @@ function emptyMapDataShell(
     phivolcsFaults: null,
     sampleFault: null,
     volcanoes: emptyFc,
-    facilities: emptyFc,
   })
 }
 
@@ -179,7 +176,6 @@ export function useMapData(): UseMapDataResult {
           phivolcsFaults,
           sampleFault,
           volcanoes,
-          facilities,
           drainage,
           riverbanks,
           watersheds,
@@ -207,10 +203,6 @@ export function useMapData(): UseMapDataResult {
           ),
           fetchJsonOptional<FeatureCollection>(
             dataUrl('/data/hazards/phivolcs-volcanoes-northern-luzon.geojson'),
-            emptyFc,
-          ),
-          fetchJsonOptional<FeatureCollection>(
-            dataUrl('/data/facilities/lasam-critical-facilities.geojson'),
             emptyFc,
           ),
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/drainage.geojson'), emptyFc),
@@ -245,7 +237,6 @@ export function useMapData(): UseMapDataResult {
           phivolcsFaults,
           sampleFault,
           volcanoes,
-          facilities,
         })
 
         if (enhanced.defaultFaults.features.length === 0) {

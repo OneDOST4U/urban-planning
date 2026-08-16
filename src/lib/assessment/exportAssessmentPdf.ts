@@ -216,7 +216,6 @@ function drawAssessmentPanel(
     { title: 'SEISMIC HAZARD', rows: result.seismic },
     { title: 'VOLCANIC HAZARD', rows: result.volcanic },
     { title: 'HYDRO-MET HAZARD', rows: result.hydromet },
-    { title: 'CRITICAL FACILITIES', rows: result.facilities },
   ]
 
   const innerW = w - ROW_PAD_X * 2

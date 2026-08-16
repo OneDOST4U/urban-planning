@@ -151,7 +151,6 @@ export interface SiteAssessmentResult {
   seismic: AssessmentRow[]
   volcanic: AssessmentRow[]
   hydromet: AssessmentRow[]
-  facilities: AssessmentRow[]
 }
 
 export interface SimulationState {

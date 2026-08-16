@@ -275,7 +275,6 @@ export default function App() {
       {
         faults: activeFaults,
         volcanoes: data.volcanoes,
-        facilities: data.facilities,
         mgbFlood: data.mgbFlood,
       },
     )
@@ -307,7 +306,6 @@ export default function App() {
       {
         faults: activeFaults,
         volcanoes: data.volcanoes,
-        facilities: data.facilities,
         mgbFlood: data.mgbFlood,
       },
     )

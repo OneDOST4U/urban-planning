@@ -2,13 +2,11 @@ import type { FeatureCollection } from 'geojson'
 import { assessSeismic } from '@/lib/assessment/seismic'
 import { assessVolcanic } from '@/lib/assessment/volcanic'
 import { assessHydromet } from '@/lib/assessment/hydromet'
-import { assessFacilities } from '@/lib/assessment/facilities'
 import type { SiteAssessmentInput, SiteAssessmentResult } from '@/types'
 
 export interface AssessSiteContext {
   faults: FeatureCollection | null
   volcanoes: FeatureCollection | null
-  facilities: FeatureCollection | null
   mgbFlood?: FeatureCollection | null
 }
 
@@ -24,7 +22,6 @@ export function assessSite(
     seismic: assessSeismic(coords, ctx.faults),
     volcanic: assessVolcanic(coords, ctx.volcanoes),
     hydromet: assessHydromet(coords, ctx.mgbFlood),
-    facilities: assessFacilities(coords, ctx.facilities),
   }
 }
 
