@@ -61,10 +61,7 @@ function asFaultCollection(
 }
 
 function buildMapData(
-  partial: Omit<
-    MapData,
-    'rivers' | 'defaultFaults'
-  > & {
+  partial: Omit<MapData, 'rivers' | 'defaultFaults'> & {
     riversLegacy: FeatureCollection
     phivolcsFaults: FeatureCollection | null
     sampleFault: { features: Feature<LineString>[] } | null
@@ -100,6 +97,30 @@ function buildMapData(
   }
 }
 
+function emptyMapDataShell(
+  buildings: BuildingCollection,
+  boundary: FeatureCollection,
+): MapData {
+  return buildMapData({
+    buildings,
+    boundary,
+    riversLegacy: emptyFc,
+    riversMain: emptyFc,
+    riversTributaries: emptyFc,
+    drainage: emptyFc,
+    riverbanks: emptyFc,
+    watersheds: emptyFc,
+    flowArrows: emptyFc,
+    contours: emptyFc,
+    elevationGrid: null,
+    mgbFlood: emptyFc,
+    phivolcsFaults: null,
+    sampleFault: null,
+    volcanoes: emptyFc,
+    facilities: emptyFc,
+  })
+}
+
 export function useMapData(): UseMapDataResult {
   const [data, setData] = useState<MapData | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -116,19 +137,7 @@ export function useMapData(): UseMapDataResult {
       setError(null)
 
       try {
-        const [
-          buildings,
-          psaBoundary,
-          osmBoundary,
-          riversLegacy,
-          riversMain,
-          riversTributaries,
-          mgbFlood,
-          phivolcsFaults,
-          sampleFault,
-          volcanoes,
-          facilities,
-        ] = await Promise.all([
+        const [buildings, psaBoundary, osmBoundary] = await Promise.all([
           fetchJson<BuildingCollection>(dataUrl('/data/administrative/lasam-buildings.geojson'))
             .catch(() => fetchJson<BuildingCollection>(dataUrl('/data/lasam-buildings.geojson'))),
           fetchJsonOptional<FeatureCollection>(
@@ -141,6 +150,43 @@ export function useMapData(): UseMapDataResult {
           ).catch(() =>
             fetchJsonOptional<FeatureCollection>(dataUrl('/data/lasam-boundary.geojson'), emptyFc),
           ),
+        ])
+
+        if (cancelled) return
+
+        const boundary =
+          psaBoundary.features.length > 0
+            ? psaBoundary
+            : osmBoundary.features.length > 0
+              ? osmBoundary
+              : emptyFc
+
+        if (boundary.features.length === 0) {
+          throw new Error(
+            'Municipal boundary missing. Run npm run fetch:boundary (or ensure OSM lasam-boundary.geojson exists).',
+          )
+        }
+
+        setData(emptyMapDataShell(buildings, boundary))
+        setIsLoading(false)
+        setIsEnhancing(true)
+
+        const [
+          riversLegacy,
+          riversMain,
+          riversTributaries,
+          mgbFlood,
+          phivolcsFaults,
+          sampleFault,
+          volcanoes,
+          facilities,
+          drainage,
+          riverbanks,
+          watersheds,
+          flowArrows,
+          contours,
+          elevationGrid,
+        ] = await Promise.all([
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/lasam-rivers.geojson'), emptyFc),
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/rivers-main.geojson'), emptyFc),
           fetchJsonOptional<FeatureCollection>(
@@ -167,22 +213,15 @@ export function useMapData(): UseMapDataResult {
             dataUrl('/data/facilities/lasam-critical-facilities.geojson'),
             emptyFc,
           ),
+          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/drainage.geojson'), emptyFc),
+          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/riverbanks.geojson'), emptyFc),
+          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/watersheds.geojson'), emptyFc),
+          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/flow-arrows.geojson'), emptyFc),
+          fetchJsonOptional<FeatureCollection>(dataUrl('/data/terrain/contours.geojson'), emptyFc),
+          fetchJsonOptional<ElevationGrid | null>(dataUrl('/data/terrain/elevation-grid.json'), null),
         ])
 
         if (cancelled) return
-
-        const boundary =
-          psaBoundary.features.length > 0
-            ? psaBoundary
-            : osmBoundary.features.length > 0
-              ? osmBoundary
-              : emptyFc
-
-        if (boundary.features.length === 0) {
-          throw new Error(
-            'Municipal boundary missing. Run npm run fetch:boundary (or ensure OSM lasam-boundary.geojson exists).',
-          )
-        }
 
         if (mgbFlood.features.length === 0) {
           console.warn(
@@ -190,18 +229,18 @@ export function useMapData(): UseMapDataResult {
           )
         }
 
-        const critical = buildMapData({
+        const enhanced = buildMapData({
           buildings,
           boundary,
           riversLegacy,
           riversMain,
           riversTributaries,
-          drainage: emptyFc,
-          riverbanks: emptyFc,
-          watersheds: emptyFc,
-          flowArrows: emptyFc,
-          contours: emptyFc,
-          elevationGrid: null,
+          drainage,
+          riverbanks,
+          watersheds,
+          flowArrows,
+          contours,
+          elevationGrid,
           mgbFlood,
           phivolcsFaults,
           sampleFault,
@@ -209,43 +248,11 @@ export function useMapData(): UseMapDataResult {
           facilities,
         })
 
-        if (critical.defaultFaults.features.length === 0) {
+        if (enhanced.defaultFaults.features.length === 0) {
           console.warn('No fault line GeoJSON loaded — fault simulation will be inactive.')
         }
 
-        setData(critical)
-        setIsLoading(false)
-        setIsEnhancing(true)
-
-        const [drainage, riverbanks, watersheds, flowArrows, contours, elevationGrid] =
-          await Promise.all([
-            fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/drainage.geojson'), emptyFc),
-            fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/riverbanks.geojson'), emptyFc),
-            fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/watersheds.geojson'), emptyFc),
-            fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/flow-arrows.geojson'), emptyFc),
-            fetchJsonOptional<FeatureCollection>(dataUrl('/data/terrain/contours.geojson'), emptyFc),
-            fetchJsonOptional<ElevationGrid | null>(dataUrl('/data/terrain/elevation-grid.json'), null),
-          ])
-
-        if (cancelled) return
-
-        setData((prev) =>
-          prev
-            ? {
-                ...prev,
-                drainage,
-                riverbanks,
-                watersheds,
-                flowArrows,
-                contours,
-                elevationGrid,
-                rivers: {
-                  type: 'FeatureCollection',
-                  features: [...prev.riversMain.features, ...prev.riversTributaries.features],
-                },
-              }
-            : prev,
-        )
+        setData(enhanced)
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : 'Unknown error loading map data.')

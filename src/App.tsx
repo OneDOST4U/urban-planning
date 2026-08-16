@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import type { FeatureCollection } from 'geojson'
 import { Header } from '@/components/layout/Header'
 import { DisclaimerModal } from '@/components/layout/DisclaimerModal'
 import { MapToolbar } from '@/components/layout/MapToolbar'
 import { SiteAssessmentPopup } from '@/components/layout/SiteAssessmentPopup'
-import { AssessmentReportModal } from '@/components/layout/AssessmentReportModal'
 import { MobileHazardDrawer } from '@/components/layout/MobileHazardDrawer'
 import { BuildingPopup } from '@/components/layout/BuildingPopup'
 import { RiverInfoCard, type SelectedRiver } from '@/components/layout/RiverInfoCard'
@@ -37,6 +36,12 @@ import type {
   TerrainSettings,
 } from '@/types'
 
+const AssessmentReportModal = lazy(() =>
+  import('@/components/layout/AssessmentReportModal').then((m) => ({
+    default: m.AssessmentReportModal,
+  })),
+)
+
 const DEFAULT_FAULT_NAME = 'PHIVOLCS Active Faults (Lasam 50 km)'
 
 const emptyFaults: FeatureCollection = { type: 'FeatureCollection', features: [] }
@@ -44,16 +49,16 @@ const emptyFaults: FeatureCollection = { type: 'FeatureCollection', features: []
 const initialLayerVisibility = {
   boundary: true,
   buildings: true,
-  flood: true,
-  fault: true,
-  epicenter: true,
-  volcano: true,
-  site: true,
+  flood: false,
+  fault: false,
+  epicenter: false,
+  volcano: false,
+  site: false,
 }
 
 const initialTerrain: TerrainSettings = {
   terrain3d: true,
-  hillshade: true,
+  hillshade: false,
   contours: false,
   elevationColors: false,
   exaggeration: 1.4,
@@ -61,8 +66,8 @@ const initialTerrain: TerrainSettings = {
 }
 
 const initialRivers: RiverSettings = {
-  main: true,
-  tributaries: true,
+  main: false,
+  tributaries: false,
   drainage: false,
   riverbanks: false,
   watershed: false,
@@ -84,7 +89,7 @@ export default function App() {
 
   const [earthquakeMagnitude, setEarthquakeMagnitude] = useState(6)
   const [earthquakeRadius, setEarthquakeRadius] = useState(getEarthquakeRadius(6))
-  const [epicenter, setEpicenter] = useState<[number, number] | null>(LASAM_CENTER)
+  const [epicenter, setEpicenter] = useState<[number, number] | null>(null)
 
   const [faultLineName, setFaultLineName] = useState(DEFAULT_FAULT_NAME)
   const [assessLat, setAssessLat] = useState(String(LASAM_CENTER[1]))
@@ -123,10 +128,18 @@ export default function App() {
 
   const baseBuildings = useMemo(() => {
     if (!data) return null
-    let result = applyMgbFloodExposure(data.buildings, data.mgbFlood)
-    result = applyEarthquakeSimulation(result, epicenter, earthquakeMagnitude, earthquakeRadius)
+    let result = data.buildings
+    if (layerVisibility.flood && data.mgbFlood.features.length) {
+      result = applyMgbFloodExposure(result, data.mgbFlood)
+    }
+    if (epicenter) {
+      result = applyEarthquakeSimulation(result, epicenter, earthquakeMagnitude, earthquakeRadius)
+    }
     return result
-  }, [data, epicenter, earthquakeMagnitude, earthquakeRadius])
+  }, [data, layerVisibility.flood, epicenter, earthquakeMagnitude, earthquakeRadius])
+
+  const needsFaultExposure = layerVisibility.fault || hazardMode === 'fault'
+  const needsVolcanoExposure = layerVisibility.volcano || hazardMode === 'volcano'
 
   const [faultBuildings, setFaultBuildings] = useState<
     NonNullable<ReturnType<typeof useMapData>['data']>['buildings'] | null
@@ -140,6 +153,11 @@ export default function App() {
       return
     }
 
+    if (!needsFaultExposure && !needsVolcanoExposure) {
+      setFaultBuildings(null)
+      return
+    }
+
     setFaultBuildings(null)
 
     let cancelled = false
@@ -147,11 +165,13 @@ export default function App() {
       try {
         let next = baseBuildings
         const faults = faultLines ?? data.defaultFaults
-        if (faults.features.length) {
+        if (needsFaultExposure && faults.features.length) {
           next = applyFaultDistances(next, faults)
         }
 
-        next = applyVolcanoDistances(next, CAGUA_CENTER)
+        if (needsVolcanoExposure) {
+          next = applyVolcanoDistances(next, CAGUA_CENTER)
+        }
         if (cancelled) return
         setFaultBuildings(next)
       } catch (err) {
@@ -166,7 +186,7 @@ export default function App() {
       cancelled = true
       window.clearTimeout(timer)
     }
-  }, [baseBuildings, data, faultLines])
+  }, [baseBuildings, data, faultLines, needsFaultExposure, needsVolcanoExposure])
 
   const mgbExposureCounts = useMemo(
     () =>
@@ -211,7 +231,7 @@ export default function App() {
     setFloodOpacity(0.55)
     setEarthquakeMagnitude(6)
     setEarthquakeRadius(getEarthquakeRadius(6))
-    setEpicenter(LASAM_CENTER)
+    setEpicenter(null)
     setFaultLines(data.defaultFaults)
     setFaultLineName(DEFAULT_FAULT_NAME)
     setSelectedBuildingId(null)
@@ -228,6 +248,8 @@ export default function App() {
     setAssessLng(String(LASAM_CENTER[0]))
     setAssessBuildingType(DEFAULT_PROPOSED_BUILDING_TYPE)
     setLayerVisibility(initialLayerVisibility)
+    setTerrainSettings(initialTerrain)
+    setRiverSettings(initialRivers)
   }, [data])
 
   const handleAssessSite = useCallback(() => {
@@ -367,7 +389,7 @@ export default function App() {
       />
       {isEnhancing && (
         <div className="border-b border-sky-100 bg-sky-50 px-4 py-1.5 text-center text-xs text-sky-800">
-          Loading terrain & hydrology layers in the background…
+          Loading hazard & river data in the background…
         </div>
       )}
       <DisclaimerModal open={disclaimerOpen} onClose={() => setDisclaimerOpen(false)} />
@@ -451,12 +473,16 @@ export default function App() {
             onConfirmMapSite={handleConfirmMapSite}
             onCancelPickOnMap={handleCancelPickOnMap}
           />
-          <AssessmentReportModal
-            open={reportOpen}
-            result={assessmentResult}
-            buildings={data?.buildings ?? null}
-            onClose={() => setReportOpen(false)}
-          />
+          {reportOpen && (
+            <Suspense fallback={null}>
+              <AssessmentReportModal
+                open={reportOpen}
+                result={assessmentResult}
+                buildings={data?.buildings ?? null}
+                onClose={() => setReportOpen(false)}
+              />
+            </Suspense>
+          )}
           <MapToolbar
             activeTool={activeTool}
             onToolChange={setActiveTool}
@@ -471,7 +497,7 @@ export default function App() {
                 setFaultLines(data.defaultFaults)
                 setFaultLineName(DEFAULT_FAULT_NAME)
               }
-              setEpicenter(LASAM_CENTER)
+              setEpicenter(null)
             }}
           />
           {selectedBuilding && (
