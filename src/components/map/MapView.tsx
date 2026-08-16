@@ -111,6 +111,7 @@ export function MapView({
   const onBuildingSelectRef = useRef(onBuildingSelect)
   const onRiverSelectRef = useRef(onRiverSelect)
   const elevationGridRef = useRef(elevationGrid)
+  const terrainSettingsRef = useRef(terrainSettings)
   const onMapReadyRef = useRef(onMapReady)
 
   useEffect(() => {
@@ -118,8 +119,9 @@ export function MapView({
     onBuildingSelectRef.current = onBuildingSelect
     onRiverSelectRef.current = onRiverSelect
     elevationGridRef.current = elevationGrid
+    terrainSettingsRef.current = terrainSettings
     onMapReadyRef.current = onMapReady
-  }, [activeTool, onBuildingSelect, onRiverSelect, elevationGrid, onMapReady])
+  }, [activeTool, onBuildingSelect, onRiverSelect, elevationGrid, terrainSettings, onMapReady])
 
   const [toolHint, setToolHint] = useState<string | null>(null)
   const [mapError, setMapError] = useState<string | null>(null)
@@ -331,9 +333,6 @@ export function MapView({
             tileSize: 256,
             maxzoom: 15,
           })
-          if (terrainSettings.terrain3d) {
-            map.setTerrain({ source: 'lasam-dem', exaggeration: terrainSettings.exaggeration })
-          }
           map.addLayer({
             id: 'hillshade',
             type: 'hillshade',
@@ -345,6 +344,20 @@ export function MapView({
             },
             layout: { visibility: terrainSettings.hillshade ? 'visible' : 'none' },
           })
+
+          // Do not drape the entire map over a remote DEM until at least one
+          // elevation tile is ready. A blocked/slow DEM otherwise leaves the
+          // basemap and GeoJSON layers looking like a blank canvas.
+          const enableTerrainWhenReady = () => {
+            if (!map.isSourceLoaded('lasam-dem')) return
+            map.off('sourcedata', enableTerrainWhenReady)
+            const current = terrainSettingsRef.current
+            if (current.terrain3d) {
+              map.setTerrain({ source: 'lasam-dem', exaggeration: current.exaggeration })
+            }
+          }
+          map.on('sourcedata', enableTerrainWhenReady)
+          enableTerrainWhenReady()
         } catch {
           // Terrain optional if style/source fails
         }
@@ -734,7 +747,7 @@ export function MapView({
   useEffect(() => {
     const map = mapRef.current
     if (!map?.getSource('lasam-dem')) return
-    if (terrainSettings.terrain3d) {
+    if (terrainSettings.terrain3d && map.isSourceLoaded('lasam-dem')) {
       map.setTerrain({ source: 'lasam-dem', exaggeration: terrainSettings.exaggeration })
     } else {
       map.setTerrain(null)
