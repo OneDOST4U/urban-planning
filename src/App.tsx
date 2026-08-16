@@ -7,7 +7,6 @@ import { SiteAssessmentPopup } from '@/components/layout/SiteAssessmentPopup'
 import { MobileHazardDrawer } from '@/components/layout/MobileHazardDrawer'
 import { BuildingPopup } from '@/components/layout/BuildingPopup'
 import { RiverInfoCard, type SelectedRiver } from '@/components/layout/RiverInfoCard'
-import { MapView } from '@/components/map/MapView'
 import { Button } from '@/components/ui/button'
 import { useMapData } from '@/hooks/useMapData'
 import { LASAM_CENTER } from '@/lib/constants'
@@ -40,6 +39,10 @@ const AssessmentReportModal = lazy(() =>
   import('@/components/layout/AssessmentReportModal').then((m) => ({
     default: m.AssessmentReportModal,
   })),
+)
+
+const MapView = lazy(() =>
+  import('@/components/map/MapView').then((m) => ({ default: m.MapView })),
 )
 
 const DEFAULT_FAULT_NAME = 'PHIVOLCS Active Faults (Lasam 50 km)'
@@ -396,9 +399,16 @@ export default function App() {
 
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
         <div className="relative h-[55vh] min-h-[420px] flex-1 lg:h-auto lg:min-h-0">
-          <MapView
-            buildings={processedBuildings}
-            boundary={data.boundary}
+          <Suspense
+            fallback={
+              <div className="flex h-full items-center justify-center bg-slate-100 text-sm text-slate-600">
+                Preparing interactive map…
+              </div>
+            }
+          >
+            <MapView
+              buildings={processedBuildings}
+              boundary={data.boundary}
             riversMain={data.riversMain}
             riversTributaries={data.riversTributaries}
             drainage={data.drainage}
@@ -449,8 +459,9 @@ export default function App() {
               }
               setFaultLines(drawn)
             }}
-            onMeasureUpdate={() => {}}
-          />
+              onMeasureUpdate={() => {}}
+            />
+          </Suspense>
           <SiteAssessmentPopup
             open={assessPanelOpen}
             onOpenChange={setAssessPanelOpen}

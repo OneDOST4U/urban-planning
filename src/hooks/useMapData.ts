@@ -46,6 +46,7 @@ async function fetchJsonOptional<T>(url: string, fallback: T): Promise<T> {
 }
 
 const emptyFc: FeatureCollection = { type: 'FeatureCollection', features: [] }
+const emptyBuildings: BuildingCollection = { type: 'FeatureCollection', features: [] }
 
 function asFaultCollection(
   data: FeatureCollection | { features?: Feature[] } | null,
@@ -137,9 +138,10 @@ export function useMapData(): UseMapDataResult {
       setError(null)
 
       try {
-        const [buildings, psaBoundary, osmBoundary] = await Promise.all([
-          fetchJson<BuildingCollection>(dataUrl('/data/administrative/lasam-buildings.geojson'))
-            .catch(() => fetchJson<BuildingCollection>(dataUrl('/data/lasam-buildings.geojson'))),
+        // The municipal boundary is tiny, while the buildings file is several MB.
+        // Paint the basemap and boundary first instead of holding the whole UI on
+        // the largest request.
+        const [psaBoundary, osmBoundary] = await Promise.all([
           fetchJsonOptional<FeatureCollection>(
             dataUrl('/data/administrative/psa-lasam-boundary.geojson'),
             emptyFc,
@@ -167,9 +169,19 @@ export function useMapData(): UseMapDataResult {
           )
         }
 
-        setData(emptyMapDataShell(buildings, boundary))
+        setData(emptyMapDataShell(emptyBuildings, boundary))
         setIsLoading(false)
         setIsEnhancing(true)
+
+        // Prioritize the feature users interact with most. Optional hazard and
+        // terrain layers load only after buildings, avoiding network contention
+        // with the largest startup request.
+        const buildings = await fetchJson<BuildingCollection>(
+          dataUrl('/data/administrative/lasam-buildings.geojson'),
+        ).catch(() => fetchJson<BuildingCollection>(dataUrl('/data/lasam-buildings.geojson')))
+
+        if (cancelled) return
+        setData(emptyMapDataShell(buildings, boundary))
 
         const [
           riversLegacy,
