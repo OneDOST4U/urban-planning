@@ -352,7 +352,15 @@ export function MapView({
             if (!map.isSourceLoaded('lasam-dem')) return
             map.off('sourcedata', enableTerrainWhenReady)
             const current = terrainSettingsRef.current
-            if (current.terrain3d) {
+            // MapLibre groups draped layers when terrain is enabled. With an
+            // opaque raster basemap that can place GeoJSON fills/lines (flood,
+            // boundary, rivers) underneath the raster tiles. Keep the reliable
+            // production raster style flat so every planning overlay remains
+            // visible; 3D building extrusions and camera pitch still work.
+            const hasRasterBasemap = Boolean(
+              map.getSource('carto') || map.getSource('basemap-raster-underlay'),
+            )
+            if (current.terrain3d && !hasRasterBasemap) {
               map.setTerrain({ source: 'lasam-dem', exaggeration: current.exaggeration })
             }
           }
@@ -747,7 +755,14 @@ export function MapView({
   useEffect(() => {
     const map = mapRef.current
     if (!map?.getSource('lasam-dem')) return
-    if (terrainSettings.terrain3d && map.isSourceLoaded('lasam-dem')) {
+    const hasRasterBasemap = Boolean(
+      map.getSource('carto') || map.getSource('basemap-raster-underlay'),
+    )
+    if (
+      terrainSettings.terrain3d &&
+      !hasRasterBasemap &&
+      map.isSourceLoaded('lasam-dem')
+    ) {
       map.setTerrain({ source: 'lasam-dem', exaggeration: terrainSettings.exaggeration })
     } else {
       map.setTerrain(null)
