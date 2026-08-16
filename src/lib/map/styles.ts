@@ -56,8 +56,11 @@ export const OSM_RASTER_STYLE: StyleSpecification = {
   ],
 }
 
-/** Vector basemap; pair with installRasterUnderlay() for production reliability */
-export const MAP_STYLE = OPENFREEMAP_STYLE
+/** Reliable production basemap (Carto CDN). OpenFreeMap vectors often fail at Lasam zoom on Vercel. */
+export const MAP_STYLE = CARTO_RASTER_STYLE
+
+/** Optional richer style for local experimentation */
+export const MAP_STYLE_DEV = OPENFREEMAP_STYLE
 
 export const MAP_STYLE_CANDIDATES: Array<string | StyleSpecification> = [
   OPENFREEMAP_STYLE,

@@ -10,9 +10,11 @@ export function createMap(options: Omit<MapOptions, 'style'> & { container: HTML
   })
 }
 
-/** Apply Carto underlay after the vector style loads (OpenFreeMap + reliable high-zoom tiles). */
+/** Carto raster is the primary style — no vector underlay needed. */
 export function prepareBasemap(map: Map): void {
-  installRasterUnderlay(map)
+  if (typeof map.getStyle().sources?.openmaptiles !== 'undefined') {
+    installRasterUnderlay(map)
+  }
 }
 
 /** Full raster basemap if the vector style JSON cannot load. */

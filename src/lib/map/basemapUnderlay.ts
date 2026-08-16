@@ -2,9 +2,9 @@ import type { Map } from 'maplibre-gl'
 
 /** Production-safe raster tiles (Carto CDN). OSM direct tiles often block non-localhost referrers. */
 export const CARTO_RASTER_TILES = [
-  'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-  'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-  'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+  'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+  'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+  'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
 ]
 
 const UNDERLAY_SOURCE = 'basemap-raster-underlay'
