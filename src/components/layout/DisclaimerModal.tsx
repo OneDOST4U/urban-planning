@@ -1,6 +1,6 @@
 import { AlertTriangle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { DEMO_DISCLAIMER, SIMULATION_DISCLAIMER } from '@/lib/constants'
+import { DEMO_DISCLAIMER, SIMULATION_DISCLAIMER, APP_BRAND, APP_DEMO_SUBTITLE, APP_LOGO_PATH } from '@/lib/constants'
 
 interface DisclaimerModalProps {
   open: boolean
@@ -21,16 +21,17 @@ export function DisclaimerModal({ open, onClose }: DisclaimerModalProps) {
         <div className="border-b border-amber-200 px-5 py-4">
           <div className="flex items-center gap-3">
             <img
-              src="/lasam-logo.png"
+              src={APP_LOGO_PATH}
               alt=""
               className="h-10 w-10 shrink-0 object-contain"
               aria-hidden
             />
             <div>
               <h2 id="disclaimer-title" className="text-sm font-semibold text-amber-950 sm:text-base">
-                LGU Lasam Urban Planning Assessment
+                {APP_BRAND.name}
               </h2>
-              <p className="text-xs text-amber-800">Demonstration prototype</p>
+              <p className="text-xs leading-snug text-amber-800">{APP_BRAND.tagline}</p>
+              <p className="mt-1 text-[10px] text-amber-700">{APP_DEMO_SUBTITLE}</p>
             </div>
           </div>
         </div>

@@ -99,6 +99,7 @@ export function AssessmentResultsCard({
         rows={result.hydromet}
         report={report}
       />
+      <ResultSection title="CRITICAL FACILITIES" rows={result.facilities} report={report} />
     </>
   )
 

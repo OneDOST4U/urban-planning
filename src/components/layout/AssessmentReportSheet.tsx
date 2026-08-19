@@ -7,9 +7,9 @@ import {
 } from '@/components/layout/ProposedBuildingPreviewMap'
 import {
   A4_LANDSCAPE_RATIO,
-  REPORT_COORDINATOR,
   REPORT_HEADER,
 } from '@/lib/assessment/reportLayout'
+import { APP_LOGO_ALT, APP_LOGO_PATH } from '@/lib/constants'
 import type { ProposedBuildingType } from '@/lib/assessment/buildingTypes'
 import type { FeatureCollection } from 'geojson'
 import type { SiteAssessmentResult } from '@/types'
@@ -47,15 +47,18 @@ export function AssessmentReportSheet({
       {/* Header — centered logo + titles only (no accent line) */}
       <header className="flex shrink-0 flex-col items-center border-b border-slate-200 px-4 pb-2 pt-2.5 text-center">
         <img
-          src="/lasam-logo.png"
-          alt="LGU Lasam"
+          src={APP_LOGO_PATH}
+          alt={APP_LOGO_ALT}
           className="h-12 w-12 object-contain sm:h-14 sm:w-14"
         />
         <p className="mt-1 text-xs font-bold tracking-wide text-slate-900 sm:text-sm">
           {REPORT_HEADER.titleLine1}
         </p>
-        <p className="text-[10px] font-bold uppercase tracking-wide text-slate-800 sm:text-xs">
+        <p className="text-[9px] font-semibold leading-snug text-slate-800 sm:text-[10px]">
           {REPORT_HEADER.titleLine2}
+        </p>
+        <p className="text-[9px] font-semibold leading-snug text-slate-800 sm:text-[10px]">
+          {REPORT_HEADER.titleLine3}
         </p>
       </header>
 
@@ -92,17 +95,6 @@ export function AssessmentReportSheet({
           </div>
         </section>
       </div>
-
-      {/* Footer — signature blank with room above the line for signing */}
-      <footer className="shrink-0 px-6 pb-2.5 pt-8 text-center">
-        <div className="mx-auto mb-2 h-[2.5px] w-[42%] min-w-[180px] max-w-[280px] bg-black" />
-        <p className="text-[11px] font-semibold leading-tight text-slate-900 sm:text-xs">
-          {REPORT_COORDINATOR.name}
-        </p>
-        <p className="mt-0.5 text-[9px] leading-tight text-slate-600 sm:text-[10px]">
-          {REPORT_COORDINATOR.title}
-        </p>
-      </footer>
     </article>
   )
 }

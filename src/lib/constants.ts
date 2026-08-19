@@ -3,6 +3,20 @@ export const LASAM_CENTER: [number, number] = [121.6015, 18.0645]
 export const DEFAULT_ZOOM = 17
 export { MAP_STYLE } from '@/lib/map/styles'
 
+/** Application branding */
+export const APP_BRAND = {
+  name: 'BUILD-SAFE',
+  tagline:
+    'An AI-Assisted Multi-Hazard Site Intelligence System for Safer Property Acquisition, Building, and Design',
+} as const
+
+export const APP_TITLE = `${APP_BRAND.name}: ${APP_BRAND.tagline}`
+
+export const APP_DEMO_SUBTITLE = 'Interactive demonstration prototype · Lasam, Cagayan'
+
+export const APP_LOGO_PATH = '/build-safe-logo.png'
+export const APP_LOGO_ALT = 'BUILD-SAFE logo'
+
 export const FLOOD_SCENARIOS = [
   { id: '1h', label: '1-hour rainfall', hours: 1 },
   { id: '3h', label: '3-hour rainfall', hours: 3 },

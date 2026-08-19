@@ -145,10 +145,11 @@ export function MapView({
       }
     }
 
-    const siteVisible = layerVisibility.site ?? true
+    const sitePinVisible =
+      (layerVisibility.site ?? true) || activeToolRef.current === 'place-site'
     const markerEl = siteMarkerRef.current?.getElement()
     if (markerEl) {
-      markerEl.style.display = siteVisible ? '' : 'none'
+      markerEl.style.display = sitePinVisible ? '' : 'none'
     }
 
     raiseBuildingLayers(map)
@@ -827,53 +828,66 @@ export function MapView({
     const map = mapRef.current
     if (!map) return
 
-    if (!siteCoords) {
-      siteMarkerRef.current?.remove()
-      siteMarkerRef.current = null
+    const syncSitePin = () => {
+      if (!siteCoords) {
+        siteMarkerRef.current?.remove()
+        siteMarkerRef.current = null
+        ;(map.getSource('site-assessment') as maplibregl.GeoJSONSource | undefined)?.setData({
+          type: 'FeatureCollection',
+          features: [],
+        })
+        return
+      }
+
       ;(map.getSource('site-assessment') as maplibregl.GeoJSONSource | undefined)?.setData({
         type: 'FeatureCollection',
-        features: [],
+        features: [
+          {
+            type: 'Feature',
+            properties: { id: 'proposed-site' },
+            geometry: { type: 'Point', coordinates: siteCoords },
+          },
+        ],
       })
-      return
+
+      if (!siteMarkerRef.current) {
+        const el = document.createElement('div')
+        el.className = 'site-pin-marker'
+        el.style.cssText =
+          'width:36px;height:48px;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;z-index:6;'
+        el.innerHTML =
+          '<img src="/markers/site-pin.svg" alt="" width="36" height="48" draggable="false" style="display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));" />'
+        siteMarkerRef.current = new maplibregl.Marker({ element: el, anchor: 'bottom', offset: [0, 2] })
+          .setLngLat(siteCoords)
+          .addTo(map)
+      } else {
+        siteMarkerRef.current.setLngLat(siteCoords)
+      }
+
+      const sitePinVisible =
+        (layerVisibility.site ?? true) || activeTool === 'place-site'
+      siteMarkerRef.current.getElement().style.display = sitePinVisible ? '' : 'none'
+
+      if (flyToSite) {
+        map.flyTo({
+          center: siteCoords,
+          zoom: Math.max(map.getZoom(), 16),
+          pitch: is3D ? 55 : 0,
+          duration: 900,
+        })
+      }
     }
 
-    ;(map.getSource('site-assessment') as maplibregl.GeoJSONSource | undefined)?.setData({
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          properties: { id: 'proposed-site' },
-          geometry: { type: 'Point', coordinates: siteCoords },
-        },
-      ],
-    })
-
-    if (!siteMarkerRef.current) {
-      const el = document.createElement('div')
-      el.className = 'site-pin-marker'
-      el.style.cssText =
-        'width:36px;height:48px;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;'
-      el.innerHTML =
-        '<img src="/markers/site-pin.svg" alt="" width="36" height="48" draggable="false" style="display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));" />'
-      siteMarkerRef.current = new maplibregl.Marker({ element: el, anchor: 'bottom', offset: [0, 2] })
-        .setLngLat(siteCoords)
-        .addTo(map)
+    if (map.isStyleLoaded()) {
+      syncSitePin()
     } else {
-      siteMarkerRef.current.setLngLat(siteCoords)
+      map.once('load', syncSitePin)
     }
 
-    const siteVisible = layerVisibility.site ?? true
-    siteMarkerRef.current.getElement().style.display = siteVisible ? '' : 'none'
-
-    if (flyToSite) {
-      map.flyTo({
-        center: siteCoords,
-        zoom: Math.max(map.getZoom(), 16),
-        pitch: is3D ? 55 : 0,
-        duration: 900,
-      })
+    return () => {
+      map.off('load', syncSitePin)
     }
-  }, [siteCoords, flyToSite, is3D, layerVisibility.site])
+  }, [siteCoords, flyToSite, is3D, layerVisibility.site, activeTool])
 
   useEffect(() => {
     const map = mapRef.current

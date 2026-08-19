@@ -56,7 +56,7 @@ const initialLayerVisibility = {
   fault: false,
   epicenter: false,
   volcano: false,
-  site: false,
+  site: true,
 }
 
 const initialTerrain: TerrainSettings = {
@@ -275,6 +275,7 @@ export default function App() {
       {
         faults: activeFaults,
         volcanoes: data.volcanoes,
+        facilities: data.facilities,
         mgbFlood: data.mgbFlood,
       },
     )
@@ -306,6 +307,7 @@ export default function App() {
       {
         faults: activeFaults,
         volcanoes: data.volcanoes,
+        facilities: data.facilities,
         mgbFlood: data.mgbFlood,
       },
     )
@@ -477,6 +479,7 @@ export default function App() {
             onPickSiteOnMap={() => {
               setAssessPanelOpen(false)
               setPendingSiteCoords(null)
+              setLayerVisibility((prev) => ({ ...prev, site: true }))
               setActiveTool('place-site')
             }}
             pickingOnMap={activeTool === 'place-site'}

@@ -1,6 +1,7 @@
 import { Maximize2, RotateCcw, Map, Box } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { APP_BRAND, APP_DEMO_SUBTITLE, APP_LOGO_ALT, APP_LOGO_PATH } from '@/lib/constants'
 
 interface HeaderProps {
   is3D: boolean
@@ -14,15 +15,18 @@ export function Header({ is3D, onToggle3D, onReset, onFullscreen }: HeaderProps)
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4">
       <div className="flex items-center gap-3">
         <img
-          src="/lasam-logo.png"
-          alt="Municipality of Lasam logo"
+          src={APP_LOGO_PATH}
+          alt={APP_LOGO_ALT}
           className="h-9 w-9 shrink-0 object-contain"
         />
         <div>
-          <h1 className="text-xs font-semibold text-slate-900 sm:text-sm">
-            LGU LASAM URBAN PLANNING ASSESSMENT
+          <h1 className="text-xs font-semibold tracking-wide text-slate-900 sm:text-sm">
+            {APP_BRAND.name}
           </h1>
-          <p className="hidden text-xs text-slate-500 sm:block">Interactive demonstration prototype</p>
+          <p className="hidden max-w-xl text-xs leading-snug text-slate-500 sm:block">
+            {APP_BRAND.tagline}
+          </p>
+          <p className="text-[10px] text-slate-400 sm:hidden">{APP_DEMO_SUBTITLE}</p>
         </div>
         <Badge className="hidden bg-amber-50 text-amber-800 sm:inline-flex">Demo Mode</Badge>
       </div>

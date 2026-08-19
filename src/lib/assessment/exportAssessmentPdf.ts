@@ -1,12 +1,12 @@
 import { jsPDF } from 'jspdf'
 import {
-  REPORT_COORDINATOR,
   REPORT_HEADER,
   REPORT_LAYOUT,
   REPORT_PAGE,
   reportBodyHeightMm,
   reportColumnWidthsMm,
 } from '@/lib/assessment/reportLayout'
+import { APP_LOGO_PATH } from '@/lib/constants'
 import type { AssessmentRow, SiteAssessmentResult } from '@/types'
 
 const ROW_PAD_X = 1.5
@@ -216,6 +216,7 @@ function drawAssessmentPanel(
     { title: 'SEISMIC HAZARD', rows: result.seismic },
     { title: 'VOLCANIC HAZARD', rows: result.volcanic },
     { title: 'HYDRO-MET HAZARD', rows: result.hydromet },
+    { title: 'CRITICAL FACILITIES', rows: result.facilities },
   ]
 
   const innerW = w - ROW_PAD_X * 2
@@ -233,7 +234,7 @@ function drawAssessmentPanel(
   })
 }
 
-/** Centered logo + LGU titles only — building type/coords go on the map overlay */
+/** Centered logo + BUILD-SAFE titles — building type/coords go on the map overlay */
 function drawReportHeader(pdf: jsPDF, x: number, y: number, w: number, logo: string | null) {
   const centerX = x + w / 2
 
@@ -247,7 +248,10 @@ function drawReportHeader(pdf: jsPDF, x: number, y: number, w: number, logo: str
   pdf.text(REPORT_HEADER.titleLine1, centerX, y + 19.5, { align: 'center' })
 
   pdf.setFontSize(8)
-  pdf.text(REPORT_HEADER.titleLine2, centerX, y + 24, { align: 'center' })
+  pdf.text(REPORT_HEADER.titleLine2, centerX, y + 23.5, { align: 'center' })
+
+  pdf.setFontSize(7)
+  pdf.text(REPORT_HEADER.titleLine3, centerX, y + 27.5, { align: 'center' })
 
   pdf.setDrawColor(226, 232, 240)
   pdf.setLineWidth(0.25)
@@ -288,34 +292,13 @@ function drawMapSiteInfoOverlay(
   pdf.text(`${lat.toFixed(5)} N, ${lng.toFixed(5)} E`, boxX + 2, boxY + 4.5 + titleLineCount * 3.2)
 }
 
-function drawReportFooter(pdf: jsPDF, x: number, y: number, w: number) {
-  // Centered signature blank — leave clear space above for handwritten signature
-  const sigW = Math.min(90, w * 0.42)
-  const sigX = x + (w - sigW) / 2
-  const sigY = y + 12
-
-  pdf.setDrawColor(0, 0, 0)
-  pdf.setLineWidth(0.9)
-  pdf.line(sigX, sigY, sigX + sigW, sigY)
-
-  pdf.setFont('helvetica', 'bold')
-  pdf.setFontSize(8)
-  pdf.setTextColor(15, 23, 42)
-  pdf.text(REPORT_COORDINATOR.name, x + w / 2, sigY + 5, { align: 'center' })
-
-  pdf.setFont('helvetica', 'normal')
-  pdf.setFontSize(7)
-  pdf.setTextColor(71, 85, 105)
-  pdf.text(REPORT_COORDINATOR.title, x + w / 2, sigY + 9, { align: 'center' })
-}
-
 export async function exportAssessmentReportPdf(input: ExportAssessmentPdfInput): Promise<void> {
   const { mapDataUrl, result, logoDataUrl } = input
   const { buildingType, lat, lng } = result.input
 
   const logo = logoDataUrl
     ? logoDataUrl
-    : await loadImageDataUrl('/lasam-logo.png').catch(() => null)
+    : await loadImageDataUrl(APP_LOGO_PATH).catch(() => null)
 
   const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' })
   const margin = REPORT_PAGE.margin
@@ -325,7 +308,6 @@ export async function exportAssessmentReportPdf(input: ExportAssessmentPdfInput)
   const x0 = margin
   const headerY = margin
   const bodyY = margin + REPORT_LAYOUT.headerMm
-  const footerY = bodyY + bodyH
   const rightX = x0 + leftW
 
   drawReportHeader(pdf, x0, headerY, contentW, logo)
@@ -355,8 +337,6 @@ export async function exportAssessmentReportPdf(input: ExportAssessmentPdfInput)
   pdf.line(rightX, bodyY + 10, rightX + rightW, bodyY + 10)
 
   drawAssessmentPanel(pdf, rightX + 1.5, bodyY + 11, rightW - 3, bodyH - 12, result)
-
-  drawReportFooter(pdf, x0, footerY, contentW)
 
   const stamp = new Date().toISOString().slice(0, 10)
   pdf.save(`lasam-site-assessment-${stamp}.pdf`)
