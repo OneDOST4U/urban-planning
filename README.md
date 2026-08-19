@@ -66,9 +66,9 @@ Sample GeoJSON files live in `public/data/`:
 
 ## Deployment
 
-Deploy the `dist/` folder to Vercel or any static host.
+**Vercel:** deploy the `dist/` folder from `main`.
 
-Suggested domain: `hazard-map.lasam-mpdc.obratech.net`
+**On-prem (dedicated server + Cloudflare Tunnel):** same general pattern as events, but on a **separate** Ubuntu host with its **own** tunnel. See [docs/ONPREM_SETUP.md](docs/ONPREM_SETUP.md). Local origin is `http://127.0.0.1:80`. Example public host: `lasam.dost02.com` (change to whatever you create in Cloudflare DNS).
 
 ## Documentation
 

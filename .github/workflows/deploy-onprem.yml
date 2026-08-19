@@ -1,0 +1,63 @@
+# Deploy the Lasam urban-planning static app on a dedicated on-prem server.
+# Prerequisites:
+# 1. Docker Engine + Compose on the urban-planning server (not the events Dell).
+# 2. Self-hosted runner labeled `urban-planning-onprem` on THAT server.
+# 3. `.env.onprem` on the server (never committed).
+
+name: Deploy On-Prem
+
+on:
+  push:
+    branches: [onprem]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-onprem-urban-planning
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, linux, urban-planning-onprem]
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install on-prem env (not in git)
+        run: |
+          set -euo pipefail
+          CANDIDATES=(
+            "${ONPREM_SECRETS_FILE:-}"
+            "${HOME}/secrets/.env.urban-planning-onprem"
+            "${HOME}/urban-planning/.env.onprem"
+            "/opt/urban-planning/.env.onprem"
+          )
+          SECRETS_FILE=""
+          for candidate in "${CANDIDATES[@]}"; do
+            if [[ -n "${candidate}" && -f "${candidate}" ]]; then
+              SECRETS_FILE="${candidate}"
+              break
+            fi
+          done
+          if [[ -z "${SECRETS_FILE}" ]]; then
+            echo "Missing on-prem env. Create ~/secrets/.env.urban-planning-onprem on the server." >&2
+            exit 1
+          fi
+          cp "${SECRETS_FILE}" .env.onprem
+          chmod 600 .env.onprem
+          echo "Restored .env.onprem from ${SECRETS_FILE}"
+
+      - name: Deploy
+        run: |
+          chmod +x scripts/*.sh
+          ./scripts/deploy-onprem.sh
+
+      - name: Public smoke (optional if tunnel DNS is live)
+        env:
+          APP_URL: ${{ vars.ONPREM_APP_URL }}
+        run: |
+          if [[ -n "${APP_URL:-}" ]]; then
+            APP_URL="${APP_URL}" ./scripts/post-deploy-smoke-onprem.sh
+          else
+            echo "Skipping public smoke (set repo variable ONPREM_APP_URL)."
+          fi

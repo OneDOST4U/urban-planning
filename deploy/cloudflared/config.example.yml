@@ -1,0 +1,16 @@
+# Dedicated Cloudflare Tunnel for the urban-planning server.
+# This is NOT the events tunnel — create a new tunnel in Zero Trust for this host.
+#
+# Install on the urban-planning Ubuntu server:
+#   See docs/ONPREM_SETUP.md
+#
+# DNS (Cloudflare, proxied CNAME):
+#   lasam.dost02.com  →  <tunnel-id>.cfargotunnel.com
+
+tunnel: REPLACE_WITH_NEW_TUNNEL_UUID
+credentials-file: /etc/cloudflared/REPLACE_WITH_NEW_TUNNEL_UUID.json
+
+ingress:
+  - hostname: lasam.dost02.com
+    service: http://127.0.0.1:80
+  - service: http_status:404
