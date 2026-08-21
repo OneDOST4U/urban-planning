@@ -79,7 +79,8 @@ export function AssessmentResultsCard({
       {!report && (
         <div className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1.5 text-[10px] text-amber-900">
           Demonstration only — not an official PHIVOLCS / MGB / PAGASA certificate. MGB flood
-          susceptibility for Lasam is loaded from DENR-MGB (clipped to PSA boundary).
+          susceptibility for Lasam is loaded from DENR-MGB (clipped to PSA boundary). LGU dataset
+          rows use local shapefiles converted for demonstration.
         </div>
       )}
       {!report && (
@@ -99,6 +100,7 @@ export function AssessmentResultsCard({
         rows={result.hydromet}
         report={report}
       />
+      <ResultSection title="LGU DATASET ASSESSMENT" rows={result.lgu} report={report} />
       <ResultSection title="CRITICAL FACILITIES" rows={result.facilities} report={report} />
     </>
   )

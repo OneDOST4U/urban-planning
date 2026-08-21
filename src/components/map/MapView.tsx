@@ -16,6 +16,14 @@ import {
 import { buildTerrainSample } from '@/lib/terrain/elevation'
 import { getBuildingColor } from '@/lib/simulation/stats'
 import { MGB_FLOOD_COLORS } from '@/lib/simulation/mgbFlood'
+import {
+  buildClassColorMatch,
+  EROSION_COLORS,
+  LAND_USE_COLORS,
+  LGU_FLOOD_COLORS,
+  LIQUEFACTION_COLORS,
+  LGU_HAZARD_OPACITY,
+} from '@/lib/simulation/lguHazards'
 import { FAULT_LAYER_IDS } from '@/lib/simulation/faultLegend'
 import { MapLegend } from '@/components/map/MapLegend'
 import { TerrainInfoBar } from '@/components/map/TerrainInfoBar'
@@ -43,6 +51,10 @@ interface MapViewProps {
   contours: FeatureCollection
   elevationGrid: ElevationGrid | null
   mgbFlood: FeatureCollection | null
+  liquefaction: FeatureCollection | null
+  erosion: FeatureCollection | null
+  lguFlood: FeatureCollection | null
+  landUse: FeatureCollection | null
   faultLines: FeatureCollection | null
   epicenter: [number, number] | null
   earthquakeRadius: number
@@ -79,6 +91,10 @@ export function MapView({
   contours,
   elevationGrid,
   mgbFlood,
+  liquefaction,
+  erosion,
+  lguFlood,
+  landUse,
   faultLines,
   epicenter,
   earthquakeRadius,
@@ -492,6 +508,92 @@ export function MapView({
           },
         })
 
+        const initialLiquefaction = liquefaction ?? { type: 'FeatureCollection', features: [] }
+        map.addSource('liquefaction-zone', { type: 'geojson', data: initialLiquefaction })
+        map.addLayer({
+          id: 'liquefaction-fill',
+          type: 'fill',
+          source: 'liquefaction-zone',
+          paint: {
+            'fill-color': [
+              'match',
+              ['get', 'susceptibility'],
+              'low',
+              LIQUEFACTION_COLORS.low,
+              'moderate',
+              LIQUEFACTION_COLORS.moderate,
+              'high',
+              LIQUEFACTION_COLORS.high,
+              LIQUEFACTION_COLORS.unknown,
+            ],
+            'fill-opacity': LGU_HAZARD_OPACITY,
+            'fill-outline-color': '#78350f',
+          },
+          layout: { visibility: 'none' },
+        })
+
+        const initialErosion = erosion ?? { type: 'FeatureCollection', features: [] }
+        map.addSource('erosion-zone', { type: 'geojson', data: initialErosion })
+        map.addLayer({
+          id: 'erosion-fill',
+          type: 'fill',
+          source: 'erosion-zone',
+          paint: {
+            'fill-color': [
+              'match',
+              ['get', 'erosion_class'],
+              'none',
+              EROSION_COLORS.none,
+              'slight',
+              EROSION_COLORS.slight,
+              'moderate',
+              EROSION_COLORS.moderate,
+              'severe',
+              EROSION_COLORS.severe,
+              EROSION_COLORS.unknown,
+            ],
+            'fill-opacity': LGU_HAZARD_OPACITY,
+            'fill-outline-color': '#365314',
+          },
+          layout: { visibility: 'none' },
+        })
+
+        const initialLguFlood = lguFlood ?? { type: 'FeatureCollection', features: [] }
+        map.addSource('lgu-flood-zone', { type: 'geojson', data: initialLguFlood })
+        map.addLayer({
+          id: 'lgu-flood-fill',
+          type: 'fill',
+          source: 'lgu-flood-zone',
+          paint: {
+            'fill-color': buildClassColorMatch(
+              'susceptibility',
+              LGU_FLOOD_COLORS,
+              LGU_FLOOD_COLORS.unknown,
+            ),
+            'fill-opacity': LGU_HAZARD_OPACITY,
+            'fill-outline-color': '#1e3a8a',
+          },
+          layout: { visibility: 'none' },
+        })
+
+        const initialLandUse = landUse ?? { type: 'FeatureCollection', features: [] }
+        map.addSource('land-use-zone', { type: 'geojson', data: initialLandUse })
+        map.addLayer({
+          id: 'land-use-fill',
+          type: 'fill',
+          source: 'land-use-zone',
+          paint: {
+            'fill-color': buildClassColorMatch(
+              'land_use_class',
+              LAND_USE_COLORS,
+              LAND_USE_COLORS.unknown,
+            ),
+            'fill-opacity': LGU_HAZARD_OPACITY,
+            'fill-outline-color': '#334155',
+          },
+          layout: { visibility: 'none' },
+        })
+
         addBuildingLayers(map)
 
         const initialFault = faultLines ?? { type: 'FeatureCollection', features: [] }
@@ -737,6 +839,46 @@ export function MapView({
       map.setPaintProperty('flood-zone-fill', 'fill-opacity', floodOpacity)
     }
   }, [mgbFlood, floodOpacity])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map?.isStyleLoaded()) return
+
+    const liquefactionData = liquefaction ?? { type: 'FeatureCollection', features: [] }
+    ;(map.getSource('liquefaction-zone') as maplibregl.GeoJSONSource)?.setData(
+      liquefactionData as GeoJSON.FeatureCollection,
+    )
+  }, [liquefaction])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map?.isStyleLoaded()) return
+
+    const erosionData = erosion ?? { type: 'FeatureCollection', features: [] }
+    ;(map.getSource('erosion-zone') as maplibregl.GeoJSONSource)?.setData(
+      erosionData as GeoJSON.FeatureCollection,
+    )
+  }, [erosion])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map?.isStyleLoaded()) return
+
+    const lguFloodData = lguFlood ?? { type: 'FeatureCollection', features: [] }
+    ;(map.getSource('lgu-flood-zone') as maplibregl.GeoJSONSource)?.setData(
+      lguFloodData as GeoJSON.FeatureCollection,
+    )
+  }, [lguFlood])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map?.isStyleLoaded()) return
+
+    const landUseData = landUse ?? { type: 'FeatureCollection', features: [] }
+    ;(map.getSource('land-use-zone') as maplibregl.GeoJSONSource)?.setData(
+      landUseData as GeoJSON.FeatureCollection,
+    )
+  }, [landUse])
 
   useEffect(() => {
     const map = mapRef.current

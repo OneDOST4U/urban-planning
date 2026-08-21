@@ -53,6 +53,10 @@ const initialLayerVisibility = {
   boundary: true,
   buildings: true,
   flood: false,
+  liquefaction: false,
+  erosion: false,
+  lguFlood: false,
+  landUse: false,
   fault: false,
   epicenter: false,
   volcano: false,
@@ -82,7 +86,7 @@ export default function App() {
 
   const [faultLines, setFaultLines] = useState<FeatureCollection | null>(null)
 
-  const [hazardMode, setHazardMode] = useState<HazardMode>('flood')
+  const [hazardMode, setHazardMode] = useState<HazardMode>('lgu')
   const [activeTool, setActiveTool] = useState<MapTool>('select')
   const [is3D, setIs3D] = useState(true)
   const [mobilePanelOpen, setMobilePanelOpen] = useState(false)
@@ -241,7 +245,7 @@ export default function App() {
     setFaultLineName(DEFAULT_FAULT_NAME)
     setSelectedBuildingId(null)
     setSelectedRiver(null)
-    setHazardMode('flood')
+    setHazardMode('lgu')
     setActiveTool('select')
     setAssessmentResult(null)
     setAssessError(null)
@@ -277,6 +281,10 @@ export default function App() {
         volcanoes: data.volcanoes,
         facilities: data.facilities,
         mgbFlood: data.mgbFlood,
+        lguFlood: data.lguFlood,
+        liquefaction: data.liquefaction,
+        erosion: data.erosion,
+        landUse: data.landUse,
       },
     )
     setAssessmentResult(result)
@@ -309,6 +317,10 @@ export default function App() {
         volcanoes: data.volcanoes,
         facilities: data.facilities,
         mgbFlood: data.mgbFlood,
+        lguFlood: data.lguFlood,
+        liquefaction: data.liquefaction,
+        erosion: data.erosion,
+        landUse: data.landUse,
       },
     )
     setAssessmentResult(result)
@@ -338,6 +350,10 @@ export default function App() {
     floodOpacity,
     onFloodOpacityChange: setFloodOpacity,
     mgbFeatureCount: data?.mgbFlood.features.length ?? 0,
+    liquefactionFeatureCount: data?.liquefaction.features.length ?? 0,
+    erosionFeatureCount: data?.erosion.features.length ?? 0,
+    lguFloodFeatureCount: data?.lguFlood.features.length ?? 0,
+    landUseFeatureCount: data?.landUse.features.length ?? 0,
     mgbExposureCounts,
     faultLineName,
     faultSegmentCount,
@@ -420,6 +436,10 @@ export default function App() {
             contours={data.contours}
             elevationGrid={data.elevationGrid}
             mgbFlood={data.mgbFlood}
+            liquefaction={data.liquefaction}
+            erosion={data.erosion}
+            lguFlood={data.lguFlood}
+            landUse={data.landUse}
             faultLines={activeFaults}
             epicenter={epicenter}
             earthquakeRadius={earthquakeRadius}

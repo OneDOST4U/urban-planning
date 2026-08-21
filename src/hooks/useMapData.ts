@@ -16,6 +16,10 @@ export interface MapData {
   contours: FeatureCollection
   elevationGrid: ElevationGrid | null
   mgbFlood: FeatureCollection
+  liquefaction: FeatureCollection
+  erosion: FeatureCollection
+  lguFlood: FeatureCollection
+  landUse: FeatureCollection
   defaultFaults: FeatureCollection
   volcanoes: FeatureCollection
   facilities: FeatureCollection
@@ -91,6 +95,10 @@ function buildMapData(
     contours: partial.contours,
     elevationGrid: partial.elevationGrid,
     mgbFlood: partial.mgbFlood,
+    liquefaction: partial.liquefaction,
+    erosion: partial.erosion,
+    lguFlood: partial.lguFlood,
+    landUse: partial.landUse,
     defaultFaults: faults,
     volcanoes: partial.volcanoes,
     facilities: partial.facilities,
@@ -114,6 +122,10 @@ function emptyMapDataShell(
     contours: emptyFc,
     elevationGrid: null,
     mgbFlood: emptyFc,
+    liquefaction: emptyFc,
+    erosion: emptyFc,
+    lguFlood: emptyFc,
+    landUse: emptyFc,
     phivolcsFaults: null,
     sampleFault: null,
     volcanoes: emptyFc,
@@ -176,6 +188,10 @@ export function useMapData(): UseMapDataResult {
           riversMain,
           riversTributaries,
           mgbFlood,
+          liquefaction,
+          erosion,
+          lguFlood,
+          landUse,
           phivolcsFaults,
           sampleFault,
           volcanoes,
@@ -195,6 +211,22 @@ export function useMapData(): UseMapDataResult {
           ),
           fetchJsonOptional<FeatureCollection>(
             dataUrl('/data/hazards/mgb-flood-lasam.geojson'),
+            emptyFc,
+          ),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/hazards/lasam-liquefaction-2013.geojson'),
+            emptyFc,
+          ),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/hazards/lasam-erosion-2020.geojson'),
+            emptyFc,
+          ),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/hazards/lasam-flood-lgu-2020.geojson'),
+            emptyFc,
+          ),
+          fetchJsonOptional<FeatureCollection>(
+            dataUrl('/data/hazards/lasam-land-use-2020.geojson'),
             emptyFc,
           ),
           fetchJsonOptional<FeatureCollection | null>(
@@ -242,6 +274,10 @@ export function useMapData(): UseMapDataResult {
           contours,
           elevationGrid,
           mgbFlood,
+          liquefaction,
+          erosion,
+          lguFlood,
+          landUse,
           phivolcsFaults,
           sampleFault,
           volcanoes,

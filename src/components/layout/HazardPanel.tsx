@@ -8,6 +8,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { CAGUA_META } from '@/lib/simulation/volcano'
 import { FAULT_LEGEND_ENTRIES } from '@/lib/simulation/faultLegend'
 import { MGB_FLOOD_LEGEND, type MgbSusceptibility } from '@/lib/simulation/mgbFlood'
+import {
+  EROSION_LEGEND,
+  LAND_USE_LEGEND,
+  LGU_FLOOD_LEGEND,
+  LIQUEFACTION_LEGEND,
+} from '@/lib/simulation/lguHazards'
 import { LAYER_VISIBILITY_LABELS } from '@/lib/map/layerVisibility'
 import { BuildingInfoPanel } from '@/components/layout/BuildingInfoPanel'
 import type {
@@ -23,6 +29,10 @@ interface HazardPanelProps {
   floodOpacity: number
   onFloodOpacityChange: (opacity: number) => void
   mgbFeatureCount: number
+  liquefactionFeatureCount: number
+  erosionFeatureCount: number
+  lguFloodFeatureCount: number
+  landUseFeatureCount: number
   mgbExposureCounts: Record<MgbSusceptibility | 'none', number>
   faultLineName: string
   faultSegmentCount: number
@@ -113,7 +123,7 @@ export function HazardPanel(props: HazardPanelProps) {
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <h2 className="text-sm font-semibold text-slate-900">Hazard Panel</h2>
-            <p className="text-xs text-slate-500">MGB flood, PHIVOLCS faults, Cagua volcano, and layers</p>
+            <p className="text-xs text-slate-500">LGU datasets, MGB flood, PHIVOLCS faults, and map layers</p>
           </div>
           {props.onCollapse && (
             <Button
@@ -132,12 +142,121 @@ export function HazardPanel(props: HazardPanelProps) {
 
       <div className="flex-1 overflow-y-auto p-4">
         <Tabs value={props.hazardMode} onValueChange={(v) => props.onHazardModeChange(v as HazardMode)}>
-          <TabsList className="grid h-auto w-full grid-cols-4 gap-1">
-            <TabsTrigger value="flood" className="px-1 text-[11px]">Flood</TabsTrigger>
-            <TabsTrigger value="fault" className="px-1 text-[11px]">Fault</TabsTrigger>
-            <TabsTrigger value="volcano" className="px-1 text-[11px]">Volcano</TabsTrigger>
-            <TabsTrigger value="layers" className="px-1 text-[11px]">Layers</TabsTrigger>
+          <TabsList className="grid h-auto w-full grid-cols-5 gap-1">
+            <TabsTrigger value="lgu" className="px-0.5 text-[10px]">LGU Data</TabsTrigger>
+            <TabsTrigger value="flood" className="px-0.5 text-[10px]">Flood</TabsTrigger>
+            <TabsTrigger value="fault" className="px-0.5 text-[10px]">Fault</TabsTrigger>
+            <TabsTrigger value="volcano" className="px-0.5 text-[10px]">Volcano</TabsTrigger>
+            <TabsTrigger value="layers" className="px-0.5 text-[10px]">Layers</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="lgu" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>LGU datasets</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-[11px] leading-relaxed text-slate-500">
+                  Local GIS layers converted from shapefiles and clipped to the PSA Lasam municipal
+                  boundary. For demonstration only — verify with the LGU before planning decisions.
+                  Official DENR-MGB flood remains under the Flood tab.
+                </p>
+
+                <div className="space-y-3 rounded-md border border-slate-100 bg-slate-50 p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <Label>LGU flood susceptibility (2020)</Label>
+                      <p className="text-[10px] text-slate-500">
+                        {props.lguFloodFeatureCount > 0
+                          ? `${props.lguFloodFeatureCount} coarse zone polygon(s)`
+                          : 'Run npm run convert:hazards'}
+                      </p>
+                    </div>
+                    <Switch
+                      checked={props.layerVisibility.lguFlood === true}
+                      onCheckedChange={(v) => props.onLayerVisibilityChange('lguFlood', v)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    {LGU_FLOOD_LEGEND.map(({ label, color }) => (
+                      <LegendSwatch key={label} color={color} label={label} />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-3 rounded-md border border-slate-100 bg-slate-50 p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <Label>Liquefaction susceptibility (2013)</Label>
+                      <p className="text-[10px] text-slate-500">
+                        {props.liquefactionFeatureCount > 0
+                          ? `${props.liquefactionFeatureCount} barangay polygon(s)`
+                          : 'Run npm run convert:hazards'}
+                      </p>
+                    </div>
+                    <Switch
+                      checked={props.layerVisibility.liquefaction === true}
+                      onCheckedChange={(v) => props.onLayerVisibilityChange('liquefaction', v)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    {LIQUEFACTION_LEGEND.map(({ label, color }) => (
+                      <LegendSwatch key={label} color={color} label={label} />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-3 rounded-md border border-slate-100 bg-slate-50 p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <Label>Land erosion (2020)</Label>
+                      <p className="text-[10px] text-slate-500">
+                        {props.erosionFeatureCount > 0
+                          ? `${props.erosionFeatureCount} barangay polygon(s)`
+                          : 'Run npm run convert:hazards'}
+                      </p>
+                    </div>
+                    <Switch
+                      checked={props.layerVisibility.erosion === true}
+                      onCheckedChange={(v) => props.onLayerVisibilityChange('erosion', v)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    {EROSION_LEGEND.map(({ label, color }) => (
+                      <LegendSwatch key={label} color={color} label={label} />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-3 rounded-md border border-slate-100 bg-slate-50 p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <Label>Existing land use — CLUP (2020)</Label>
+                      <p className="text-[10px] text-slate-500">
+                        {props.landUseFeatureCount > 0
+                          ? `${props.landUseFeatureCount} land-use polygon(s)`
+                          : 'Run npm run convert:hazards'}
+                      </p>
+                    </div>
+                    <Switch
+                      checked={props.layerVisibility.landUse === true}
+                      onCheckedChange={(v) => props.onLayerVisibilityChange('landUse', v)}
+                    />
+                  </div>
+                  <div className="max-h-40 space-y-1 overflow-y-auto pr-1">
+                    {LAND_USE_LEGEND.map(({ label, color }) => (
+                      <LegendSwatch key={label} color={color} label={label} />
+                    ))}
+                  </div>
+                </div>
+
+                <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-[10px] leading-relaxed text-amber-900">
+                  Demonstration layers — not official DENR-MGB flood maps, PHIVOLCS geohazard
+                  certificates, or approved CLUP zoning maps.
+                </p>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="flood" className="space-y-4">
             <FutureFeatureSimulation label="flood" />
@@ -390,7 +509,15 @@ export function HazardPanel(props: HazardPanelProps) {
                 <CardTitle>Map layers</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {Object.entries(props.layerVisibility).map(([layer, visible]) => (
+                {Object.entries(props.layerVisibility)
+                  .filter(
+                    ([layer]) =>
+                      layer !== 'liquefaction' &&
+                      layer !== 'erosion' &&
+                      layer !== 'lguFlood' &&
+                      layer !== 'landUse',
+                  )
+                  .map(([layer, visible]) => (
                   <div key={layer} className="flex items-center justify-between gap-3">
                     <Label>{LAYER_VISIBILITY_LABELS[layer] ?? layer}</Label>
                     <Switch

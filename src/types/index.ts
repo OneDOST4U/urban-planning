@@ -1,6 +1,6 @@
 import type { ProposedBuildingType } from '@/lib/assessment/buildingTypes'
 
-export type HazardMode = 'flood' | 'fault' | 'volcano' | 'layers'
+export type HazardMode = 'lgu' | 'flood' | 'fault' | 'volcano' | 'layers'
 export type MapTool =
   | 'select'
   | 'pan'
@@ -151,6 +151,7 @@ export interface SiteAssessmentResult {
   seismic: AssessmentRow[]
   volcanic: AssessmentRow[]
   hydromet: AssessmentRow[]
+  lgu: AssessmentRow[]
   facilities: AssessmentRow[]
 }
 

@@ -216,6 +216,7 @@ function drawAssessmentPanel(
     { title: 'SEISMIC HAZARD', rows: result.seismic },
     { title: 'VOLCANIC HAZARD', rows: result.volcanic },
     { title: 'HYDRO-MET HAZARD', rows: result.hydromet },
+    { title: 'LGU DATASETS', rows: result.lgu },
     { title: 'CRITICAL FACILITIES', rows: result.facilities },
   ]
 
