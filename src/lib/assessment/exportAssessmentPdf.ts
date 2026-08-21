@@ -1,4 +1,5 @@
 import { jsPDF } from 'jspdf'
+import { getGoogleEarthWebUrl } from '@/lib/assessment/googleEarth'
 import {
   REPORT_HEADER,
   REPORT_LAYOUT,
@@ -273,7 +274,7 @@ function drawMapSiteInfoOverlay(
   const pad = 3
   const titleLines = pdf.splitTextToSize(pdfText(buildingType), boxW - 4)
   const titleLineCount = Array.isArray(titleLines) ? titleLines.length : 1
-  const boxH = 6 + titleLineCount * 3.2 + 4.5
+  const boxH = 6 + titleLineCount * 3.2 + 8
   const boxX = mapX + pad
   const boxY = mapY + mapH - boxH - pad
 
@@ -291,6 +292,13 @@ function drawMapSiteInfoOverlay(
   pdf.setFontSize(6.5)
   pdf.setTextColor(100, 116, 139)
   pdf.text(`${lat.toFixed(5)} N, ${lng.toFixed(5)} E`, boxX + 2, boxY + 4.5 + titleLineCount * 3.2)
+
+  const earthLabel = 'Google Earth'
+  pdf.setFont('helvetica', 'normal')
+  pdf.setFontSize(6)
+  pdf.setTextColor(3, 105, 161)
+  const linkY = boxY + 4.5 + titleLineCount * 3.2 + 3.5
+  pdf.textWithLink(earthLabel, boxX + 2, linkY, { url: getGoogleEarthWebUrl(lat, lng) })
 }
 
 export async function exportAssessmentReportPdf(input: ExportAssessmentPdfInput): Promise<void> {

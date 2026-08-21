@@ -2,6 +2,7 @@ import { ClipboardList, MapPin, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { AssessmentResultsCard } from '@/components/layout/AssessmentResultsCard'
+import { GoogleEarthLink } from '@/components/layout/GoogleEarthLink'
 import {
   PROPOSED_BUILDING_TYPE_GROUPS,
   type ProposedBuildingType,
@@ -100,6 +101,11 @@ export function SiteAssessmentPopup({
                 <p className="mt-0.5 font-mono text-[11px] text-slate-600">
                   {pendingSiteCoords[1].toFixed(5)}, {pendingSiteCoords[0].toFixed(5)}
                 </p>
+                <GoogleEarthLink
+                  lat={pendingSiteCoords[1]}
+                  lng={pendingSiteCoords[0]}
+                  className="mt-1"
+                />
                 <p className="mt-1 text-[10px] leading-snug text-slate-500">
                   Click elsewhere on the map to move the pin.
                 </p>

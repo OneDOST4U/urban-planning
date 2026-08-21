@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { GoogleEarthLink } from '@/components/layout/GoogleEarthLink'
 import type { AssessmentRow, SiteAssessmentResult } from '@/types'
 
 function ResultSection({
@@ -91,6 +92,11 @@ export function AssessmentResultsCard({
           <div>
             Site: {result.input.lat.toFixed(5)}, {result.input.lng.toFixed(5)}
           </div>
+          <GoogleEarthLink
+            lat={result.input.lat}
+            lng={result.input.lng}
+            className="mt-1 pointer-events-auto"
+          />
         </div>
       )}
       <ResultSection title="SEISMIC HAZARD ASSESSMENT" rows={result.seismic} report={report} />
