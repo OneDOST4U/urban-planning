@@ -32,8 +32,8 @@ const boundaryPath = join(root, 'public', 'data', 'administrative', 'psa-lasam-b
 proj4.defs('EPSG:32651', '+proj=utm +zone=51 +datum=WGS84 +units=m +no_defs')
 
 function reprojectCoord([x, y]) {
-  if (Math.abs(x) <= 180 && Math.abs(y) <= 90) return [x, y]
-  return proj4('EPSG:32651', 'WGS84', [x, y])
+  const pt = Math.abs(x) <= 180 && Math.abs(y) <= 90 ? [x, y] : proj4('EPSG:32651', 'WGS84', [x, y])
+  return [Number(pt[0].toFixed(5)), Number(pt[1].toFixed(5))]
 }
 
 function reprojectGeometry(geometry) {
@@ -118,7 +118,8 @@ function normalizeErosion(raw) {
   if (value.includes('severe') || value.includes('highly')) return 'severe'
   if (value.includes('moderate')) return 'moderate'
   if (value.includes('slight') || value.includes('low')) return 'slight'
-  if (value.includes('no apparent')) return 'none'
+  if (value.includes('no apparent') || value.includes('none')) return 'none'
+  if (value.includes('river') || value.includes('creek') || value.includes('water')) return 'river'
   return 'unknown'
 }
 
@@ -127,6 +128,7 @@ const EROSION_LABEL = {
   moderate: 'Moderate erosion',
   slight: 'Slight erosion',
   none: 'No apparent erosion',
+  river: 'River / Waterway channel',
   unknown: 'Unknown',
 }
 

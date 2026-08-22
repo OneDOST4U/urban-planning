@@ -4,6 +4,7 @@
  */
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import centroid from '@turf/centroid'
+import bbox from '@turf/bbox'
 import type { Feature, FeatureCollection, MultiPolygon, Polygon } from 'geojson'
 import type { BuildingCollection, FloodExposure } from '@/types'
 
@@ -112,6 +113,18 @@ export function getMgbSusceptibilityAtPoint(
   return best
 }
 
+function getApproximateCenter(feature: Feature): [number, number] {
+  if (feature.geometry?.type === 'Polygon') {
+    const ring = (feature.geometry as Polygon).coordinates[0]
+    if (ring && ring.length > 0) {
+      const mid = Math.floor(ring.length / 2)
+      return [(ring[0][0] + ring[mid][0]) / 2, (ring[0][1] + ring[mid][1]) / 2]
+    }
+  }
+  const center = centroid(feature)
+  return center.geometry.coordinates as [number, number]
+}
+
 export function applyMgbFloodExposure(
   buildings: BuildingCollection,
   mgbFlood: FeatureCollection | null | undefined,
@@ -126,19 +139,48 @@ export function applyMgbFloodExposure(
     }
   }
 
+  const floodIndex = mgbFlood.features
+    .filter((f) => f.geometry?.type === 'Polygon' || f.geometry?.type === 'MultiPolygon')
+    .map((f) => {
+      const [minX, minY, maxX, maxY] = bbox(f)
+      return {
+        feature: f as Feature<Polygon | MultiPolygon>,
+        susc: f.properties?.susceptibility as MgbSusceptibility | undefined,
+        minX,
+        minY,
+        maxX,
+        maxY,
+      }
+    })
+
   return {
     ...buildings,
     features: buildings.features.map((feature) => {
-      const center = centroid(feature)
-      const coords = center.geometry.coordinates as [number, number]
-      const susc = getMgbSusceptibilityAtPoint(coords, mgbFlood)
-      const floodExposure = mgbToFloodExposure(susc)
+      const [lng, lat] = getApproximateCenter(feature)
+      let bestSusc: MgbSusceptibility | null = null
+      let bestRank = 0
+
+      for (const item of floodIndex) {
+        if (lng >= item.minX && lng <= item.maxX && lat >= item.minY && lat <= item.maxY) {
+          if (item.susc && RANK[item.susc] > bestRank) {
+            try {
+              if (booleanPointInPolygon([lng, lat], item.feature)) {
+                bestSusc = item.susc
+                bestRank = RANK[item.susc]
+              }
+            } catch {
+              // skip invalid ring
+            }
+          }
+        }
+      }
+
+      const floodExposure = mgbToFloodExposure(bestSusc)
       return {
         ...feature,
         properties: {
           ...feature.properties,
           floodExposure,
-          // Depth is not computed — MGB is susceptibility class, not scenario depth
           flood_depth_m: undefined,
         },
       }

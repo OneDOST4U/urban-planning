@@ -3,7 +3,7 @@
 import type { ExpressionSpecification } from 'maplibre-gl'
 
 export type LiquefactionSusceptibility = 'low' | 'moderate' | 'high' | 'unknown'
-export type ErosionClass = 'none' | 'slight' | 'moderate' | 'severe' | 'unknown'
+export type ErosionClass = 'none' | 'slight' | 'moderate' | 'severe' | 'river' | 'unknown'
 export type LguFloodSusceptibility = 'low' | 'moderate' | 'high' | 'unknown'
 export type LandUseClass =
   | 'forest'
@@ -33,6 +33,7 @@ export const EROSION_COLORS: Record<ErosionClass, string> = {
   slight: '#fde68a',
   moderate: '#fb923c',
   severe: '#991b1b',
+  river: '#38bdf8',
   unknown: '#94a3b8',
 }
 

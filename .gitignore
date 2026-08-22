@@ -32,3 +32,6 @@ dist-ssr
 # Cursor local (keep shared rules)
 .cursor/*
 !.cursor/rules/
+
+graphify-out/
+

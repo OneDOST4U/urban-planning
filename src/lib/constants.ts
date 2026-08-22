@@ -7,7 +7,7 @@ export { MAP_STYLE } from '@/lib/map/styles'
 export const APP_BRAND = {
   name: 'BUILD-SAFE',
   tagline:
-    'An AI-Assisted Multi-Hazard Site Intelligence System for Safer Property Acquisition, Building, and Design',
+    'An AI-Assisted Multi-Hazard Site Intelligence and Decision Support System for Building Permits, Urban Planning, and Safer Property Development',
 } as const
 
 export const APP_TITLE = `${APP_BRAND.name}: ${APP_BRAND.tagline}`

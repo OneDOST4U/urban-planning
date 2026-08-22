@@ -14,6 +14,7 @@ const EROSION_RANK: Record<ErosionClass, number> = {
   slight: 2,
   moderate: 3,
   severe: 4,
+  river: 0,
   unknown: 0,
 }
 

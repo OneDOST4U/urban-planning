@@ -5,13 +5,21 @@ import nearestPointOnLine from '@turf/nearest-point-on-line'
 import { formatFacilityDistance } from '@/lib/assessment/format'
 import type { AssessmentRow } from '@/types'
 
-export type FacilityCategory = 'public_school' | 'govt_health' | 'primary_road'
+export type FacilityCategory =
+  | 'emergency_response'
+  | 'govt_health'
+  | 'public_school'
+  | 'primary_road'
 
 const CATEGORY_LABELS: Record<FacilityCategory, string> = {
-  public_school: 'Nearest Public School',
+  emergency_response: 'Nearest Emergency / Disaster Facility',
   govt_health: 'Nearest Government Health Facility',
+  public_school: 'Nearest Public Educational Facility',
   primary_road: 'Nearest Primary Road Network',
 }
+
+/** Standard municipal service catchment radius (meters) */
+const NEARBY_THRESHOLD_METERS = 5000
 
 function facilityName(props: Record<string, unknown> | null | undefined): string {
   if (!props) return 'Unnamed'
@@ -53,15 +61,40 @@ export function assessFacilities(
   coords: [number, number],
   facilities: FeatureCollection | null,
 ): AssessmentRow[] {
-  const order: FacilityCategory[] = ['public_school', 'govt_health', 'primary_road']
+  const order: FacilityCategory[] = [
+    'emergency_response',
+    'govt_health',
+    'public_school',
+    'primary_road',
+  ]
 
-  return order.map((category) => {
+  const rows: AssessmentRow[] = []
+
+  for (const category of order) {
     const nearest = nearestInCategory(coords, facilities, category)
-    return {
-      label: CATEGORY_LABELS[category],
-      value: nearest
-        ? formatFacilityDistance(nearest.name, nearest.distanceM)
-        : 'No validated facility data loaded',
+    if (!nearest) continue
+
+    if (nearest.distanceM <= NEARBY_THRESHOLD_METERS) {
+      rows.push({
+        label: CATEGORY_LABELS[category],
+        value: formatFacilityDistance(nearest.name, nearest.distanceM),
+      })
+    } else {
+      rows.push({
+        label: CATEGORY_LABELS[category],
+        value: `None within 5 km (${nearest.name} · ${(nearest.distanceM / 1000).toFixed(1)} km)`,
+      })
     }
-  })
+  }
+
+  if (rows.length === 0) {
+    return [
+      {
+        label: 'Nearby Critical Facilities',
+        value: 'No validated facility data within assessment radius',
+      },
+    ]
+  }
+
+  return rows
 }

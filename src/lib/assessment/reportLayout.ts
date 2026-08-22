@@ -3,8 +3,8 @@ import { APP_BRAND } from '@/lib/constants'
 
 export const REPORT_HEADER = {
   titleLine1: APP_BRAND.name,
-  titleLine2: 'An AI-Assisted Multi-Hazard Site Intelligence System',
-  titleLine3: 'for Safer Property Acquisition, Building, and Design',
+  titleLine2: 'An AI-Assisted Multi-Hazard Site Intelligence and Decision Support System',
+  titleLine3: 'for Building Permits, Urban Planning, and Safer Property Development',
 } as const
 
 export const A4_LANDSCAPE_RATIO = 297 / 210

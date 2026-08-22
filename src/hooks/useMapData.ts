@@ -183,6 +183,7 @@ export function useMapData(): UseMapDataResult {
         setIsLoading(false)
         setIsEnhancing(true)
 
+        // Tier 1: Fast Critical Hazards & Infrastructure (loads in <300ms)
         const [
           riversLegacy,
           riversMain,
@@ -191,17 +192,10 @@ export function useMapData(): UseMapDataResult {
           liquefaction,
           erosion,
           lguFlood,
-          landUse,
           phivolcsFaults,
           sampleFault,
           volcanoes,
           facilities,
-          drainage,
-          riverbanks,
-          watersheds,
-          flowArrows,
-          contours,
-          elevationGrid,
         ] = await Promise.all([
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/lasam-rivers.geojson'), emptyFc),
           fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/rivers-main.geojson'), emptyFc),
@@ -225,10 +219,6 @@ export function useMapData(): UseMapDataResult {
             dataUrl('/data/hazards/lasam-flood-lgu-2020.geojson'),
             emptyFc,
           ),
-          fetchJsonOptional<FeatureCollection>(
-            dataUrl('/data/hazards/lasam-land-use-2020.geojson'),
-            emptyFc,
-          ),
           fetchJsonOptional<FeatureCollection | null>(
             dataUrl('/data/hazards/phivolcs-faults-lasam.geojson'),
             null,
@@ -245,23 +235,72 @@ export function useMapData(): UseMapDataResult {
             dataUrl('/data/facilities/lasam-critical-facilities.geojson'),
             emptyFc,
           ),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/drainage.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/riverbanks.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/watersheds.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/hydrology/flow-arrows.geojson'), emptyFc),
-          fetchJsonOptional<FeatureCollection>(dataUrl('/data/terrain/contours.geojson'), emptyFc),
-          fetchJsonOptional<ElevationGrid | null>(dataUrl('/data/terrain/elevation-grid.json'), null),
         ])
 
         if (cancelled) return
 
-        if (mgbFlood.features.length === 0) {
-          console.warn(
-            'MGB flood GeoJSON missing — run: npm run fetch:boundary && npm run fetch:flood',
-          )
-        }
+        const tier1Data = buildMapData({
+          buildings,
+          boundary,
+          riversLegacy,
+          riversMain,
+          riversTributaries,
+          drainage: emptyFc,
+          riverbanks: emptyFc,
+          watersheds: emptyFc,
+          flowArrows: emptyFc,
+          contours: emptyFc,
+          elevationGrid: null,
+          mgbFlood,
+          liquefaction,
+          erosion,
+          lguFlood,
+          landUse: emptyFc,
+          phivolcsFaults,
+          sampleFault,
+          volcanoes,
+          facilities,
+        })
 
-        const enhanced = buildMapData({
+        // Instantly activate flood and hazard layers
+        setData(tier1Data)
+
+        // Tier 2: Heavy background layers (land use, terrain elevation grid, contours, drainage)
+        const [landUse, drainage, riverbanks, watersheds, flowArrows, contours, elevationGrid] =
+          await Promise.all([
+            fetchJsonOptional<FeatureCollection>(
+              dataUrl('/data/hazards/lasam-land-use-2020.geojson'),
+              emptyFc,
+            ),
+            fetchJsonOptional<FeatureCollection>(
+              dataUrl('/data/hydrology/drainage.geojson'),
+              emptyFc,
+            ),
+            fetchJsonOptional<FeatureCollection>(
+              dataUrl('/data/hydrology/riverbanks.geojson'),
+              emptyFc,
+            ),
+            fetchJsonOptional<FeatureCollection>(
+              dataUrl('/data/hydrology/watersheds.geojson'),
+              emptyFc,
+            ),
+            fetchJsonOptional<FeatureCollection>(
+              dataUrl('/data/hydrology/flow-arrows.geojson'),
+              emptyFc,
+            ),
+            fetchJsonOptional<FeatureCollection>(
+              dataUrl('/data/terrain/contours.geojson'),
+              emptyFc,
+            ),
+            fetchJsonOptional<ElevationGrid | null>(
+              dataUrl('/data/terrain/elevation-grid.json'),
+              null,
+            ),
+          ])
+
+        if (cancelled) return
+
+        const fullData = buildMapData({
           buildings,
           boundary,
           riversLegacy,
@@ -284,11 +323,7 @@ export function useMapData(): UseMapDataResult {
           facilities,
         })
 
-        if (enhanced.defaultFaults.features.length === 0) {
-          console.warn('No fault line GeoJSON loaded — fault simulation will be inactive.')
-        }
-
-        setData(enhanced)
+        setData(fullData)
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : 'Unknown error loading map data.')
