@@ -28,6 +28,8 @@ function pdfText(text: string): string {
     .replace(/\u2265/g, '>=')
     .replace(/[\u2013\u2014]/g, '-')
     .replace(/\u00b0/g, ' deg')
+    .replace(/\bCrops\b/g, 'Agriculture')
+    .replace(/\bcrops\b/g, 'agriculture')
     .replace(/\s+/g, ' ')
     .trim()
 }

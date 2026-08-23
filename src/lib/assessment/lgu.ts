@@ -100,8 +100,10 @@ function formatLandUse(
   if (!match) return 'Outside mapped CLUP land-use polygons'
 
   const rawLabel = String(match.properties?.land_use_label ?? '').trim()
+  if (rawLabel.toLowerCase() === 'crops') return 'Agriculture'
+
   const normalized = formatLandUseClass(
     match.properties?.land_use_class as Parameters<typeof formatLandUseClass>[0],
   )
-  return rawLabel || normalized
+  return (normalized === 'Crops' ? 'Agriculture' : rawLabel) || normalized
 }
