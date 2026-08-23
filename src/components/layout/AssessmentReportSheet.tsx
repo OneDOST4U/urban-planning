@@ -85,7 +85,7 @@ export function AssessmentReportSheet({
 
         <section className="flex min-h-0 flex-col">
           <div className="shrink-0 border-b border-slate-100 px-2.5 py-1.5 sm:px-3 sm:py-2">
-            <h2 className="text-[11px] font-bold text-slate-900 sm:text-xs">Hazard Assessment</h2>
+            <h2 className="text-[11px] font-bold text-slate-900 sm:text-xs">AI Hazard Assessment</h2>
             <p className="text-[8px] text-slate-500 sm:text-[9px]">
               Demonstration report · not an official certificate
             </p>

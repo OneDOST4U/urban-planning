@@ -337,7 +337,7 @@ export async function exportAssessmentReportPdf(input: ExportAssessmentPdfInput)
   pdf.setFont('helvetica', 'bold')
   pdf.setFontSize(9)
   pdf.setTextColor(15, 23, 42)
-  pdf.text('Hazard Assessment', rightX + 2.5, bodyY + 5)
+  pdf.text('AI Hazard Assessment', rightX + 2.5, bodyY + 5)
 
   pdf.setFont('helvetica', 'normal')
   pdf.setFontSize(5.8)
