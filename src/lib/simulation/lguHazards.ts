@@ -10,6 +10,7 @@ export type LandUseClass =
   | 'residential'
   | 'socialized_housing'
   | 'commercial'
+  | 'agriculture'
   | 'crops'
   | 'agri_industrial'
   | 'institutional'
@@ -50,6 +51,7 @@ export const LAND_USE_COLORS: Record<LandUseClass, string> = {
   residential: '#facc15',
   socialized_housing: '#fb923c',
   commercial: '#be123c',
+  agriculture: '#84cc16',
   crops: '#84cc16',
   agri_industrial: '#ca8a04',
   institutional: '#6366f1',
@@ -86,7 +88,7 @@ export const LAND_USE_LEGEND: { key: LandUseClass; label: string; color: string 
   { key: 'residential', label: 'Residential', color: LAND_USE_COLORS.residential },
   { key: 'socialized_housing', label: 'Socialized housing', color: LAND_USE_COLORS.socialized_housing },
   { key: 'commercial', label: 'Commercial', color: LAND_USE_COLORS.commercial },
-  { key: 'crops', label: 'Crops', color: LAND_USE_COLORS.crops },
+  { key: 'agriculture', label: 'Agriculture', color: LAND_USE_COLORS.agriculture },
   { key: 'agri_industrial', label: 'Agri-industrial', color: LAND_USE_COLORS.agri_industrial },
   { key: 'institutional', label: 'Institutional', color: LAND_USE_COLORS.institutional },
   { key: 'parks', label: 'Parks & recreation', color: LAND_USE_COLORS.parks },

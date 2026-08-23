@@ -157,7 +157,7 @@ function normalizeLandUse(raw) {
   if (value === 'residential') return 'residential'
   if (value.includes('socialized housing')) return 'socialized_housing'
   if (value === 'commercial') return 'commercial'
-  if (value === 'crops') return 'crops'
+  if (value === 'crops' || value === 'agriculture' || (value.includes('agri') && !value.includes('industrial'))) return 'agriculture'
   if (value.includes('agri industrial')) return 'agri_industrial'
   if (value === 'institutional') return 'institutional'
   if (value.includes('parks')) return 'parks'
@@ -278,10 +278,12 @@ async function main() {
     mapFeature: (props, index) => {
       const rawLabel = String(props.LANDUSE ?? '').trim()
       const landUseClass = normalizeLandUse(rawLabel)
+      const landUseLabel =
+        rawLabel.toLowerCase() === 'crops' ? 'Agriculture' : rawLabel || 'Unknown'
       return {
         id: `LAS-LU-${String(index + 1).padStart(3, '0')}`,
         land_use_class: landUseClass,
-        land_use_label: rawLabel || 'Unknown',
+        land_use_label: landUseLabel,
         remarks: String(props.REMARKS ?? '').trim() || null,
         area_sqm: Number(props.AREA) || null,
         data_source: 'LGU Lasam CLUP existing land use (2020)',

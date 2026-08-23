@@ -112,8 +112,9 @@ export function formatLandUseClass(landUseClass: LandUseClass | undefined): stri
       return 'Socialized housing'
     case 'commercial':
       return 'Commercial'
+    case 'agriculture':
     case 'crops':
-      return 'Crops'
+      return 'Agriculture'
     case 'agri_industrial':
       return 'Agri-industrial'
     case 'institutional':
