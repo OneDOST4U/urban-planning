@@ -83,7 +83,6 @@ export function assessVolcanic(
 ): AssessmentRow[] {
   const volcanoes = collectVolcanoes(inventory)
   const active = nearestByStatus(coords, volcanoes, 'Active')
-  const potential = nearestByStatus(coords, volcanoes, 'Potentially Active')
   const inactive = nearestByStatus(coords, volcanoes, 'Inactive')
 
   const cagua = volcanoes.find((v) => /cagua/i.test(v.name)) ?? {
@@ -97,10 +96,6 @@ export function assessVolcanic(
     {
       label: 'Nearest Active Volcano',
       value: describeVolcano(active, 100, 'No immediate volcanic hazard threat'),
-    },
-    {
-      label: 'Nearest Potentially Active Volcano',
-      value: describeVolcano(potential, 100, 'No immediate volcanic hazard threat'),
     },
     { label: 'Ashfall', value: ashfallFromCaguaKm(caguaKm) },
     {
