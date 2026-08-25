@@ -4,7 +4,8 @@
     "name": "Lasam Critical Facilities & Infrastructure (Trusted LGU / DepEd / DOH / DPWH Data)",
     "disclaimer": "Demonstration & site intelligence reference — verified against LGU Lasam, DOH, DepEd, and DPWH Region II records.",
     "data_source": "LGU Lasam MDRRMO, DOH CHD II, DepEd Division of Cagayan, DPWH Region II",
-    "validated_at": "2026-08-22"
+    "validated_at": "2026-08-25",
+    "total_facilities": 43
   },
   "features": [
     {
@@ -17,7 +18,13 @@
         "validation_status": "trusted_lgu_verified",
         "data_source": "LGU Lasam Municipal Governance"
       },
-      "geometry": { "type": "Point", "coordinates": [121.5998, 18.0642] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5998,
+          18.0642
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -29,7 +36,13 @@
         "validation_status": "trusted_lgu_verified",
         "data_source": "Bureau of Fire Protection Region II"
       },
-      "geometry": { "type": "Point", "coordinates": [121.6001, 18.0638] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.6001,
+          18.0638
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -41,7 +54,13 @@
         "validation_status": "trusted_lgu_verified",
         "data_source": "Philippine National Police Region II"
       },
-      "geometry": { "type": "Point", "coordinates": [121.5995, 18.0640] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5995,
+          18.064
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -53,7 +72,13 @@
         "validation_status": "trusted_lgu_verified",
         "data_source": "LGU Lasam MDRRMO"
       },
-      "geometry": { "type": "Point", "coordinates": [121.5996, 18.0645] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5996,
+          18.0645
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -65,7 +90,13 @@
         "validation_status": "trusted_doh_verified",
         "data_source": "Department of Health (DOH CHD II) / LGU Lasam"
       },
-      "geometry": { "type": "Point", "coordinates": [121.5992, 18.0639] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5992,
+          18.0639
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -77,103 +108,13 @@
         "validation_status": "trusted_doh_verified",
         "data_source": "Department of Health / Provincial Government of Cagayan"
       },
-      "geometry": { "type": "Point", "coordinates": [121.609631, 18.0633266] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "sch-lasam-central",
-        "name": "Lasam Central School (DepEd District I)",
-        "category": "public_school",
-        "amenity": "school",
-        "validation_status": "trusted_deped_verified",
-        "data_source": "Department of Education - Division of Cagayan"
-      },
-      "geometry": { "type": "Point", "coordinates": [121.6002002, 18.0640419] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "sch-western-cagayan-sat",
-        "name": "Western Cagayan School of Arts and Trades (WCSAT)",
-        "category": "public_school",
-        "amenity": "school",
-        "validation_status": "trusted_deped_verified",
-        "data_source": "TESDA / DepEd Region II"
-      },
-      "geometry": { "type": "Point", "coordinates": [121.5958797, 18.0628459] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "sch-ib-jurado-elem",
-        "name": "I.B. Jurado Elementary School (DepEd)",
-        "category": "public_school",
-        "amenity": "school",
-        "validation_status": "trusted_deped_verified",
-        "data_source": "Department of Education"
-      },
-      "geometry": { "type": "Point", "coordinates": [121.6095344, 18.06557] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "sch-callao-nhs",
-        "name": "Callao National High School (DepEd)",
-        "category": "public_school",
-        "amenity": "school",
-        "validation_status": "trusted_deped_verified",
-        "data_source": "Department of Education"
-      },
-      "geometry": { "type": "Point", "coordinates": [121.6320111, 18.0635414] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "sch-alannay-elem",
-        "name": "Alannay Elementary School (DepEd)",
-        "category": "public_school",
-        "amenity": "school",
-        "validation_status": "trusted_deped_verified",
-        "data_source": "Department of Education"
-      },
-      "geometry": { "type": "Point", "coordinates": [121.5682283, 18.0598592] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "sch-tagao-elem",
-        "name": "Tagao Elementary School (DepEd)",
-        "category": "public_school",
-        "amenity": "school",
-        "validation_status": "trusted_deped_verified",
-        "data_source": "Department of Education"
-      },
-      "geometry": { "type": "Point", "coordinates": [121.5852523, 18.0240807] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "sch-nabannagan-west-elem",
-        "name": "Nabannagan West Elementary School (DepEd)",
-        "category": "public_school",
-        "amenity": "school",
-        "validation_status": "trusted_deped_verified",
-        "data_source": "Department of Education"
-      },
-      "geometry": { "type": "Point", "coordinates": [121.5375647, 18.0692279] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "sch-malinta-elem",
-        "name": "Malinta Elementary School (DepEd)",
-        "category": "public_school",
-        "amenity": "school",
-        "validation_status": "trusted_deped_verified",
-        "data_source": "Department of Education"
-      },
-      "geometry": { "type": "Point", "coordinates": [121.6224179, 18.0913809] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.609631,
+          18.0633266
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -188,19 +129,814 @@
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [121.4800, 18.0670],
-          [121.5100, 18.0685],
-          [121.5375, 18.0692],
-          [121.5550, 18.0645],
-          [121.5682, 18.0598],
-          [121.5850, 18.0612],
-          [121.5958, 18.0628],
-          [121.6002, 18.0640],
-          [121.6095, 18.0635],
-          [121.6220, 18.0630],
-          [121.6320, 18.0635],
-          [121.6550, 18.0642],
-          [121.6800, 18.0650]
+          [
+            121.48,
+            18.067
+          ],
+          [
+            121.51,
+            18.0685
+          ],
+          [
+            121.5375,
+            18.0692
+          ],
+          [
+            121.555,
+            18.0645
+          ],
+          [
+            121.5682,
+            18.0598
+          ],
+          [
+            121.585,
+            18.0612
+          ],
+          [
+            121.5958,
+            18.0628
+          ],
+          [
+            121.6002,
+            18.064
+          ],
+          [
+            121.6095,
+            18.0635
+          ],
+          [
+            121.622,
+            18.063
+          ],
+          [
+            121.632,
+            18.0635
+          ],
+          [
+            121.655,
+            18.0642
+          ],
+          [
+            121.68,
+            18.065
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-01",
+        "name": "Aggunetan Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "AGGUENTAN",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.621892,
+          18.038677
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-02",
+        "name": "Alannay Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "ALANNAY",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.568314,
+          18.060194
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-03",
+        "name": "Battalan Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "BATTALAN",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.552631,
+          18.074151
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-04",
+        "name": "Lasam West Central School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "CABATACAN EAST",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.497351,
+          18.084746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-05",
+        "name": "Cabatacan West Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "CABATACAN WEST",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.478405,
+          18.08724
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-06",
+        "name": "Calapangan Norte Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "CALAPANGAN NORTE",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.604056,
+          18.019237
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-07",
+        "name": "Callao Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "CALLAO SUR",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.630544,
+          18.060695
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-08",
+        "name": "The Good Samaritan Christian Academy",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "CENTRO 01",
+        "ownership": "PRIVATE",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.599968,
+          18.064743
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-09",
+        "name": "Lasam East Central School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "CENTRO 02",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.599992,
+          18.063781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-10",
+        "name": "Finugo Norte Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "FINUGO NORTE",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.620649,
+          18.077842
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-11",
+        "name": "I.B.J. Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "IGNACIO B. JURADO",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.609672,
+          18.065623
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-12",
+        "name": "Magsaysay Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "MAGSAYSAY",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.538189,
+          18.097812
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-13",
+        "name": "Minanga Norte Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "MINANGA NORTE",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.646639,
+          18.103819
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-14",
+        "name": "Minanga Sur Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "MINANGA SUR",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.637059,
+          18.092048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-15",
+        "name": "Nabannagan East Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "NABANNAGAN EAST",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.54876,
+          18.069342
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-16",
+        "name": "Lasam Christian School Inc.",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "NABANNAGAN WEST",
+        "ownership": "PRIVATE",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.540494,
+          18.071566
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-17",
+        "name": "Nabannagan West Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "NABANNAGAN WEST",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.537536,
+          18.069571
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-18",
+        "name": "New Orlins Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "NEW ORLINS",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.516781,
+          18.075562
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-19",
+        "name": "Nicolas Agatep Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "NICOLAS AGATEP",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.607986,
+          18.078622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-20",
+        "name": "Peru Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "PERU",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.508083,
+          18.059735
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-21",
+        "name": "San Pedro Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "SAN PEDRO",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.567069,
+          18.099548
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-22",
+        "name": "Sicalao Integrated School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "SICALAO",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.466321,
+          18.019474
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-23",
+        "name": "Tagao Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "TAGAO",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.585343,
+          18.023965
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-24",
+        "name": "Tuccalan Passing Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "TUCALAN PASSING",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.519435,
+          18.096834
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-25",
+        "name": "Viga Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "VIGA",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.562429,
+          18.046524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-26",
+        "name": "Gabun Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "GABUN",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.587994,
+          18.093537
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-27",
+        "name": "Lasam Academy",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "CENTRO 01",
+        "ownership": "PRIVATE",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.601766,
+          18.065937
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-28",
+        "name": "San lorenzo ruiz educational institute",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "CENTRO 02",
+        "ownership": "PRIVATE",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.598912,
+          18.061597
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-ele-29",
+        "name": "Malinta Elementary School (DepEd)",
+        "category": "public_school",
+        "school_type": "Elementary",
+        "barangay": "MALINTA",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.62249,
+          18.091321
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-sec-01",
+        "name": "Cabatacan National High School (DepEd)",
+        "category": "public_school",
+        "school_type": "Secondary / Tech-Voc",
+        "barangay": "CABATACAN EAST",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.497917,
+          18.083551
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-sec-02",
+        "name": "Callao National Highschool (DepEd)",
+        "category": "public_school",
+        "school_type": "Secondary / Tech-Voc",
+        "barangay": "CALLAO NORTE",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.631889,
+          18.063635
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-sec-03",
+        "name": "Lasam Academy Incorporated",
+        "category": "public_school",
+        "school_type": "Secondary / Tech-Voc",
+        "barangay": "CENTRO 01",
+        "ownership": "PRIVATE",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.601553,
+          18.066349
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-sec-04",
+        "name": "San Lorenzo Ruiz Educational Institute",
+        "category": "public_school",
+        "school_type": "Secondary / Tech-Voc",
+        "barangay": "CENTRO 02",
+        "ownership": "PRIVATE",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.598548,
+          18.06191
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-sec-05",
+        "name": "Western Cagayan School of Arts and Trades",
+        "category": "public_school",
+        "school_type": "Secondary / Tech-Voc",
+        "barangay": "CENTRO 03",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.595803,
+          18.062877
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-sec-06",
+        "name": "Nabannagan National High School (DepEd)",
+        "category": "public_school",
+        "school_type": "Secondary / Tech-Voc",
+        "barangay": "NABANNAGAN WEST",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.529927,
+          18.068901
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sch-sec-07",
+        "name": "Sicalao Integrated School (Junior and Senior High) (DepEd)",
+        "category": "public_school",
+        "school_type": "Secondary / Tech-Voc",
+        "barangay": "SICALAO",
+        "ownership": "PUBLIC",
+        "amenity": "school",
+        "validation_status": "trusted_deped_verified",
+        "data_source": "DepEd Division of Cagayan / LGU Lasam School Locators GIS (2020)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.465671,
+          18.019133
         ]
       }
     }
