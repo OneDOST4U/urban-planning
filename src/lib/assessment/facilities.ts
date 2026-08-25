@@ -18,9 +18,6 @@ const CATEGORY_LABELS: Record<FacilityCategory, string> = {
   primary_road: 'Nearest Primary Road Network',
 }
 
-/** Standard municipal service catchment radius (meters) */
-const NEARBY_THRESHOLD_METERS = 5000
-
 function facilityName(props: Record<string, unknown> | null | undefined): string {
   if (!props) return 'Unnamed'
   return String(props.name ?? props.highway ?? 'Unnamed facility')
@@ -74,17 +71,10 @@ export function assessFacilities(
     const nearest = nearestInCategory(coords, facilities, category)
     if (!nearest) continue
 
-    if (nearest.distanceM <= NEARBY_THRESHOLD_METERS) {
-      rows.push({
-        label: CATEGORY_LABELS[category],
-        value: formatFacilityDistance(nearest.name, nearest.distanceM),
-      })
-    } else {
-      rows.push({
-        label: CATEGORY_LABELS[category],
-        value: `None within 5 km (${nearest.name} · ${(nearest.distanceM / 1000).toFixed(1)} km)`,
-      })
-    }
+    rows.push({
+      label: CATEGORY_LABELS[category],
+      value: formatFacilityDistance(nearest.name, nearest.distanceM),
+    })
   }
 
   if (rows.length === 0) {
