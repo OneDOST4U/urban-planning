@@ -1,30 +1,106 @@
 import type { Feature, FeatureCollection, MultiPolygon, Polygon } from 'geojson'
-import { booleanIntersects, polygon } from '@turf/turf'
+import { bearing, booleanIntersects, centroid, distance, point, polygon } from '@turf/turf'
 import type { ProposedBuildingType } from '@/lib/assessment/buildingTypes'
 import {
   getProposedBuildingDimensions,
   PROPOSED_BUILDING_COLOR,
 } from '@/lib/assessment/buildingDimensions'
 
-/** Helper to construct a rectangular polygon given center and dimensions in meters */
+/**
+ * Determine the dominant wall / street orientation angle (bearing in degrees)
+ * from the nearest neighboring building within the block.
+ */
+function getDominantOrientation(
+  existingBuildings: FeatureCollection | null | undefined,
+  siteLng: number,
+  siteLat: number,
+  maxDistanceM = 150,
+): number {
+  if (!existingBuildings?.features?.length) return 0
+
+  const sitePt = point([siteLng, siteLat])
+  let nearestBldg: Feature | null = null
+  let minDist = Infinity
+
+  for (const f of existingBuildings.features) {
+    if (
+      f.geometry?.type !== 'Polygon' &&
+      f.geometry?.type !== 'MultiPolygon'
+    ) {
+      continue
+    }
+    try {
+      const c = centroid(f as Feature<Polygon | MultiPolygon>)
+      const d = distance(sitePt, c, { units: 'meters' })
+      if (d < minDist && d <= maxDistanceM) {
+        minDist = d
+        nearestBldg = f as Feature
+      }
+    } catch {
+      // skip
+    }
+  }
+
+  if (!nearestBldg?.geometry) return 0
+
+  const geom = nearestBldg.geometry
+  let coords: [number, number][] = []
+  if (geom.type === 'Polygon') {
+    coords = geom.coordinates[0] as [number, number][]
+  } else if (geom.type === 'MultiPolygon') {
+    coords = (geom.coordinates[0]?.[0] ?? []) as [number, number][]
+  }
+  if (coords.length < 2) return 0
+
+  let maxEdgeLen = 0
+  let dominantBearing = 0
+
+  for (let i = 0; i < coords.length - 1; i++) {
+    const p1 = point(coords[i])
+    const p2 = point(coords[i + 1])
+    const len = distance(p1, p2, { units: 'meters' })
+    if (len > maxEdgeLen) {
+      maxEdgeLen = len
+      dominantBearing = bearing(p1, p2)
+    }
+  }
+
+  return dominantBearing
+}
+
+/** Helper to construct a rotated rectangular polygon given center, dimensions, and orientation angle in degrees */
 function makeFootprintPolygon(
   centerLng: number,
   centerLat: number,
   widthM: number,
   depthM: number,
+  rotationDeg = 0,
 ): Feature<Polygon> {
   const metersPerDegLat = 111_320
   const metersPerDegLng = 111_320 * Math.cos((centerLat * Math.PI) / 180)
-  const halfW = widthM / 2 / metersPerDegLng
-  const halfD = depthM / 2 / metersPerDegLat
+  const halfW = widthM / 2
+  const halfD = depthM / 2
 
-  const ring: [number, number][] = [
-    [centerLng - halfW, centerLat - halfD],
-    [centerLng + halfW, centerLat - halfD],
-    [centerLng + halfW, centerLat + halfD],
-    [centerLng - halfW, centerLat + halfD],
-    [centerLng - halfW, centerLat - halfD],
+  const localCorners: [number, number][] = [
+    [-halfW, -halfD],
+    [halfW, -halfD],
+    [halfW, halfD],
+    [-halfW, halfD],
+    [-halfW, -halfD],
   ]
+
+  const rad = (rotationDeg * Math.PI) / 180
+  const cos = Math.cos(rad)
+  const sin = Math.sin(rad)
+
+  const ring: [number, number][] = localCorners.map(([x, y]) => {
+    const rx = x * cos + y * sin
+    const ry = -x * sin + y * cos
+    return [
+      centerLng + rx / metersPerDegLng,
+      centerLat + ry / metersPerDegLat,
+    ]
+  })
 
   return polygon([ring]) as Feature<Polygon>
 }
@@ -55,8 +131,8 @@ function hasOverlap(
 }
 
 /**
- * Find the optimal non-overlapping position & dimensions for the proposed building.
- * If the requested center collides with an existing building, searches adjacent open lot space.
+ * Find the optimal non-overlapping position & dimensions for the proposed building,
+ * aligning with the dominant orientation of neighboring buildings.
  */
 function resolveNonOverlappingFootprint(
   requestedLng: number,
@@ -69,15 +145,19 @@ function resolveNonOverlappingFootprint(
   finalCenter: [number, number]
   finalWidthM: number
   finalDepthM: number
+  rotationDeg: number
 } {
-  // 1. If no overlap at exact location, return immediately
-  const initial = makeFootprintPolygon(requestedLng, requestedLat, baseWidthM, baseDepthM)
+  const rotationDeg = getDominantOrientation(existingBuildings, requestedLng, requestedLat)
+
+  // 1. If no overlap at exact location with uniform orientation, return immediately
+  const initial = makeFootprintPolygon(requestedLng, requestedLat, baseWidthM, baseDepthM, rotationDeg)
   if (!existingBuildings?.features?.length || !hasOverlap(initial, existingBuildings)) {
     return {
       featurePolygon: initial,
       finalCenter: [requestedLng, requestedLat],
       finalWidthM: baseWidthM,
       finalDepthM: baseDepthM,
+      rotationDeg,
     }
   }
 
@@ -85,7 +165,7 @@ function resolveNonOverlappingFootprint(
   const metersPerDegLng = 111_320 * Math.cos((requestedLat * Math.PI) / 180)
 
   // Radial search distances (meters) and 16 compass angles
-  const searchDistances = [2, 4, 6, 8, 10, 12, 15, 18, 22, 26, 30, 36, 42, 50]
+  const searchDistances = [1.5, 3, 5, 7, 9, 12, 15, 18, 22, 26, 30, 36, 42, 50]
   const angles = [
     0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5,
   ]
@@ -99,13 +179,14 @@ function resolveNonOverlappingFootprint(
 
     // Check if scaled version fits at original center
     if (scale < 1.0) {
-      const centerCand = makeFootprintPolygon(requestedLng, requestedLat, w, d)
+      const centerCand = makeFootprintPolygon(requestedLng, requestedLat, w, d, rotationDeg)
       if (!hasOverlap(centerCand, existingBuildings)) {
         return {
           featurePolygon: centerCand,
           finalCenter: [requestedLng, requestedLat],
           finalWidthM: w,
           finalDepthM: d,
+          rotationDeg,
         }
       }
     }
@@ -117,13 +198,14 @@ function resolveNonOverlappingFootprint(
         const candLng = requestedLng + (distM * Math.sin(rad)) / metersPerDegLng
         const candLat = requestedLat + (distM * Math.cos(rad)) / metersPerDegLat
 
-        const candidate = makeFootprintPolygon(candLng, candLat, w, d)
+        const candidate = makeFootprintPolygon(candLng, candLat, w, d, rotationDeg)
         if (!hasOverlap(candidate, existingBuildings)) {
           return {
             featurePolygon: candidate,
             finalCenter: [candLng, candLat],
             finalWidthM: w,
             finalDepthM: d,
+            rotationDeg,
           }
         }
       }
@@ -136,10 +218,11 @@ function resolveNonOverlappingFootprint(
     finalCenter: [requestedLng, requestedLat],
     finalWidthM: baseWidthM,
     finalDepthM: baseDepthM,
+    rotationDeg,
   }
 }
 
-/** Build a north-aligned rectangular footprint centered on [lng, lat], automatically avoiding collisions with nearby existing buildings. */
+/** Build a rectangular footprint centered on [lng, lat] oriented uniformly with neighboring buildings and avoiding collisions. */
 export function createProposedBuildingFeature(
   lng: number,
   lat: number,
@@ -165,6 +248,7 @@ export function createProposedBuildingFeature(
       height: dims.heightM,
       width_m: Number(resolved.finalWidthM.toFixed(1)),
       depth_m: Number(resolved.finalDepthM.toFixed(1)),
+      rotation_deg: Number(resolved.rotationDeg.toFixed(1)),
       color: PROPOSED_BUILDING_COLOR,
       center: resolved.finalCenter,
     },
