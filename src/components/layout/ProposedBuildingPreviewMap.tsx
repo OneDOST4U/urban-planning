@@ -58,14 +58,16 @@ export const ProposedBuildingPreviewMap = forwardRef<
     if (!containerRef.current || mapRef.current) return
 
     let cancelled = false
-    const buildingData = createProposedBuildingCollection(lng, lat, buildingType)
     const nearby = nearbyBuildings ?? { type: 'FeatureCollection' as const, features: [] }
+    const buildingData = createProposedBuildingCollection(lng, lat, buildingType, nearby)
+    const placedCenter =
+      (buildingData.features[0]?.properties?.center as [number, number] | undefined) ?? [lng, lat]
 
     const dims = getProposedBuildingDimensions(buildingType)
     const zoom = suggestedPreviewZoom(dims)
 
     const mapOptions = {
-      center: [lng, lat] as [number, number],
+      center: placedCenter,
       zoom,
       pitch: 58,
       bearing: -28,
@@ -161,7 +163,7 @@ export const ProposedBuildingPreviewMap = forwardRef<
 
         // Keep proposed box building centered; nearby buildings stay as context only
         map.jumpTo({
-          center: [lng, lat],
+          center: placedCenter,
           zoom,
           pitch: 58,
           bearing: -28,
