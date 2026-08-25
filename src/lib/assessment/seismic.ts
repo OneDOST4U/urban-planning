@@ -51,7 +51,6 @@ export function assessSeismic(
     { label: 'Ground Rupture', value: groundRupture },
     { label: 'Ground Shaking', value: groundShaking },
     { label: 'Earthquake-Induced Landslide', value: 'Temporarily Unavailable' },
-    { label: 'Liquefaction', value: 'Temporarily Unavailable' },
     { label: 'Tsunami', value: tsunami },
   ]
 }
